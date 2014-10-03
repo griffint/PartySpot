@@ -1,9 +1,15 @@
 package com.myapp.partyspot;import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.SearchView;
 
 import com.spotify.sdk.android.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -21,6 +27,7 @@ public class MainActivity extends Activity {
         this.spotify = null;
         this.spotifyHandler = null;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
