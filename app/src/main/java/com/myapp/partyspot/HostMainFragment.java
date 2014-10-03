@@ -41,6 +41,9 @@ public class HostMainFragment extends Fragment {
 
             public boolean onQueryTextSubmit(String query) {
                 Log.d("Test", query);
+                HTTPFunctions http = new HTTPFunctions(getActivity()); // INITIATE THSI ELSEWHERE, DIDN'T WORK WHEN I PUT IT IN THE INITIALIZATION?
+                String Tracksjson = "http://ws.spotify.com/search/1/track.json" + "?q=" + query;
+                http.get(Tracksjson);
                 //Here u can get the value "query" which is entered in the search box.
                 return true;
             }
