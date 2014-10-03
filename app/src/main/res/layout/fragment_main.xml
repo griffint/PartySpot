@@ -2,15 +2,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity$PlaceholderFragment">
+    tools:context=".MainActivity"
+    tools:ignore="MergeRootFrame" >
 
     <TextView
         android:text="@string/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id = "@+id/hello_world"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hello_world"
+        android:text="@string/resume"
+        android:id="@+id/resume"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/resume"
+        android:text="@string/pause"
+        android:id="@+id/pause"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pause"
+        android:text="@string/ffw"
+        android:id="@+id/ffw"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ffw"
+        android:text="@string/next"
+        android:id="@+id/next"/>
 
 </RelativeLayout>

@@ -1,120 +1,175 @@
 package com.myapp.partyspot;import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.spotify.sdk.android.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.authentication.SpotifyAuthentication;
-import com.spotify.sdk.android.playback.ConnectionStateCallback;
-import com.spotify.sdk.android.playback.Player;
-import com.spotify.sdk.android.playback.PlayerNotificationCallback;
 
-public class MainActivity extends Activity implements
-        PlayerNotificationCallback, ConnectionStateCallback {
+public class MainActivity extends Activity {
+    public boolean loggedIn;
+    public Uri login_uri;
+    public Spotify spotify;
+    public SpotifyHandler spotifyHandler;
 
-    private static final String CLIENT_ID = "3e85d4f69cfb4ede9bca519fb86ce216";
-    private static final String REDIRECT_URI = "partyspot://partyspot";
-
-    private Player mPlayer;
+    public MainActivity() {
+        this.loggedIn=false;
+        this.login_uri=null;
+        this.spotify = null;
+        this.spotifyHandler = null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Button button = (Button) findViewById(R.id.login);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                login();
-            }
-        });
-        final Button ffw = (Button) findViewById(R.id.ffw);
-        ffw.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mPlayer.seekToPosition(100000);
-            }
-        });
-        final Button next = (Button) findViewById(R.id.next);
-        next.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mPlayer.skipToNext();
-            }
-        });
 
-
-    }
-
-    public void login() {
-        SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
-                new String[]{"user-read-private", "streaming"}, null, this);
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, new LoginFragment(), "LoginFragment")
+                    .commit();
+        }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
         Uri uri = intent.getData();
         if (uri != null) {
             AuthenticationResponse response = SpotifyAuthentication.parseOauthResponse(uri);
-            Spotify spotify = new Spotify(response.getAccessToken());
-            mPlayer = spotify.getPlayer(this, "My Company Name", this, new Player.InitializationObserver() {
-                @Override
-                public void onInitialized() {
-                    mPlayer.addConnectionStateCallback(MainActivity.this);
-                    mPlayer.addPlayerNotificationCallback(MainActivity.this);
-                    mPlayer.play("spotify:user:bgatkinson:playlist:4KekJB2Z8CE0EhUDiKzHUU");
-                    mPlayer.seekToPosition(100000);
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-                    Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
-                }
-            });
+            this.spotify = new Spotify(response.getAccessToken());
+            this.loggedIn = true;
+            this.spotifyHandler = new SpotifyHandler(this);
         }
+
+        changeToHostMainFragment();
     }
 
-    @Override
-    public void onLoggedIn() {
-        Log.d("MainActivity", "User logged in");
+    public void changeToHostMainFragment() {
+        HostMainFragment fragment = new HostMainFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
     }
 
-    @Override
-    public void onLoggedOut() {
-        Log.d("MainActivity", "User logged out");
+    public void changeToChooseHostOrSlaveFragment() {
+        ChooseHostOrSlaveFragment fragment = new ChooseHostOrSlaveFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
     }
 
-    @Override
-    public void onTemporaryError() {
-        Log.d("MainActivity", "Temporary error occurred");
+    public void changeToChoosePlaylistFragment() {
+        ChoosePlaylistToFollowFragment fragment = new ChoosePlaylistToFollowFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
     }
 
-    @Override
-    public void onNewCredentials(String s) {
-        Log.d("MainActivity", "User credentials blob received");
+    public void changeToHostAddFragment() {
+        HostAddFragment fragment = new HostAddFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
     }
 
-    @Override
-    public void onConnectionMessage(String message) {
-        Log.d("MainActivity", "Received connection message: " + message);
+    public void changeToLoginFragment() {
+        LoginFragment fragment = new LoginFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
     }
 
-    @Override
-    public void onPlaybackEvent(EventType eventType) {
-        Log.d("MainActivity", "Playback event received: " + eventType.name());
-        switch (eventType) {
-            // TODO: Handle event type as necessary
-            default:
-                break;
-        }
+    public void changeToMainFragment() {
+        MainFragment fragment = new MainFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
     }
 
-    @Override
-    protected void onDestroy() {
-        // VERY IMPORTANT! This must always be called or else you will leak resources
-        Spotify.destroyPlayer(this);
-        super.onDestroy();
+    public void changeToNameHostedFragment() {
+        NameHostedFragment fragment = new NameHostedFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToSlaveAddFragment() {
+        SlaveAddFragment fragment = new SlaveAddFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToSlaveMainFragment() {
+        SlaveMainFragment fragment = new SlaveMainFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToSlaveVoteFragment() {
+        SlaveVoteFragment fragment = new SlaveVoteFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToSuggesterAddFragment() {
+        SuggesterAddFragment fragment = new SuggesterAddFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToSuggesterVoteFragment() {
+        SuggesterVoteFragment fragment = new SuggesterVoteFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+
+
+    public void setLoggedIn() {
+        this.loggedIn = true;
+    }
+
+    public void setLoggedOut() {
+        this.loggedIn = false;
+    }
+
+    public Uri getUri() {
+        return this.login_uri;
+    }
+
+    public Spotify getSpotify() {
+        return this.spotify;
     }
 }
