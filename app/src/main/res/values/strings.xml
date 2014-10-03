@@ -9,5 +9,10 @@
     <string name="next">Next</string>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
+    <string name="host">Host a Playlist</string>
+    <string name="listen">Listen to a Playlist</string>
+    <string name="suggest">Suggest Songs for a Playlist</string>
+    <string name="main_menu">Return to Main Menu</string>
+    <string name="play">Play</string>
 
 </resources>

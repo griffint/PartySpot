@@ -20,16 +20,18 @@ public class SpotifyHandler implements
     private static final String REDIRECT_URI = "partyspot://partyspot";
 
     private Player mPlayer;
-    public HostMainFragment fragment;
+    public MainActivity activity;
+    public boolean paused;
 
     public SpotifyHandler(MainActivity activity) {
         this.mPlayer = null;
-        this.fragment = fragment;
+        this.activity = activity;
+        this.paused = false;
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
             @Override
             public void onInitialized() {
-                SpotifyHandler.this.play();
+                Log.e("MainActivity", "Worked");
             }
 
             @Override
@@ -41,19 +43,24 @@ public class SpotifyHandler implements
 
     public void login() {
         SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
-                new String[]{"user-read-private", "streaming"}, null, this.fragment.getActivity());
+                new String[]{"user-read-private", "streaming"}, null, activity);
     }
 
     public void logout() {
         SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
-                new String[]{"user-read-private", "streaming"}, null, this.fragment.getActivity());
+                new String[]{"user-read-private", "streaming"}, null, activity);
     }
 
     protected void login_return(Intent intent) {
     }
 
     public void play() {
-        mPlayer.play("spotify:user:bgatkinson:playlist:4KekJB2Z8CE0EhUDiKzHUU");
+        if (this.paused) {
+            resume();
+            this.paused = false;
+        } else {
+            mPlayer.play("spotify:user:bgatkinson:playlist:4KekJB2Z8CE0EhUDiKzHUU");
+        }
     }
 
     public void resume() {
@@ -62,6 +69,7 @@ public class SpotifyHandler implements
 
     public void pause() {
         mPlayer.pause();
+        this.paused = true;
     }
 
     public void fastForward() {

@@ -5,23 +5,30 @@ android:layout_height="match_parent"
 tools:context=".MainActivity"
 tools:ignore="MergeRootFrame" >
 
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/main_menu"
+    android:id="@+id/main_menu"/>
+
 <TextView
     android:text="@string/hello_world"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id = "@+id/hello_world"/>
+    android:id = "@+id/hello_world"
+    android:layout_below="@id/main_menu"/>
 
 <Button
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/hello_world"
-    android:text="@string/resume"
-    android:id="@+id/resume"/>
+    android:text="@string/play"
+    android:id="@+id/play"/>
 
 <Button
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@id/resume"
+    android:layout_below="@id/play"
     android:text="@string/pause"
     android:id="@+id/pause"/>
 

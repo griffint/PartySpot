@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
             this.spotifyHandler = new SpotifyHandler(this);
         }
 
-        changeToHostMainFragment();
+        changeToMainFragment();
     }
 
     public void changeToHostMainFragment() {

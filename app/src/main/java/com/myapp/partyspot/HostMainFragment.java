@@ -23,9 +23,17 @@ public class HostMainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_host_main, container, false);
 
         final Button pause = (Button) rootView.findViewById(R.id.pause);
-        final Button resume = (Button) rootView.findViewById(R.id.resume);
+        final Button play = (Button) rootView.findViewById(R.id.play);
         final Button ffw = (Button) rootView.findViewById(R.id.ffw);
         final Button next = (Button) rootView.findViewById(R.id.next);
+        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
+
+        main_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeToMainFragment();
+            }
+        });
 
         pause.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -34,9 +42,9 @@ public class HostMainFragment extends Fragment {
         });
 
 
-        resume.setOnClickListener(new View.OnClickListener() {
+        play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((MainActivity)getActivity()).spotifyHandler.resume();
+                ((MainActivity)getActivity()).spotifyHandler.play();
             }
         });
 

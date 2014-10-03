@@ -23,6 +23,32 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        Button host = (Button) rootView.findViewById(R.id.host_playlist);
+        Button listen = (Button) rootView.findViewById(R.id.listen_playlist);
+        Button suggest = (Button) rootView.findViewById(R.id.suggest_playlist);
+
+        host.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeToHostMainFragment();
+            }
+        });
+
+        listen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeToSlaveMainFragment();
+            }
+        });
+
+        suggest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeToSuggesterAddFragment();
+            }
+        });
+
         return rootView;
     }
 }
