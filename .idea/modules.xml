@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PartySpot.iml" filepath="$PROJECT_DIR$/PartySpot.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spotifyStreamer.iml" filepath="$PROJECT_DIR$/spotifyStreamer.iml" />
     </modules>
   </component>
 </project>
