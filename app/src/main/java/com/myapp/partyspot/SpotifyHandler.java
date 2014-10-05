@@ -22,11 +22,16 @@ public class SpotifyHandler implements
     private Player mPlayer;
     public MainActivity activity;
     public boolean paused;
+    public boolean onPlaylist;
+    public String playlist;
 
     public SpotifyHandler(MainActivity activity) {
         this.mPlayer = null;
         this.activity = activity;
         this.paused = false;
+        this.onPlaylist = false;
+        this.playlist = "spotify:user:bgatkinson:playlist:4KekJB2Z8CE0EhUDiKzHUU";
+
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
             @Override
@@ -41,25 +46,32 @@ public class SpotifyHandler implements
         });
     }
 
-    public void login() {
-        SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
-                new String[]{"user-read-private", "streaming"}, null, activity);
-    }
-
-    public void logout() {
-        SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
-                new String[]{"user-read-private", "streaming"}, null, activity);
+    public void setPlaylist(String playlistId) {
+        this.playlist = playlistId;
     }
 
     protected void login_return(Intent intent) {
     }
 
+    public String getSongTitle() {
+        return "";
+    }
+
+    public int getSongPosInMs() {
+        return 1;
+    }
+
+    public String getSongUri() {
+        return "";
+    }
+
     public void play() {
-        if (this.paused) {
+        if (this.paused && this.onPlaylist) {
             resume();
             this.paused = false;
         } else {
-            mPlayer.play("spotify:user:bgatkinson:playlist:4KekJB2Z8CE0EhUDiKzHUU");
+            mPlayer.play(this.playlist);
+            this.onPlaylist = true;
         }
     }
 

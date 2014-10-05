@@ -4,28 +4,55 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.firebase.client.Firebase;
 import com.spotify.sdk.android.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.spotify.sdk.android.authentication.SpotifyAuthentication;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class MainActivity extends Activity {
     public boolean loggedIn;
     public Uri login_uri;
     public Spotify spotify;
     public SpotifyHandler spotifyHandler;
+    public FirebaseHandler firebaseHandler;
+    public String accessToken;
 
     public MainActivity() {
         this.loggedIn=false;
         this.login_uri=null;
         this.spotify = null;
         this.spotifyHandler = null;
+        this.firebaseHandler = null;
+        this.accessToken = null;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Firebase.setAndroidContext(this);
+        this.firebaseHandler = new FirebaseHandler(this);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -39,12 +66,47 @@ public class MainActivity extends Activity {
         Uri uri = intent.getData();
         if (uri != null) {
             AuthenticationResponse response = SpotifyAuthentication.parseOauthResponse(uri);
-            this.spotify = new Spotify(response.getAccessToken());
+            this.accessToken = response.getAccessToken();
+            this.spotify = new Spotify(this.accessToken);
+            Log.v("HI", response.getAccessToken());
             this.loggedIn = true;
             this.spotifyHandler = new SpotifyHandler(this);
         }
 
         changeToMainFragment();
+    }
+
+    public void getPlaylists() {
+        try {
+            HTTPFunctions functions = new HTTPFunctions(this);
+            functions.getPlaylists("runnersaw");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void displayPlaylists(final HashMap<String, String> map) {
+        String[] list = map.keySet().toArray(new String[0]);
+        ArrayList<String> playlistList = new ArrayList<String>(Arrays.asList(list));
+
+        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(this, R.layout.playlist_view, playlistList);
+        final ListView myListView = (ListView) this.findViewById(R.id.playlist_list);
+        myListView.setAdapter(myListAdapter);
+
+        FragmentManager fm = getFragmentManager();
+        fm.findFragmentByTag("choosePlaylist");
+
+        //create an onItemClickListener to listen for clicks to specific entries
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String s = (String) myListView.getItemAtPosition(position);
+                String playlistId = (String) map.get(s);
+                Log.v("YAY", playlistId);
+                MainActivity.this.spotifyHandler.setPlaylist(playlistId);
+                changeToHostMainFragment();
+            }
+        });
     }
 
     public void changeToHostMainFragment() {
@@ -65,13 +127,24 @@ public class MainActivity extends Activity {
         transaction.commit();
     }
 
-    public void changeToChoosePlaylistFragment() {
+    public void changeToChoosePlaylistToFollowFragment() {
         ChoosePlaylistToFollowFragment fragment = new ChoosePlaylistToFollowFragment();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
+    }
+
+    public void changeToChoosePlaylistToHostFragment() {
+        ChoosePlaylistHostFragment fragment = new ChoosePlaylistHostFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment, "choosePlaylist");
+        transaction.commit();
+
+        getPlaylists();
     }
 
     public void changeToHostAddFragment() {

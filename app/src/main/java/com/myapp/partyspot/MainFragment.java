@@ -31,7 +31,7 @@ public class MainFragment extends Fragment {
         host.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToHostMainFragment();
+                ((MainActivity)getActivity()).changeToChoosePlaylistToHostFragment();
             }
         });
 

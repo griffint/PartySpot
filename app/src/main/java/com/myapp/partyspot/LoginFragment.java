@@ -32,7 +32,7 @@ public class LoginFragment extends Fragment {
         myButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                     SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
-                        new String[]{"user-read-private", "streaming"}, null, getActivity());
+                        new String[]{"user-read-private", "playlist-read-private", "streaming"}, null, getActivity());
             }
         });
         return rootView;

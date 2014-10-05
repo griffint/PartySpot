@@ -31,6 +31,8 @@ public class HostMainFragment extends Fragment {
         main_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((MainActivity)getActivity()).spotifyHandler.onPlaylist = false;
+                ((MainActivity)getActivity()).spotifyHandler.pause();
                 ((MainActivity)getActivity()).changeToMainFragment();
             }
         });
