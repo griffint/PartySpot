@@ -24,3 +24,10 @@ proguard/
 
 # Log Files
 *.log
+.idea/.name
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/misc.xml
+.idea/modules.xml
+app/app.iml
