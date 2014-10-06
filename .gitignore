@@ -37,3 +37,6 @@ proguard/
 # Windows clutter
 Thumbs.db
 
+.idea/
+*.iml
+

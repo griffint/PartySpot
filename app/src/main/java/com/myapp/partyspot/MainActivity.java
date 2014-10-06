@@ -73,7 +73,6 @@ public class MainActivity extends Activity {
             AuthenticationResponse response = SpotifyAuthentication.parseOauthResponse(uri);
             this.accessToken = response.getAccessToken();
             this.spotify = new Spotify(this.accessToken);
-            Log.v("HI", response.getAccessToken());
             this.loggedIn = true;
             this.spotifyHandler = new SpotifyHandler(this);
         }
