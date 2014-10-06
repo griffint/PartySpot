@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
     public FirebaseHandler firebaseHandler;
     public String accessToken;
     public String user;
+    public boolean premiumUser;
 
     public MainActivity() {
         this.loggedIn=false;
@@ -48,6 +49,7 @@ public class MainActivity extends Activity {
         this.firebaseHandler = null;
         this.accessToken = null;
         this.user = null;
+        this.premiumUser = false;
     }
 
     @Override
@@ -83,6 +85,10 @@ public class MainActivity extends Activity {
     public void setPlayingTracks(spotifyTracks tracks) {
         this.spotifyHandler.playingTracks = tracks;
         shuffleTracks();
+    }
+
+    public void setPremiumUser() {
+        this.premiumUser = true;
     }
 
     public void shuffleTracks() {
@@ -189,8 +195,10 @@ public class MainActivity extends Activity {
 
     public void setMainFragmentLoaded() {
         findViewById(R.id.loadingBar).setVisibility(View.GONE);
-        findViewById(R.id.host_playlist).setVisibility(View.VISIBLE);
-        findViewById(R.id.listen_playlist).setVisibility(View.VISIBLE);
+        if (this.premiumUser) {
+            findViewById(R.id.host_playlist).setVisibility(View.VISIBLE);
+            findViewById(R.id.listen_playlist).setVisibility(View.VISIBLE);
+        }
         findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
     }
 

@@ -126,6 +126,8 @@ public class HTTPFunctions {
                         // display response
                         try {
                             String name = (String)response.get("id");
+                            String userType = (String)response.get("product");
+                            if (userType.equals("premium")) {((MainActivity)HTTPFunctions.this.context).setPremiumUser();}
                             ((MainActivity)HTTPFunctions.this.context).setUser(name);
                             ((MainActivity)HTTPFunctions.this.context).setMainFragmentLoaded();
                         }

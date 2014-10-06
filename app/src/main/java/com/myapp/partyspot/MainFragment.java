@@ -34,6 +34,10 @@ public class MainFragment extends Fragment {
             listen.setVisibility(View.GONE);
         } else {
             bar.setVisibility(View.GONE);
+            if (!((MainActivity)getActivity()).premiumUser) {
+                host.setVisibility(View.GONE);
+                listen.setVisibility(View.GONE);
+            }
         }
 
         host.setOnClickListener(new View.OnClickListener() {
