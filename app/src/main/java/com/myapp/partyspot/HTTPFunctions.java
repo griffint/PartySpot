@@ -67,6 +67,7 @@ public class HTTPFunctions {
 
 
     public void getPlaylists(String user) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
+        Log.v("DICKS", user);
         String URL = "https://api.spotify.com/v1/users/"+user+"/playlists";
         final spotifyPlaylists playlists = new spotifyPlaylists();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
@@ -92,6 +93,7 @@ public class HTTPFunctions {
                                 Log.v("DICKS","DICKS");
                             }
                         }
+                        ((MainActivity)HTTPFunctions.this.context).setPlaylistsLoaded();
                         ((MainActivity)HTTPFunctions.this.context).displayPlaylists(playlists);
                     }
                 },
@@ -125,6 +127,7 @@ public class HTTPFunctions {
                         try {
                             String name = (String)response.get("id");
                             ((MainActivity)HTTPFunctions.this.context).setUser(name);
+                            ((MainActivity)HTTPFunctions.this.context).setMainFragmentLoaded();
                         }
                         catch (Exception e) {
                             e.printStackTrace();

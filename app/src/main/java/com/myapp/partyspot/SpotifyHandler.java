@@ -9,6 +9,8 @@ import com.spotify.sdk.android.playback.ConnectionStateCallback;
 import com.spotify.sdk.android.playback.Player;
 import com.spotify.sdk.android.playback.PlayerNotificationCallback;
 
+import java.util.ArrayList;
+
 /**
  * Created by svaughan on 9/30/14.
  */
@@ -25,6 +27,7 @@ public class SpotifyHandler implements
     public boolean onPlaylist;
     public String playlistOwner;
     public String playlistId;
+    public spotifyTracks playingTracks;
 
     public SpotifyHandler(MainActivity activity) {
         this.mPlayer = null;
@@ -33,6 +36,7 @@ public class SpotifyHandler implements
         this.onPlaylist = false;
         this.playlistOwner = "bgatkinson";
         this.playlistId = "4KekJB2Z8CE0EhUDiKzHUU";
+        this.playingTracks = new spotifyTracks();
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -68,12 +72,16 @@ public class SpotifyHandler implements
         return "";
     }
 
+    public ArrayList<String> getTrackUriArray() {
+        return this.playingTracks.makeUriArray();
+    }
+
     public void play() {
         if (this.paused && this.onPlaylist) {
             resume();
             this.paused = false;
         } else {
-            mPlayer.play(this.activity.getTrackUriArray());
+            mPlayer.play(this.getTrackUriArray());
             this.onPlaylist = true;
         }
     }

@@ -38,8 +38,6 @@ public class MainActivity extends Activity {
     public SpotifyHandler spotifyHandler;
     public FirebaseHandler firebaseHandler;
     public String accessToken;
-    public spotifyTracks playingTracks;
-    public ArrayList<String> playingOrder;
     public String user;
 
     public MainActivity() {
@@ -49,8 +47,6 @@ public class MainActivity extends Activity {
         this.spotifyHandler = null;
         this.firebaseHandler = null;
         this.accessToken = null;
-        this.playingTracks = new spotifyTracks();
-        this.playingOrder = null;
         this.user = null;
     }
 
@@ -84,21 +80,13 @@ public class MainActivity extends Activity {
         changeToMainFragment();
     }
 
-    public void play() {
-
-    }
-
-    public ArrayList<String> getTrackUriArray() {
-        return this.playingTracks.makeUriArray();
-    }
-
     public void setPlayingTracks(spotifyTracks tracks) {
-        this.playingTracks = tracks;
+        this.spotifyHandler.playingTracks = tracks;
         shuffleTracks();
     }
 
     public void shuffleTracks() {
-        this.playingTracks.shuffleTracks();
+        this.spotifyHandler.playingTracks.shuffleTracks();
     }
 
     public void setUser(String name) {
@@ -166,6 +154,10 @@ public class MainActivity extends Activity {
         transaction.commit();
     }
 
+    public void setPlaylistsLoaded() {
+        findViewById(R.id.loadingBar).setVisibility(View.GONE);
+    }
+
     public void changeToChooseHostOrSlaveFragment() {
         ChooseHostOrSlaveFragment fragment = new ChooseHostOrSlaveFragment();
 
@@ -193,6 +185,13 @@ public class MainActivity extends Activity {
         transaction.commit();
 
         getPlaylists();
+    }
+
+    public void setMainFragmentLoaded() {
+        findViewById(R.id.loadingBar).setVisibility(View.GONE);
+        findViewById(R.id.host_playlist).setVisibility(View.VISIBLE);
+        findViewById(R.id.listen_playlist).setVisibility(View.VISIBLE);
+        findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
     }
 
     public void changeToHostAddFragment() {
@@ -274,20 +273,6 @@ public class MainActivity extends Activity {
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
-    }
-
-
-
-    public void setLoggedIn() {
-        this.loggedIn = true;
-    }
-
-    public void setLoggedOut() {
-        this.loggedIn = false;
-    }
-
-    public Uri getUri() {
-        return this.login_uri;
     }
 
     public Spotify getSpotify() {

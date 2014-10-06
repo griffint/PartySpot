@@ -27,6 +27,14 @@ public class MainFragment extends Fragment {
         Button host = (Button) rootView.findViewById(R.id.host_playlist);
         Button listen = (Button) rootView.findViewById(R.id.listen_playlist);
         Button suggest = (Button) rootView.findViewById(R.id.suggest_playlist);
+        View bar = rootView.findViewById(R.id.loadingBar);
+        if (((MainActivity)getActivity()).user == null) {
+            suggest.setVisibility(View.GONE);
+            host.setVisibility(View.GONE);
+            listen.setVisibility(View.GONE);
+        } else {
+            bar.setVisibility(View.GONE);
+        }
 
         host.setOnClickListener(new View.OnClickListener() {
             @Override
