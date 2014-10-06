@@ -24,3 +24,18 @@ proguard/
 
 # Log Files
 *.log
+
+<<<<<<< HEAD
+.idea/workspace.xml
+app/app.iml
+=======
+# Intellij IDEA (see https://intellij-support.jetbrains.com/entries/23393067)
+.idea
+
+# Mac OS X clutter
+*.DS_Store
+
+# Windows clutter
+Thumbs.db
+>>>>>>> de3bbceed15c3cd993e35f51e0d5f5aa52a31399
+

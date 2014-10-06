@@ -29,6 +29,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 public class MainActivity extends Activity {
     public boolean loggedIn;
@@ -37,6 +38,9 @@ public class MainActivity extends Activity {
     public SpotifyHandler spotifyHandler;
     public FirebaseHandler firebaseHandler;
     public String accessToken;
+    public spotifyTracks playingTracks;
+    public ArrayList<String> playingOrder;
+    public String user;
 
     public MainActivity() {
         this.loggedIn=false;
@@ -45,6 +49,9 @@ public class MainActivity extends Activity {
         this.spotifyHandler = null;
         this.firebaseHandler = null;
         this.accessToken = null;
+        this.playingTracks = new spotifyTracks();
+        this.playingOrder = null;
+        this.user = null;
     }
 
     @Override
@@ -73,23 +80,63 @@ public class MainActivity extends Activity {
             this.spotifyHandler = new SpotifyHandler(this);
         }
 
+        getUser();
         changeToMainFragment();
     }
 
-    public void getPlaylists() {
+    public void play() {
+
+    }
+
+    public ArrayList<String> getTrackUriArray() {
+        return this.playingTracks.makeUriArray();
+    }
+
+    public void setPlayingTracks(spotifyTracks tracks) {
+        this.playingTracks = tracks;
+        shuffleTracks();
+    }
+
+    public void shuffleTracks() {
+        this.playingTracks.shuffleTracks();
+    }
+
+    public void setUser(String name) {
+        this.user = name;
+    }
+
+    public void getUser() {
         try {
             HTTPFunctions functions = new HTTPFunctions(this);
-            functions.getPlaylists("runnersaw");
+            functions.getUser();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void displayPlaylists(final HashMap<String, String> map) {
-        String[] list = map.keySet().toArray(new String[0]);
-        ArrayList<String> playlistList = new ArrayList<String>(Arrays.asList(list));
+    public void getPlaylistTracks(String playlistOwner, String playlistId) {
+        try {
+            HTTPFunctions functions = new HTTPFunctions(this);
+            Log.v("USER", this.user);
+            functions.getPlaylistTracks(playlistOwner, playlistId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(this, R.layout.playlist_view, playlistList);
+    public void getPlaylists() {
+        try {
+            HTTPFunctions functions = new HTTPFunctions(this);
+            functions.getPlaylists(this.user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void displayPlaylists(final spotifyPlaylists playlists) {
+        ArrayList<String> list = playlists.makeNameArray();
+
+        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(this, R.layout.playlist_view, list);
         final ListView myListView = (ListView) this.findViewById(R.id.playlist_list);
         myListView.setAdapter(myListAdapter);
 
@@ -101,10 +148,11 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 String s = (String) myListView.getItemAtPosition(position);
-                String playlistId = (String) map.get(s);
+                String playlistOwner = playlists.getOwnerFromTitle(s);
+                String playlistId = playlists.getUriFromTitle(s);
                 Log.v("YAY", playlistId);
-                MainActivity.this.spotifyHandler.setPlaylist(playlistId);
-                changeToHostMainFragment();
+                getPlaylistTracks(playlistOwner, playlistId);
+                MainActivity.this.spotifyHandler.setPlaylist(playlistOwner, playlistId);
             }
         });
     }

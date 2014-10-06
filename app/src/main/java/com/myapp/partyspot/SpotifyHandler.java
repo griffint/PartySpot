@@ -23,14 +23,16 @@ public class SpotifyHandler implements
     public MainActivity activity;
     public boolean paused;
     public boolean onPlaylist;
-    public String playlist;
+    public String playlistOwner;
+    public String playlistId;
 
     public SpotifyHandler(MainActivity activity) {
         this.mPlayer = null;
         this.activity = activity;
         this.paused = false;
         this.onPlaylist = false;
-        this.playlist = "spotify:user:bgatkinson:playlist:4KekJB2Z8CE0EhUDiKzHUU";
+        this.playlistOwner = "bgatkinson";
+        this.playlistId = "4KekJB2Z8CE0EhUDiKzHUU";
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -46,8 +48,9 @@ public class SpotifyHandler implements
         });
     }
 
-    public void setPlaylist(String playlistId) {
-        this.playlist = playlistId;
+    public void setPlaylist(String playlistOwner, String playlistId) {
+        this.playlistOwner = playlistOwner;
+        this.playlistId = playlistId;
     }
 
     protected void login_return(Intent intent) {
@@ -70,7 +73,7 @@ public class SpotifyHandler implements
             resume();
             this.paused = false;
         } else {
-            mPlayer.play(this.playlist);
+            mPlayer.play(this.activity.getTrackUriArray());
             this.onPlaylist = true;
         }
     }

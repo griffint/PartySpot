@@ -68,7 +68,7 @@ public class HTTPFunctions {
 
     public void getPlaylists(String user) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
         String URL = "https://api.spotify.com/v1/users/"+user+"/playlists";
-        final HashMap<String, String> map = new HashMap<String, String>();
+        final spotifyPlaylists playlists = new spotifyPlaylists();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -85,13 +85,14 @@ public class HTTPFunctions {
                         for (int i=0; i<responseList.length(); i++) {
                             try {
                                 String name = ((JSONObject)responseList.get(i)).get("name").toString();
-                                String uri = ((JSONObject)responseList.get(i)).get("uri").toString();
-                                map.put(name, uri);
+                                String id = ((JSONObject)responseList.get(i)).get("id").toString();
+                                String owner = ((JSONObject)((JSONObject)responseList.get(i)).get("owner")).get("id").toString();
+                                playlists.addPlaylists(new spotifyPlaylist(name, id, owner));
                             } catch (Exception e) {
                                 Log.v("DICKS","DICKS");
                             }
                         }
-                        ((MainActivity)HTTPFunctions.this.context).displayPlaylists(map);
+                        ((MainActivity)HTTPFunctions.this.context).displayPlaylists(playlists);
                     }
                 },
                 new Response.ErrorListener() {
@@ -113,14 +114,69 @@ public class HTTPFunctions {
         queue.add(getRequest);
     }
 
-    public HashMap<String, String> getPlaylistTracks(String user, String playlistId) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
-        String URL = "https://api.spotify.com/v1/users/"+user+"/playlists/"+playlistId+"/tracks";
-        final HashMap<String, String> map = new HashMap<String, String>();
+    public void getUser() { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
+        String URL = "https://api.spotify.com/v1/me";
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response) {
+                        // display response
+                        try {
+                            String name = (String)response.get("id");
+                            ((MainActivity)HTTPFunctions.this.context).setUser(name);
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "COULDN'T GET");
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
+                params.put("Accept", "application/json");
+
+                return params;
+            }
+        };
+        queue.add(getRequest);
+    }
+
+    public void getPlaylistTracks(String user, String playlistId) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
+        String URL = "https://api.spotify.com/v1/users/"+user+"/playlists/"+playlistId+"/tracks";
+        final spotifyTracks tracks = new spotifyTracks();
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray responseList;
+                        try {
+                            responseList = (JSONArray) response.get("items");
+                        } catch (Exception e) {
+                            responseList = new JSONArray();
+                            e.getStackTrace();
+                        }
+                        for (int i=0; i<responseList.length(); i++) {
+                            try {
+                                JSONObject trackInfo = (JSONObject)((JSONObject)responseList.get(i)).get("track");
+                                String name = trackInfo.get("name").toString();
+                                String uri = trackInfo.get("uri").toString();
+                                tracks.addTrack(new spotifyTrack(name, uri));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        ((MainActivity)HTTPFunctions.this.context).setPlayingTracks(tracks);
+                        ((MainActivity)HTTPFunctions.this.context).changeToHostMainFragment();
 
                     }
                 },
@@ -141,8 +197,6 @@ public class HTTPFunctions {
             }
         };
         queue.add(getRequest);
-        Log.v("DICKS", map.toString());
-        return map;
     }
 
 }
