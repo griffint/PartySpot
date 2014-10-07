@@ -31,13 +31,14 @@ public class MainFragment extends Fragment {
         Button listen = (Button) rootView.findViewById(R.id.listen_playlist);
         Button suggest = (Button) rootView.findViewById(R.id.suggest_playlist);
         View bar = rootView.findViewById(R.id.loadingBar);
-        if (((MainActivity)getActivity()).user == null) {
+
+        if (((MainActivity)getActivity()).user == null) { // if user is not logged in
             suggest.setVisibility(View.GONE);
             host.setVisibility(View.GONE);
             listen.setVisibility(View.GONE);
         } else {
             bar.setVisibility(View.GONE);
-            if (!((MainActivity)getActivity()).premiumUser) {
+            if (!((MainActivity)getActivity()).premiumUser) { // if user isn't premium
                 host.setVisibility(View.GONE);
                 listen.setVisibility(View.GONE);
             }

@@ -1,4 +1,6 @@
-package com.myapp.partyspot.activities;import android.app.Activity;
+package com.myapp.partyspot.activities;
+
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -9,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import com.firebase.client.Firebase;
 import com.myapp.partyspot.handlers.FirebaseHandler;
 import com.myapp.partyspot.handlers.HTTPFunctions;
@@ -38,17 +39,15 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     public boolean loggedIn;
-    public Uri login_uri;
     public Spotify spotify;
     public SpotifyHandler spotifyHandler;
     public FirebaseHandler firebaseHandler;
-    public String accessToken;
-    public String user;
-    public boolean premiumUser;
+    public String accessToken; // Authentication token from spotify
+    public String user; // user's name
+    public boolean premiumUser; // true if premium, false otherwise
 
     public MainActivity() {
         this.loggedIn=false;
-        this.login_uri=null;
         this.spotify = null;
         this.spotifyHandler = null;
         this.firebaseHandler = null;
@@ -62,11 +61,12 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Firebase.setAndroidContext(this);
+        Firebase.setAndroidContext(this); // required to use Firebase
         this.firebaseHandler = new FirebaseHandler(this);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
+                    // starts the app by prompting user to login
                     .add(R.id.container, new LoginFragment(), "LoginFragment")
                     .commit();
         }
@@ -74,16 +74,18 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        // this method gets called when user logs in with spotify
         Uri uri = intent.getData();
         if (uri != null) {
             AuthenticationResponse response = SpotifyAuthentication.parseOauthResponse(uri);
+            // gets access token to create spotify class and for web api requests.
             this.accessToken = response.getAccessToken();
             this.spotify = new Spotify(this.accessToken);
             this.loggedIn = true;
             this.spotifyHandler = new SpotifyHandler(this);
         }
 
-        getUser();
+        getUser(); // gets and sets user from the web api
         changeToMainFragment();
     }
 
@@ -108,7 +110,7 @@ public class MainActivity extends Activity {
         try {
             HTTPFunctions functions = new HTTPFunctions(this);
             functions.getUser();
-        } catch (Exception e) {
+        } catch (Exception e) { // needed by volley
             e.printStackTrace();
         }
     }
@@ -116,9 +118,8 @@ public class MainActivity extends Activity {
     public void getPlaylistTracks(String playlistOwner, String playlistId) {
         try {
             HTTPFunctions functions = new HTTPFunctions(this);
-            Log.v("USER", this.user);
             functions.getPlaylistTracks(playlistOwner, playlistId);
-        } catch (Exception e) {
+        } catch (Exception e) { // needed by volley
             e.printStackTrace();
         }
     }
@@ -127,31 +128,29 @@ public class MainActivity extends Activity {
         try {
             HTTPFunctions functions = new HTTPFunctions(this);
             functions.getPlaylists(this.user);
-        } catch (Exception e) {
+        } catch (Exception e) { // needed by volley
             e.printStackTrace();
         }
     }
 
     public void displayPlaylists(final SpotifyPlaylists playlists) {
+        // called after the httpFunctions gets the users playlists
         ArrayList<String> list = playlists.makeNameArray();
 
+        // displays the list of playlists
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(this, R.layout.playlist_view, list);
         final ListView myListView = (ListView) this.findViewById(R.id.playlist_list);
         myListView.setAdapter(myListAdapter);
 
-        FragmentManager fm = getFragmentManager();
-        fm.findFragmentByTag("choosePlaylist");
-
-        //create an onItemClickListener to listen for clicks to specific entries
+        //create an onItemClickListener for the user to choose playlist to play
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 String s = (String) myListView.getItemAtPosition(position);
                 String playlistOwner = playlists.getOwnerFromTitle(s);
                 String playlistId = playlists.getUriFromTitle(s);
-                Log.v("YAY", playlistId);
-                getPlaylistTracks(playlistOwner, playlistId);
-                MainActivity.this.spotifyHandler.setPlaylist(playlistOwner, playlistId);
+                getPlaylistTracks(playlistOwner, playlistId); // gets playlist tracks to play
+                MainActivity.this.spotifyHandler.setPlaylist(playlistOwner, playlistId); // sets variables for spotifyHandler
             }
         });
     }
@@ -166,6 +165,7 @@ public class MainActivity extends Activity {
     }
 
     public void setPlaylistsLoaded() {
+        // changes from the progress bar view to the list of playlists
         findViewById(R.id.loadingBar).setVisibility(View.GONE);
     }
 

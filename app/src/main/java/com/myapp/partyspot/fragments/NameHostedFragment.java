@@ -27,6 +27,7 @@ public class NameHostedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_name_hosted, container, false);
 
+        // return to main menu
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
 
         main_menu.setOnClickListener(new View.OnClickListener() {

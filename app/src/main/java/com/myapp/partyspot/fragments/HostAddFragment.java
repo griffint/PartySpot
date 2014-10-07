@@ -29,6 +29,7 @@ public class HostAddFragment extends Fragment {
 
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
 
+        // return to main menu
         main_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

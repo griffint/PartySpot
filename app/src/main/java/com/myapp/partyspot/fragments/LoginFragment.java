@@ -30,6 +30,7 @@ public class LoginFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         final Button myButton = (Button) rootView.findViewById(R.id.login_button);
 
+        // sends user to browser to login, then redirects to main fragment
         myButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                     SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
