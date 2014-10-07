@@ -8,22 +8,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.lang.reflect.Array;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 /**
@@ -80,7 +75,7 @@ public class HTTPFunctions {
     public void getPlaylists(String user) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
         Log.v("DICKS", user);
         String URL = "https://api.spotify.com/v1/users/"+user+"/playlists";
-        final spotifyPlaylists playlists = new spotifyPlaylists();
+        final SpotifyPlaylists playlists = new SpotifyPlaylists();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -99,7 +94,7 @@ public class HTTPFunctions {
                                 String name = ((JSONObject)responseList.get(i)).get("name").toString();
                                 String id = ((JSONObject)responseList.get(i)).get("id").toString();
                                 String owner = ((JSONObject)((JSONObject)responseList.get(i)).get("owner")).get("id").toString();
-                                playlists.addPlaylists(new spotifyPlaylist(name, id, owner));
+                                playlists.addPlaylists(new SpotifyPlaylist(name, id, owner));
                             } catch (Exception e) {
                                 Log.v("DICKS","DICKS");
                             }
@@ -168,7 +163,7 @@ public class HTTPFunctions {
 
     public void getPlaylistTracks(String user, String playlistId) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
         String URL = "https://api.spotify.com/v1/users/"+user+"/playlists/"+playlistId+"/tracks";
-        final spotifyTracks tracks = new spotifyTracks();
+        final SpotifyTracks tracks = new SpotifyTracks();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>()
                 {
@@ -186,7 +181,7 @@ public class HTTPFunctions {
                                 JSONObject trackInfo = (JSONObject)((JSONObject)responseList.get(i)).get("track");
                                 String name = trackInfo.get("name").toString();
                                 String uri = trackInfo.get("uri").toString();
-                                tracks.addTrack(new spotifyTrack(name, uri));
+                                tracks.addTrack(new SpotifyTrack(name, uri));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

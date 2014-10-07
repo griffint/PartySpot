@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.spotify.sdk.android.Spotify;
-import com.spotify.sdk.android.authentication.SpotifyAuthentication;
 import com.spotify.sdk.android.playback.ConnectionStateCallback;
 import com.spotify.sdk.android.playback.Player;
 import com.spotify.sdk.android.playback.PlayerNotificationCallback;
@@ -27,7 +26,7 @@ public class SpotifyHandler implements
     public boolean onPlaylist;
     public String playlistOwner;
     public String playlistId;
-    public spotifyTracks playingTracks;
+    public SpotifyTracks playingTracks;
 
     public SpotifyHandler(MainActivity activity) {
         this.mPlayer = null;
@@ -36,7 +35,7 @@ public class SpotifyHandler implements
         this.onPlaylist = false;
         this.playlistOwner = "bgatkinson";
         this.playlistId = "4KekJB2Z8CE0EhUDiKzHUU";
-        this.playingTracks = new spotifyTracks();
+        this.playingTracks = new SpotifyTracks();
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
