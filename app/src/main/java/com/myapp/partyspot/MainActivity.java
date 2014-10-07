@@ -1,6 +1,8 @@
 package com.myapp.partyspot;import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.SearchView;
 
 import com.firebase.client.Firebase;
 import com.spotify.sdk.android.Spotify;
@@ -51,6 +56,7 @@ public class MainActivity extends Activity {
         this.user = null;
         this.premiumUser = false;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

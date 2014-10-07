@@ -15,4 +15,6 @@
     <string name="main_menu">Return to Main Menu</string>
     <string name="play">Play</string>
 
+    <string name="search_title">Search</string>
+
 </resources>
