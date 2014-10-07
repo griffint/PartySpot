@@ -30,6 +30,7 @@ public class HostMainFragment extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu, inflater);
 
+        /*
         inflater.inflate(R.menu.hostmenu, menu);
 
         SearchView searchView = (SearchView) menu.findItem(R.id.search)
@@ -52,7 +53,7 @@ public class HostMainFragment extends Fragment {
         };
         searchView.setOnQueryTextListener(queryTextListener);
 
-
+        */
 
     }
     @Override

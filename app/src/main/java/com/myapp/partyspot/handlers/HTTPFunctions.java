@@ -235,7 +235,7 @@ public class HTTPFunctions {
                 Log.d("Artsit", href);
                 Log.d("Artist", artistHref);
                 Log.d("Artist", artistName);
-                returnArray.add(new SpotifyTrack(artistHref, artistName, href, trackName));
+                //returnArray.add(new SpotifyTrack(artistHref, artistName, href, trackName));
             }
 
 
