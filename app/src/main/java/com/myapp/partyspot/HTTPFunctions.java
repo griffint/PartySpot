@@ -46,7 +46,7 @@ public class HTTPFunctions {
                         Log.d("Response", response.toString());
                         //JANK FIX SHOULD FIGURE OUT A BETTER WAY
                         ArrayList<SpotifyTrack> results = JSONtoSpotifyTrack(response);
-                        Log("MADE","THIS IS PROGRESS")
+                        Log.d("MADE","THIS IS PROGRESS");
                             //JSONtoSpotifyTrack(response);
 
                     }
