@@ -207,11 +207,7 @@ public class HTTPFunctions {
                 return params;
             }
         };
-        queue.add(getRequest);
-=======
-        );
 
-// add it to the RequestQueue
         queue.add(getRequest);
 
     }
@@ -245,7 +241,6 @@ public class HTTPFunctions {
             Log.d("JSONEXCEPTION",e.toString());
         }
         return returnArray;
->>>>>>> searchFunctionality
     }
 
 }
