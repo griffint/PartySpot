@@ -1,4 +1,4 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,22 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.R;
+
 /**
  * Created by svaughan on 10/2/14.
  */
-public class ChoosePlaylistToFollowFragment extends Fragment {
-    // This fragment lets the user choose which fragment to follow
+public class HostAddFragment extends Fragment {
+    // This fragment allows the host to add to the playlist, whether from voted or searching
 
     // class fields
 
     // class constructor
-    public ChoosePlaylistToFollowFragment() {
+    public HostAddFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_choose_playlist_slave, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_host_add, container, false);
 
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
 

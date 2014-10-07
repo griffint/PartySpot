@@ -1,4 +1,4 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.spotifyDataClasses;
 
 /**
  * Created by svaughan on 10/5/14.

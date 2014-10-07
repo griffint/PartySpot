@@ -1,8 +1,10 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.handlers;
 
 import android.content.Intent;
 import android.util.Log;
 
+import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 import com.spotify.sdk.android.Spotify;
 import com.spotify.sdk.android.playback.ConnectionStateCallback;
 import com.spotify.sdk.android.playback.Player;

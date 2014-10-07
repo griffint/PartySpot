@@ -1,4 +1,4 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.handlers;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -7,6 +7,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyPlaylist;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyPlaylists;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import android.content.Context;
 import android.util.Log;

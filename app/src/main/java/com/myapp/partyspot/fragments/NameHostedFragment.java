@@ -1,4 +1,4 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,22 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.R;
+
 /**
  * Created by svaughan on 10/2/14.
  */
-public class SlaveAddFragment extends Fragment {
-    // This fragment allows the slave phone to suggest songs to the host
+public class NameHostedFragment extends Fragment {
+    // This fragment lets the hoster choose his playlist's name
 
     // class fields
 
     // class constructor
-    public SlaveAddFragment() {
+    public NameHostedFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_slave_add, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_name_hosted, container, false);
 
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
 

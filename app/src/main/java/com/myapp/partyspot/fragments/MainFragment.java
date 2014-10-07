@@ -1,4 +1,4 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.R;
 
 /**
  * Created by svaughan on 10/2/14.

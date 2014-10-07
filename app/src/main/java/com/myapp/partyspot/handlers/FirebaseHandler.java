@@ -1,10 +1,7 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.handlers;
 
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.myapp.partyspot.activities.MainActivity;
 
 /**
  * Created by svaughan on 10/2/14.

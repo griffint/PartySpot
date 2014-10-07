@@ -1,4 +1,4 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,22 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.R;
+
 /**
  * Created by svaughan on 10/2/14.
  */
-public class SuggesterVoteFragment extends Fragment {
-    // This song allows the suggester to vote on others suggestions
+public class SlaveMainFragment extends Fragment {
+    // This fragment holds the main view for the slave phone
 
     // class fields
 
     // class constructor
-    public SuggesterVoteFragment() {
+    public SlaveMainFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_suggester_vote, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_slave_main, container, false);
 
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
 

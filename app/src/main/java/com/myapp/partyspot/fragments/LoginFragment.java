@@ -1,4 +1,4 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.myapp.partyspot.R;
 import com.spotify.sdk.android.authentication.SpotifyAuthentication;
 
 /**

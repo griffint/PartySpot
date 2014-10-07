@@ -1,4 +1,4 @@
-package com.myapp.partyspot;
+package com.myapp.partyspot.spotifyDataClasses;
 
 import java.util.ArrayList;
 import java.util.Random;
