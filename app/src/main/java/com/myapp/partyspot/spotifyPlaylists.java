@@ -1,20 +1,18 @@
 package com.myapp.partyspot;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
  * Created by svaughan on 10/5/14.
  */
-public class spotifyPlaylists {
-    ArrayList<spotifyPlaylist> playlists;
+public class SpotifyPlaylists {
+    ArrayList<SpotifyPlaylist> playlists;
 
-    public spotifyPlaylists() {
-        this.playlists = new ArrayList<spotifyPlaylist>();
+    public SpotifyPlaylists() {
+        this.playlists = new ArrayList<SpotifyPlaylist>();
     }
 
-    public void addPlaylists(spotifyPlaylist playlist) {
+    public void addPlaylists(SpotifyPlaylist playlist) {
         this.playlists.add(playlist);
     }
 

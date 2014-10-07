@@ -1,21 +1,19 @@
 package com.myapp.partyspot;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by svaughan on 10/5/14.
  */
-public class spotifyTracks {
-    ArrayList<spotifyTrack> tracks;
+public class SpotifyTracks {
+    ArrayList<SpotifyTrack> tracks;
 
-    public spotifyTracks() {
-        this.tracks = new ArrayList<spotifyTrack>();
+    public SpotifyTracks() {
+        this.tracks = new ArrayList<SpotifyTrack>();
     }
 
-    public void addTrack(spotifyTrack track) {
+    public void addTrack(SpotifyTrack track) {
         this.tracks.add(track);
     }
 
@@ -24,7 +22,7 @@ public class spotifyTracks {
         for (int i = this.tracks.size() - 1; i > 0; i--) {
             int index = rnd.nextInt(i + 1);
             // Simple swap
-            spotifyTrack a = this.tracks.get(index);
+            SpotifyTrack a = this.tracks.get(index);
             this.tracks.set(index, this.tracks.get(i));
             this.tracks.set(i, a);
         }

@@ -3,12 +3,12 @@ package com.myapp.partyspot;
 /**
  * Created by svaughan on 10/5/14.
  */
-public class spotifyPlaylist {
+public class SpotifyPlaylist {
     public String owner;
     public String name;
     public String id;
 
-    public spotifyPlaylist(String name, String id, String owner) {
+    public SpotifyPlaylist(String name, String id, String owner) {
         this.name = name;
         this.id = id;
         this.owner = owner;
