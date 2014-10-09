@@ -50,8 +50,8 @@ public class HTTPFunctions {
                         // display response
                         Log.d("Response", response.toString());
                         //JANK FIX SHOULD FIGURE OUT A BETTER WAY
-                        ArrayList<SpotifyTrack> results = JSONtoSpotifyTrack(response);
-                        Log.d("MADE","THIS IS PROGRESS");
+                        SpotifyTracks results = JSONtoSpotifyTrack(response);
+                        //DISPLAY RESULTS
                             //JSONtoSpotifyTrack(response);
                     }
                 },
@@ -217,35 +217,45 @@ public class HTTPFunctions {
 
     }
 
-    public ArrayList<SpotifyTrack> JSONtoSpotifyTrack(JSONObject object){
-            ArrayList<SpotifyTrack> returnArray = new ArrayList<SpotifyTrack>();
-        try {
+    public SpotifyTracks JSONtoSpotifyTrack(JSONObject object){
+            final SpotifyTracks tracks = new SpotifyTracks();
 
-            JSONArray tracks = object.getJSONArray("tracks");
-            for (int i = 0; i <10; i++) {
-                JSONObject firstSong = tracks.getJSONObject(i);
-                JSONArray artist = firstSong.getJSONArray("artists");
-                String trackName = firstSong.getString("name");
+            JSONArray responseList;
+            JSONObject testObject;
+            try {
 
-                String artistName = artist.getJSONObject(0).getString("name");
-                String artistHref = artist.getJSONObject(0).getString("href");
-                String href = firstSong.getString("href");
-                Log.d("Artsit", artist.toString());
-                Log.d("Artsit", trackName);
-                Log.d("Artsit", href);
-                Log.d("Artist", artistHref);
-                Log.d("Artist", artistName);
-                //returnArray.add(new SpotifyTrack(artistHref, artistName, href, trackName));
+                testObject = object.getJSONObject("tracks");
+                responseList = testObject.getJSONArray("items");
+                Log.d("COMPLETE",testObject.toString());
+            } catch (Exception e) {
+                responseList = new JSONArray();
+                e.getStackTrace();
             }
+
+            for (int i=0; i<responseList.length(); i++) {
+                try {
+                    Log.d("PRINT","HERE");
+                    JSONObject entry = responseList.getJSONObject(i);
+                    String name = entry.getString("name");
+                    String uri = entry.getString("uri");
+                    Log.d(name,uri);
+                    SpotifyTrack track = new SpotifyTrack(name,uri);
+                    tracks.addTrack(track);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return tracks;
+            }
+                //returnArray.add(new SpotifyTrack(artistHref, artistName, href, trackName));
+
 
 
 
             //Log.d("TEST",res.getJSONObject(0));
-        }
-        catch (JSONException e) {
-            Log.d("JSONEXCEPTION",e.toString());
-        }
-        return returnArray;
+
+
+        return tracks;
     }
 
 }

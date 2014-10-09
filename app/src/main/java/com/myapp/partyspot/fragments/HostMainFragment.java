@@ -28,13 +28,13 @@ public class HostMainFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu ,MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        Log.d("HERE","RAGEEEEE");
         super.onCreateOptionsMenu(menu, inflater);
 
-        /*
         inflater.inflate(R.menu.hostmenu, menu);
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.search)
-                .getActionView();
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             public boolean onQueryTextChange(String newText) {
@@ -44,8 +44,8 @@ public class HostMainFragment extends Fragment {
 
             public boolean onQueryTextSubmit(String query) {
                 Log.d("Test", query);
-                HTTPFunctions http = new HTTPFunctions(getActivity()); // INITIATE THSI ELSEWHERE, DIDN'T WORK WHEN I PUT IT IN THE INITIALIZATION?
-                String Tracksjson = "http://ws.spotify.com/search/1/track.json" + "?q=" + query;
+                HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
+                String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
                 http.get(Tracksjson);
                 //Here u can get the value "query" which is entered in the search box.
                 return true;
@@ -53,7 +53,7 @@ public class HostMainFragment extends Fragment {
         };
         searchView.setOnQueryTextListener(queryTextListener);
 
-        */
+
 
     }
     @Override
@@ -61,6 +61,7 @@ public class HostMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_host_main, container, false);
         setHasOptionsMenu(true);
+        Log.d("DUCK","GUCK");
         final Button pause = (Button) rootView.findViewById(R.id.pause);
         final Button play = (Button) rootView.findViewById(R.id.play);
         final Button ffw = (Button) rootView.findViewById(R.id.ffw);
