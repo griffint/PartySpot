@@ -7,7 +7,10 @@ import com.myapp.partyspot.activities.MainActivity;
  * Created by svaughan on 10/2/14.
  */
 public class FirebaseHandler {
-    // This fragment handles the firebase. It can update currently playing song, or pull currently playing song
+    // This class handles the firebase. It can update currently playing song, or pull currently playing song
+    //will have methods for pulling and pushing relevant data
+
+    //NEEDED:
 
     // class fields
     public Firebase firebaseDatabase;
@@ -20,5 +23,10 @@ public class FirebaseHandler {
         this.firebaseDatabase = new Firebase(this.URL);
     }
 
+    //time for pushing here
+    public class hostData {
+
+       
+    }
 
 }
