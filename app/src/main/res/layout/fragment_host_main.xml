@@ -11,12 +11,19 @@ tools:ignore="MergeRootFrame" >
     android:text="@string/main_menu"
     android:id="@+id/main_menu"/>
 
+<Button
+    android:layout_below="@id/main_menu"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/host_add_songs"
+    android:id="@+id/host_add_songs"/>
+
 <TextView
     android:text="@string/hello_world"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id = "@+id/hello_world"
-    android:layout_below="@id/main_menu"/>
+    android:layout_below="@id/host_add_songs"/>
 
 <Button
     android:layout_width="wrap_content"

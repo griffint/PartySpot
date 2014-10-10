@@ -67,6 +67,7 @@ public class HostMainFragment extends Fragment {
         final Button ffw = (Button) rootView.findViewById(R.id.ffw);
         final Button next = (Button) rootView.findViewById(R.id.next);
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
+        final Button host_add = (Button) rootView.findViewById(R.id.host_add_songs);
 
         // return to main menu
         main_menu.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +82,12 @@ public class HostMainFragment extends Fragment {
         pause.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity)getActivity()).spotifyHandler.pause();
+            }
+        });
+
+        host_add.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeToHostAddFragment();
             }
         });
 

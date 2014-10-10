@@ -14,6 +14,8 @@
     <string name="suggest">Suggest Songs for a Playlist</string>
     <string name="main_menu">Return to Main Menu</string>
     <string name="play">Play</string>
+    <string name="host_add_songs">View Suggested Songs</string>
+    <string name="host_main">Go Back to Main View</string>
 
     <string name="search_title">Search</string>
 

@@ -10,4 +10,16 @@
         android:text="@string/main_menu"
         android:id="@+id/main_menu"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/host_main"
+        android:id="@+id/host_main"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/host_suggested">
+    </ListView>
+
 </LinearLayout>

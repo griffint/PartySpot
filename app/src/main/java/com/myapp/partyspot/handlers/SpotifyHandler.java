@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 import com.spotify.sdk.android.Spotify;
 import com.spotify.sdk.android.playback.ConnectionStateCallback;
@@ -29,6 +30,7 @@ public class SpotifyHandler implements
     public String playlistOwner;
     public String playlistId;
     public SpotifyTracks playingTracks;
+    public int songIndex;
 
     public SpotifyHandler(MainActivity activity) {
         this.mPlayer = null;
@@ -38,6 +40,7 @@ public class SpotifyHandler implements
         this.playlistOwner = "bgatkinson";
         this.playlistId = "4KekJB2Z8CE0EhUDiKzHUU";
         this.playingTracks = new SpotifyTracks();
+        this.songIndex = 0;
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -49,6 +52,26 @@ public class SpotifyHandler implements
             @Override
             public void onError(Throwable throwable) {
                 Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
+            }
+        });
+        mPlayer.addPlayerNotificationCallback(new PlayerNotificationCallback() {
+            @Override
+            public void onPlaybackEvent(EventType eventType) {
+                if (eventType == EventType.PAUSE) {
+                    Log.v("PAUSE", "yay");
+                }
+                if (eventType == EventType.PLAY) {
+                    Log.v("Play", "yay");
+                }
+                if (eventType == EventType.SKIP_NEXT) {
+                    Log.v("Next", "yay");
+                    SpotifyHandler.this.songIndex+=1;
+                    SpotifyHandler.this.playingTracks.tracks.get(songIndex);
+                }
+                if (eventType == EventType.SKIP_PREV) {
+                    Log.v("Changed", "yay");
+                    SpotifyHandler.this.songIndex-=1;
+                }
             }
         });
     }
@@ -102,6 +125,11 @@ public class SpotifyHandler implements
 
     public void next() {
         mPlayer.skipToNext();
+    }
+
+    public void queue(SpotifyTrack track) {
+        Log.v(track.getName(), "PLEASE ADD");
+        mPlayer.queue(track.getUri());
     }
 
     @Override

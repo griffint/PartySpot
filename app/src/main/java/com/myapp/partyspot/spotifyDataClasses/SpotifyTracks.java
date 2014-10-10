@@ -7,7 +7,7 @@ import java.util.Random;
  * Created by svaughan on 10/5/14.
  */
 public class SpotifyTracks {
-    ArrayList<SpotifyTrack> tracks;
+    public ArrayList<SpotifyTrack> tracks;
 
     public SpotifyTracks() {
         this.tracks = new ArrayList<SpotifyTrack>();
@@ -48,6 +48,15 @@ public class SpotifyTracks {
         for (int i=0; i<this.tracks.size(); i++) {
             if (this.tracks.get(i).getName().equals(title)) {
                 return this.tracks.get(i).getUri();
+            }
+        }
+        return null;
+    }
+
+    public SpotifyTrack getTrackFromTitle(String title) {
+        for (int i=0; i<this.tracks.size(); i++) {
+            if (this.tracks.get(i).getName().equals(title)) {
+                return this.tracks.get(i);
             }
         }
         return null;
