@@ -31,8 +31,10 @@ public class SpotifyHandler implements
     public String playlistId;
     public SpotifyTracks playingTracks;
     public int songIndex;
+    public boolean isHost;
 
     public SpotifyHandler(MainActivity activity) {
+        this.isHost = false;
         this.mPlayer = null;
         this.activity = activity;
         this.paused = false;
@@ -40,7 +42,7 @@ public class SpotifyHandler implements
         this.playlistOwner = "bgatkinson";
         this.playlistId = "4KekJB2Z8CE0EhUDiKzHUU";
         this.playingTracks = new SpotifyTracks();
-        this.songIndex = 0;
+        this.songIndex = -1;
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -57,23 +59,31 @@ public class SpotifyHandler implements
         mPlayer.addPlayerNotificationCallback(new PlayerNotificationCallback() {
             @Override
             public void onPlaybackEvent(EventType eventType) {
-                if (eventType == EventType.PAUSE) {
-                    Log.v("PAUSE", "yay");
-                }
-                if (eventType == EventType.PLAY) {
-                    Log.v("Play", "yay");
-                }
-                if (eventType == EventType.SKIP_NEXT) {
-                    Log.v("Next", "yay");
-                    SpotifyHandler.this.songIndex+=1;
-                    SpotifyHandler.this.playingTracks.tracks.get(songIndex);
-                }
-                if (eventType == EventType.SKIP_PREV) {
-                    Log.v("Changed", "yay");
-                    SpotifyHandler.this.songIndex-=1;
+                if (SpotifyHandler.this.isHost) {
+                    if (eventType == EventType.PAUSE) {
+                        Log.v("PAUSE", "yay");
+                    }
+                    if (eventType == EventType.PLAY) {
+                        Log.v("Play", "yay");
+                    }
+
+                    // We're only allowing the user to go forward, so call this as if it means onNextSong:
+                    if (eventType == EventType.TRACK_CHANGED) {
+                        Log.v("Changed", "yay");
+                        SpotifyHandler.this.songIndex += 1;
+                        Log.v(SpotifyHandler.this.playingTracks.tracks.get(songIndex).getName(), "FOUND THE TRACK");
+                    }
                 }
             }
         });
+    }
+
+    public void setHost() {
+        this.isHost = true;
+    }
+
+    public void setNotHost() {
+        this.isHost = false;
     }
 
     public void setPlaylist(String playlistOwner, String playlistId) {
@@ -81,15 +91,12 @@ public class SpotifyHandler implements
         this.playlistId = playlistId;
     }
 
-    protected void login_return(Intent intent) {
-    }
-
     public String getSongTitle() {
-        return "";
+        return this.playingTracks.tracks.get(songIndex).getName();
     }
 
     public int getSongPosInMs() {
-        return 1;
+        return this.mPlayer.getPlayerState().positionInMs;
     }
 
     public String getSongUri() {

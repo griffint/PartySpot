@@ -226,6 +226,10 @@ public class MainActivity extends Activity {
     }
 
     public void changeToMainFragment() {
+        this.spotifyHandler.setNotHost();
+        this.spotifyHandler.songIndex = -1;
+        this.spotifyHandler.onPlaylist = false;
+        this.spotifyHandler.pause();
         MainFragment fragment = new MainFragment();
 
         FragmentManager fm = getFragmentManager();
