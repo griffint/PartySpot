@@ -64,6 +64,27 @@ public class HostAddFragment extends Fragment {
         final Button host_main = (Button) rootView.findViewById(R.id.host_main);
         final Button play = (Button) rootView.findViewById(R.id.play);
         final Button next = (Button) rootView.findViewById(R.id.next);
+        final Button volume = (Button) rootView.findViewById(R.id.volume);
+
+        if (((MainActivity)getActivity()).muted) {
+            volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
+        } else {
+            volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
+        }
+
+        // return to main menu
+        volume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeMutedState();
+
+                if (((MainActivity)getActivity()).muted) {
+                    volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
+                } else {
+                    volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
+                }
+            }
+        });
 
         if (((MainActivity)getActivity()).playing) {
             play.setBackground(getResources().getDrawable(R.drawable.pause));

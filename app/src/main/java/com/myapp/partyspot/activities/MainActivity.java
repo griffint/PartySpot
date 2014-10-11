@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,6 +57,7 @@ public class MainActivity extends Activity {
     public boolean playing;
     public String playlistName;
     public ArrayList<String> playlists;
+    public boolean muted;
 
     public MainActivity() {
         this.playlists = new ArrayList<String>();
@@ -68,6 +71,19 @@ public class MainActivity extends Activity {
         this.suggestedSongs = new SpotifyTracks();
         this.playing = false;
         this.playlistName = "";
+        this.muted = false;
+    }
+
+    public void setNotMuted() {
+        this.muted = false;
+        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+    }
+
+    public void changeMutedState() {
+        this.muted = !this.muted;
+        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
     }
 
     public void setPlaylist(String playlist) {
@@ -259,6 +275,7 @@ public class MainActivity extends Activity {
         this.playing = false;
         this.playlistName ="";
         this.spotifyHandler.pause();
+        this.setNotMuted();
         MainFragment fragment = new MainFragment();
 
         FragmentManager fm = getFragmentManager();
