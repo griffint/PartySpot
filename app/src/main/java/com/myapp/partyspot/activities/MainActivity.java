@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,8 @@ import com.myapp.partyspot.fragments.ChooseSlaveDialogFragment;
 import com.myapp.partyspot.fragments.ChooseSuggesterDialogFragment;
 import com.myapp.partyspot.fragments.HostSearchResultsFragment;
 import com.myapp.partyspot.fragments.NameDialogFragment;
+import com.myapp.partyspot.fragments.SlaveSearchResultsFragment;
+import com.myapp.partyspot.fragments.SuggesterSearchResultsFragment;
 import com.myapp.partyspot.handlers.FirebaseHandler;
 import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.R;
@@ -55,6 +59,7 @@ public class MainActivity extends Activity {
     public boolean playing;
     public String playlistName;
     public ArrayList<String> playlists;
+    public boolean muted;
 
     public MainActivity() {
         this.playlists = new ArrayList<String>();
@@ -68,6 +73,19 @@ public class MainActivity extends Activity {
         this.suggestedSongs = new SpotifyTracks();
         this.playing = false;
         this.playlistName = "";
+        this.muted = false;
+    }
+
+    public void setNotMuted() {
+        this.muted = false;
+        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+    }
+
+    public void changeMutedState() {
+        this.muted = !this.muted;
+        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
     }
 
     public void setPlaylist(String playlist) {
@@ -259,6 +277,7 @@ public class MainActivity extends Activity {
         this.playing = false;
         this.playlistName ="";
         this.spotifyHandler.pause();
+        this.setNotMuted();
         MainFragment fragment = new MainFragment();
 
         FragmentManager fm = getFragmentManager();
@@ -279,6 +298,18 @@ public class MainActivity extends Activity {
     public void displayHostSearchResults(SpotifyTracks tracks) {
         Log.v("HI HO", tracks.tracks.get(0).getName());
         HostSearchResultsFragment frag = (HostSearchResultsFragment) getFragmentManager().findFragmentByTag("host_search");
+        frag.displaySearchResults(tracks);
+    }
+
+    public void displaySlaveSearchResults(SpotifyTracks tracks) {
+        Log.v("HI HO", tracks.tracks.get(0).getName());
+        SlaveSearchResultsFragment frag = (SlaveSearchResultsFragment) getFragmentManager().findFragmentByTag("slave_search");
+        frag.displaySearchResults(tracks);
+    }
+
+    public void displaySuggesterSearchResults(SpotifyTracks tracks) {
+        Log.v("HI HO", tracks.tracks.get(0).getName());
+        SuggesterSearchResultsFragment frag = (SuggesterSearchResultsFragment) getFragmentManager().findFragmentByTag("suggester_search");
         frag.displaySearchResults(tracks);
     }
 
@@ -321,6 +352,24 @@ public class MainActivity extends Activity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToSlaveSearchResults() {
+        SlaveSearchResultsFragment fragment = new SlaveSearchResultsFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment, "slave_search");
+        transaction.commit();
+    }
+
+    public void changeToSuggesterSearchResults() {
+        SuggesterSearchResultsFragment fragment = new SuggesterSearchResultsFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment, "suggester_search");
         transaction.commit();
     }
 

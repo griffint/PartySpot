@@ -45,6 +45,14 @@
             android:layout_alignParentTop="true" />
 
         <Button
+            android:id="@+id/volume"
+            android:layout_height="60dp"
+            android:layout_width="60dp"
+            android:layout_margin="20dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/volumeon"/>
+
+        <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/next"
