@@ -25,32 +25,35 @@ tools:ignore="MergeRootFrame" >
     android:id = "@+id/hello_world"
     android:layout_below="@id/host_add_songs"/>
 
-<Button
+<RelativeLayout
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/hello_world"
-    android:text="@string/play"
-    android:id="@+id/play"/>
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:padding="6dip">
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/play"
-    android:text="@string/pause"
-    android:id="@+id/pause"/>
+    <Button
+        android:background="@drawable/play"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/play"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/pause"
-    android:text="@string/ffw"
-    android:id="@+id/ffw"/>
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/next"
+        android:id="@+id/next"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/ffw"
-    android:text="@string/next"
-    android:id="@+id/next"/>
+</RelativeLayout>
 
 </RelativeLayout>
