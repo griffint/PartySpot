@@ -40,7 +40,7 @@ public class HTTPFunctions {
         this.queue = Volley.newRequestQueue(context);
     }//ALWAYS PASS IN getActivity
 
-    public void get(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
+    public void getHostSearch(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
         Log.v("ho", URL);
         URL = URL.replaceAll(" ","+");
         Log.v("ho", URL);
@@ -54,8 +54,81 @@ public class HTTPFunctions {
                         Log.d("Response", response.toString());
                         //JANK FIX SHOULD FIGURE OUT A BETTER WAY
                         SpotifyTracks results = JSONtoSpotifyTrack(response);
-                        //DISPLAY RESULTS
-                            //JSONtoSpotifyTrack(response);
+                        ((MainActivity)HTTPFunctions.this.context).displayHostSearchResults(results);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "COULDN'T GET");
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
+                params.put("Accept", "application/json");
+
+                return params;
+            }
+        };
+
+        queue.add(getRequest);
+    }
+
+    public void getSlaveSearch(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
+        Log.v("ho", URL);
+        URL = URL.replaceAll(" ","+");
+        Log.v("ho", URL);
+        this.queriedTracks = new ArrayList<SpotifyTrack>();
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        //JANK FIX SHOULD FIGURE OUT A BETTER WAY
+                        SpotifyTracks results = JSONtoSpotifyTrack(response);
+                        ((MainActivity)HTTPFunctions.this.context).displaySlaveSearchResults(results);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "COULDN'T GET");
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
+                params.put("Accept", "application/json");
+
+                return params;
+            }
+        };
+
+        queue.add(getRequest);
+    }
+
+    public void getSuggesterSearch(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
+        Log.v("ho", URL);
+        URL = URL.replaceAll(" ","+");
+        Log.v("ho", URL);
+        this.queriedTracks = new ArrayList<SpotifyTrack>();
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        //JANK FIX SHOULD FIGURE OUT A BETTER WAY
+                        SpotifyTracks results = JSONtoSpotifyTrack(response);
+                        ((MainActivity)HTTPFunctions.this.context).displaySuggesterSearchResults(results);
                     }
                 },
                 new Response.ErrorListener() {
@@ -221,39 +294,35 @@ public class HTTPFunctions {
     }
 
     public SpotifyTracks JSONtoSpotifyTrack(JSONObject object){
-            final SpotifyTracks tracks = new SpotifyTracks();
+        final SpotifyTracks tracks = new SpotifyTracks();
 
-            JSONArray responseList;
-            JSONObject testObject;
+        JSONArray responseList;
+        JSONObject testObject;
+        try {
+            testObject = object.getJSONObject("tracks");
+            responseList = testObject.getJSONArray("items");
+        } catch (Exception e) {
+            responseList = new JSONArray();
+            e.getStackTrace();
+        }
+
+        for (int i=0; i<responseList.length(); i++) {
             try {
-                testObject = object.getJSONObject("tracks");
-                responseList = testObject.getJSONArray("items");
+                Log.d("PRINT","HERE");
+                JSONObject entry = responseList.getJSONObject(i);
+                String name = entry.getString("name");
+                String uri = entry.getString("uri");
+                Log.d(name,uri);
+                SpotifyTrack track = new SpotifyTrack(name,uri);
+                tracks.addTrack(track);
+                Log.v("HO", tracks.tracks.get(0).getName());
+
             } catch (Exception e) {
-                responseList = new JSONArray();
-                e.getStackTrace();
+                e.printStackTrace();
             }
-
-            for (int i=0; i<responseList.length(); i++) {
-                try {
-                    Log.d("PRINT","HERE");
-                    JSONObject entry = responseList.getJSONObject(i);
-                    String name = entry.getString("name");
-                    String uri = entry.getString("uri");
-                    Log.d(name,uri);
-                    SpotifyTrack track = new SpotifyTrack(name,uri);
-                    tracks.addTrack(track);
-                    Log.v("HO", tracks.tracks.get(0).getName());
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-                //returnArray.add(new SpotifyTrack(artistHref, artistName, href, trackName));
-            Log.v("HOHOHO", tracks.tracks.get(0).getName());
-            ((MainActivity)this.context).displayHostSearchResults(tracks);
-
-            //Log.d("TEST",res.getJSONObject(0));
-
+        }
+            //returnArray.add(new SpotifyTrack(artistHref, artistName, href, trackName));
+        Log.v("HOHOHO", tracks.tracks.get(0).getName());
 
         return tracks;
     }

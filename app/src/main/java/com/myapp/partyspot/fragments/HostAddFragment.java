@@ -3,16 +3,21 @@ package com.myapp.partyspot.fragments;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
+import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.ArrayList;
@@ -30,9 +35,41 @@ public class HostAddFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu ,MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        Log.d("HERE", "RAGEEEEE");
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.hostmenu, menu);
+
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                // this is your adapter that will be filtered
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("Test", query);
+                HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
+                String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
+                ((MainActivity)HostAddFragment.this.getActivity()).changeToHostSearchResults();
+                http.getHostSearch(Tracksjson);
+                //Here u can getHostSearch the value "query" which is entered in the search box.
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_host_add, container, false);
+        setHasOptionsMenu(true);
 
         final SpotifyTracks suggested = ((MainActivity)getActivity()).suggestedSongs;
 
