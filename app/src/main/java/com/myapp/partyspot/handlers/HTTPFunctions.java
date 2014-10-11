@@ -41,6 +41,9 @@ public class HTTPFunctions {
     }//ALWAYS PASS IN getActivity
 
     public void get(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
+        Log.v("ho", URL);
+        URL = URL.replaceAll(" ","+");
+        Log.v("ho", URL);
         this.queriedTracks = new ArrayList<SpotifyTrack>();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>()
@@ -223,10 +226,8 @@ public class HTTPFunctions {
             JSONArray responseList;
             JSONObject testObject;
             try {
-
                 testObject = object.getJSONObject("tracks");
                 responseList = testObject.getJSONArray("items");
-                Log.d("COMPLETE",testObject.toString());
             } catch (Exception e) {
                 responseList = new JSONArray();
                 e.getStackTrace();
@@ -241,16 +242,15 @@ public class HTTPFunctions {
                     Log.d(name,uri);
                     SpotifyTrack track = new SpotifyTrack(name,uri);
                     tracks.addTrack(track);
+                    Log.v("HO", tracks.tracks.get(0).getName());
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return tracks;
             }
                 //returnArray.add(new SpotifyTrack(artistHref, artistName, href, trackName));
-
-
-
+            Log.v("HOHOHO", tracks.tracks.get(0).getName());
+            ((MainActivity)this.context).displayHostSearchResults(tracks);
 
             //Log.d("TEST",res.getJSONObject(0));
 

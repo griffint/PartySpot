@@ -46,6 +46,7 @@ public class HostMainFragment extends Fragment {
                 Log.d("Test", query);
                 HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
                 String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
+                ((MainActivity)HostMainFragment.this.getActivity()).changeToHostSearchResults();
                 http.get(Tracksjson);
                 //Here u can get the value "query" which is entered in the search box.
                 return true;
@@ -62,12 +63,16 @@ public class HostMainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_host_main, container, false);
         setHasOptionsMenu(true);
         Log.d("DUCK","GUCK");
-        final Button pause = (Button) rootView.findViewById(R.id.pause);
         final Button play = (Button) rootView.findViewById(R.id.play);
-        final Button ffw = (Button) rootView.findViewById(R.id.ffw);
         final Button next = (Button) rootView.findViewById(R.id.next);
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
         final Button host_add = (Button) rootView.findViewById(R.id.host_add_songs);
+
+        if (((MainActivity)getActivity()).playing) {
+            play.setBackground(getResources().getDrawable(R.drawable.pause));
+        } else {
+            play.setBackground(getResources().getDrawable(R.drawable.play));
+        }
 
         // return to main menu
         main_menu.setOnClickListener(new View.OnClickListener() {
@@ -77,29 +82,19 @@ public class HostMainFragment extends Fragment {
             }
         });
 
-        pause.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).spotifyHandler.pause();
-            }
-        });
-
-        host_add.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToHostAddFragment();
-            }
-        });
-
 
         play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((MainActivity)getActivity()).spotifyHandler.play();
-            }
-        });
-
-
-        ffw.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).spotifyHandler.fastForward();
+                boolean isPlaying = ((MainActivity)getActivity()).playing;
+                if (isPlaying) {
+                    ((MainActivity) getActivity()).spotifyHandler.pause();
+                    ((MainActivity)getActivity()).playing = false;
+                    play.setBackground(getResources().getDrawable(R.drawable.play));
+                } else {
+                    ((MainActivity) getActivity()).spotifyHandler.play();
+                    ((MainActivity)getActivity()).playing = true;
+                    play.setBackground(getResources().getDrawable(R.drawable.pause));
+                }
             }
         });
 
@@ -107,6 +102,12 @@ public class HostMainFragment extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity)getActivity()).spotifyHandler.next();
+            }
+        });
+
+        host_add.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeToHostAddFragment();
             }
         });
 
