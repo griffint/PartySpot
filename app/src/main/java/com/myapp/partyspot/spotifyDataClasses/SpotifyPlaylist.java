@@ -4,7 +4,7 @@ package com.myapp.partyspot.spotifyDataClasses;
  * Created by svaughan on 10/5/14.
  */
 public class SpotifyPlaylist {
-    public String owner;  //username of playlist owner
+    public String owner;
     public String name;
     public String id;
 
