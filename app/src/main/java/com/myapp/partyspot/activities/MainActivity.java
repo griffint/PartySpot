@@ -1,9 +1,12 @@
 package com.myapp.partyspot.activities;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.firebase.client.Firebase;
+import com.myapp.partyspot.fragments.ChooseSlaveDialogFragment;
+import com.myapp.partyspot.fragments.ChooseSuggesterDialogFragment;
+import com.myapp.partyspot.fragments.HostSearchResultsFragment;
+import com.myapp.partyspot.fragments.NameDialogFragment;
+import com.myapp.partyspot.fragments.SlaveSearchResultsFragment;
+import com.myapp.partyspot.fragments.SuggesterSearchResultsFragment;
 import com.myapp.partyspot.handlers.FirebaseHandler;
 import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.R;
@@ -30,6 +39,7 @@ import com.myapp.partyspot.fragments.SlaveVoteFragment;
 import com.myapp.partyspot.fragments.SuggesterAddFragment;
 import com.myapp.partyspot.fragments.SuggesterVoteFragment;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyPlaylists;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 import com.spotify.sdk.android.Spotify;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -45,8 +55,14 @@ public class MainActivity extends Activity {
     public String accessToken; // Authentication token from spotify
     public String user; // user's name
     public boolean premiumUser; // true if premium, false otherwise
+    public SpotifyTracks suggestedSongs;
+    public boolean playing;
+    public String playlistName;
+    public ArrayList<String> playlists;
+    public boolean muted;
 
     public MainActivity() {
+        this.playlists = new ArrayList<String>();
         this.loggedIn=false;
         this.spotify = null;
         this.spotifyHandler = null;
@@ -54,8 +70,32 @@ public class MainActivity extends Activity {
         this.accessToken = null;
         this.user = null;
         this.premiumUser = false;
+        this.suggestedSongs = new SpotifyTracks();
+        this.playing = false;
+        this.playlistName = "";
+        this.muted = false;
     }
 
+    public void setNotMuted() {
+        this.muted = false;
+        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+    }
+
+    public void changeMutedState() {
+        this.muted = !this.muted;
+        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+    }
+
+    public void setPlaylist(String playlist) {
+        this.playlists.add(playlist);
+        this.playlistName = playlist;
+    }
+
+    public boolean existsPlaylist(String playlist) {
+        return this.playlists.contains(playlist);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +110,11 @@ public class MainActivity extends Activity {
                     .add(R.id.container, new LoginFragment(), "LoginFragment")
                     .commit();
         }
+
+        // temporary suggested songs
+        suggestedSongs.addTrack(new SpotifyTrack("Whoa Whoa Whoa", "spotify:track:3tpdc8zHIOXy8rYhuI9car"));
+        suggestedSongs.addTrack(new SpotifyTrack("3005", "spotify:track:3Z2sglqDj1rDRMF5x0Sz2R"));
+        suggestedSongs.addTrack(new SpotifyTrack("Handyman", "spotify:track:3tpdc8zHIOXy8rYhuI9car"));
     }
 
     @Override
@@ -226,6 +271,13 @@ public class MainActivity extends Activity {
     }
 
     public void changeToMainFragment() {
+        this.spotifyHandler.setNotHost();
+        this.spotifyHandler.songIndex = -1;
+        this.spotifyHandler.onPlaylist = false;
+        this.playing = false;
+        this.playlistName ="";
+        this.spotifyHandler.pause();
+        this.setNotMuted();
         MainFragment fragment = new MainFragment();
 
         FragmentManager fm = getFragmentManager();
@@ -243,6 +295,48 @@ public class MainActivity extends Activity {
         transaction.commit();
     }
 
+    public void displayHostSearchResults(SpotifyTracks tracks) {
+        Log.v("HI HO", tracks.tracks.get(0).getName());
+        HostSearchResultsFragment frag = (HostSearchResultsFragment) getFragmentManager().findFragmentByTag("host_search");
+        frag.displaySearchResults(tracks);
+    }
+
+    public void displaySlaveSearchResults(SpotifyTracks tracks) {
+        Log.v("HI HO", tracks.tracks.get(0).getName());
+        SlaveSearchResultsFragment frag = (SlaveSearchResultsFragment) getFragmentManager().findFragmentByTag("slave_search");
+        frag.displaySearchResults(tracks);
+    }
+
+    public void displaySuggesterSearchResults(SpotifyTracks tracks) {
+        Log.v("HI HO", tracks.tracks.get(0).getName());
+        SuggesterSearchResultsFragment frag = (SuggesterSearchResultsFragment) getFragmentManager().findFragmentByTag("suggester_search");
+        frag.displaySearchResults(tracks);
+    }
+
+    public void changeToHostSearchResults() {
+        HostSearchResultsFragment fragment = new HostSearchResultsFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment, "host_search");
+        transaction.commit();
+    }
+
+    public void namePlaylist() {
+        DialogFragment newFragment = new NameDialogFragment();
+        newFragment.show(getFragmentManager(), "missiles");
+    }
+
+    public void choosePlaylistSlave() {
+        DialogFragment newFragment = new ChooseSlaveDialogFragment();
+        newFragment.show(getFragmentManager(), "missiles");
+    }
+
+    public void choosePlaylistSuggester() {
+        DialogFragment newFragment = new ChooseSuggesterDialogFragment();
+        newFragment.show(getFragmentManager(), "missiles");
+    }
+
     public void changeToSlaveAddFragment() {
         SlaveAddFragment fragment = new SlaveAddFragment();
 
@@ -258,6 +352,24 @@ public class MainActivity extends Activity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToSlaveSearchResults() {
+        SlaveSearchResultsFragment fragment = new SlaveSearchResultsFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment, "slave_search");
+        transaction.commit();
+    }
+
+    public void changeToSuggesterSearchResults() {
+        SuggesterSearchResultsFragment fragment = new SuggesterSearchResultsFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment, "suggester_search");
         transaction.commit();
     }
 

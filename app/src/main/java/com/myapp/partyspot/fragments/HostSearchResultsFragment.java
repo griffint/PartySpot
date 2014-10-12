@@ -1,5 +1,6 @@
 package com.myapp.partyspot.fragments;
 
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,30 +9,33 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SearchView;
 
-import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
+import com.myapp.partyspot.handlers.HTTPFunctions;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
+
+import java.util.ArrayList;
 
 /**
- * Created by svaughan on 9/30/14.
+ * Created by svaughan on 10/10/14.
  */
-public class HostMainFragment extends Fragment {
-    // This class holds the main view for the host
 
-    public HostMainFragment() {
-
-    }
+public class HostSearchResultsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu ,MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Log.d("HERE","RAGEEEEE");
+        Log.d("HERE", "RAGEEEEE");
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.hostmenu, menu);
+
 
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 
@@ -45,7 +49,7 @@ public class HostMainFragment extends Fragment {
                 Log.d("Test", query);
                 HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
                 String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
-                ((MainActivity)HostMainFragment.this.getActivity()).changeToHostSearchResults();
+                ((MainActivity)HostSearchResultsFragment.this.getActivity()).changeToHostSearchResults();
                 http.getHostSearch(Tracksjson);
                 //Here u can getHostSearch the value "query" which is entered in the search box.
                 return true;
@@ -58,13 +62,13 @@ public class HostMainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_host_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_host_search_results, container, false);
         setHasOptionsMenu(true);
-        Log.d("DUCK","GUCK");
+
+        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
+        final Button host_main = (Button) rootView.findViewById(R.id.host_main);
         final Button play = (Button) rootView.findViewById(R.id.play);
         final Button next = (Button) rootView.findViewById(R.id.next);
-        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
-        final Button host_add = (Button) rootView.findViewById(R.id.host_add_songs);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
         if (((MainActivity)getActivity()).muted) {
@@ -93,15 +97,6 @@ public class HostMainFragment extends Fragment {
             play.setBackground(getResources().getDrawable(R.drawable.play));
         }
 
-        // return to main menu
-        main_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToMainFragment();
-            }
-        });
-
-
         play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean isPlaying = ((MainActivity)getActivity()).playing;
@@ -117,21 +112,54 @@ public class HostMainFragment extends Fragment {
             }
         });
 
-
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity)getActivity()).spotifyHandler.next();
             }
         });
 
-        host_add.setOnClickListener(new View.OnClickListener() {
+        // return to main menu
+        main_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToHostAddFragment();
+                ((MainActivity)getActivity()).changeToMainFragment();
+            }
+        });
+
+        // return to main menu
+        host_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeToHostMainFragment();
             }
         });
 
         return rootView;
     }
 
+    public void displaySearchResults(final SpotifyTracks tracks) {
+        // called after the httpFunctions gets the users playlists
+        ArrayList<String> list = tracks.makeNameArray();
 
+        // displays the list of playlists
+        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
+        final ListView myListView = (ListView) getActivity().findViewById(R.id.host_search_results);
+        myListView.setAdapter(myListAdapter);
+
+        //create an onItemClickListener for the user to choose playlist to play
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String s = (String) myListView.getItemAtPosition(position);
+
+                DialogFragment newFragment = new AddDialogFragment();
+                newFragment.show(getFragmentManager(), "missiles");
+
+                Bundle bundle = new Bundle();
+                bundle.putString("song", s); //any string to be sent
+                bundle.putString("uri", tracks.getUriFromTitle(s));
+                newFragment.setArguments(bundle);
+            }
+        });
+    }
 }

@@ -1,5 +1,6 @@
 package com.myapp.partyspot.fragments;
 
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -47,21 +48,22 @@ public class MainFragment extends Fragment {
         host.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToChoosePlaylistToHostFragment();
+                ((MainActivity)getActivity()).spotifyHandler.setHost();
+                ((MainActivity)getActivity()).namePlaylist();
             }
         });
 
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToSlaveMainFragment();
+                ((MainActivity)getActivity()).choosePlaylistSlave();
             }
         });
 
         suggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToSuggesterAddFragment();
+                ((MainActivity)getActivity()).choosePlaylistSuggester();
             }
         });
 

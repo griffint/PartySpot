@@ -11,39 +11,57 @@ tools:ignore="MergeRootFrame" >
     android:text="@string/main_menu"
     android:id="@+id/main_menu"/>
 
+<Button
+    android:layout_below="@id/main_menu"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/host_add_songs"
+    android:id="@+id/host_add_songs"/>
+
 <TextView
     android:text="@string/hello_world"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id = "@+id/hello_world"
-    android:layout_below="@id/main_menu"/>
+    android:layout_below="@id/host_add_songs"/>
 
-<Button
+<RelativeLayout
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/hello_world"
-    android:text="@string/play"
-    android:id="@+id/play"/>
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:padding="6dip">
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/play"
-    android:text="@string/pause"
-    android:id="@+id/pause"/>
+    <Button
+        android:background="@drawable/play"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/play"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/pause"
-    android:text="@string/ffw"
-    android:id="@+id/ffw"/>
+    <Button
+        android:id="@+id/volume"
+        android:layout_height="60dp"
+        android:layout_width="60dp"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/volumeon"/>
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/ffw"
-    android:text="@string/next"
-    android:id="@+id/next"/>
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/next"
+        android:id="@+id/next"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>
 
 </RelativeLayout>

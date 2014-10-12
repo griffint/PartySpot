@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 import com.spotify.sdk.android.Spotify;
 import com.spotify.sdk.android.playback.ConnectionStateCallback;
@@ -29,8 +30,11 @@ public class SpotifyHandler implements
     public String playlistOwner;
     public String playlistId;
     public SpotifyTracks playingTracks;
+    public int songIndex;
+    public boolean isHost;
 
     public SpotifyHandler(MainActivity activity) {
+        this.isHost = false;
         this.mPlayer = null;
         this.activity = activity;
         this.paused = false;
@@ -38,6 +42,7 @@ public class SpotifyHandler implements
         this.playlistOwner = "bgatkinson";
         this.playlistId = "4KekJB2Z8CE0EhUDiKzHUU";
         this.playingTracks = new SpotifyTracks();
+        this.songIndex = -1;
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -51,6 +56,34 @@ public class SpotifyHandler implements
                 Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
             }
         });
+        mPlayer.addPlayerNotificationCallback(new PlayerNotificationCallback() {
+            @Override
+            public void onPlaybackEvent(EventType eventType) {
+                if (SpotifyHandler.this.isHost) {
+                    if (eventType == EventType.PAUSE) {
+                        Log.v("PAUSE", "yay");
+                    }
+                    if (eventType == EventType.PLAY) {
+                        Log.v("Play", "yay");
+                    }
+
+                    // We're only allowing the user to go forward, so call this as if it means onNextSong:
+                    if (eventType == EventType.TRACK_CHANGED) {
+                        Log.v("Changed", "yay");
+                        SpotifyHandler.this.songIndex += 1;
+                        Log.v(SpotifyHandler.this.playingTracks.tracks.get(songIndex).getName(), "FOUND THE TRACK");
+                    }
+                }
+            }
+        });
+    }
+
+    public void setHost() {
+        this.isHost = true;
+    }
+
+    public void setNotHost() {
+        this.isHost = false;
     }
 
     public void setPlaylist(String playlistOwner, String playlistId) {
@@ -58,15 +91,12 @@ public class SpotifyHandler implements
         this.playlistId = playlistId;
     }
 
-    protected void login_return(Intent intent) {
-    }
-
     public String getSongTitle() {
-        return "";
+        return this.playingTracks.tracks.get(songIndex).getName();
     }
 
     public int getSongPosInMs() {
-        return 1;
+        return this.mPlayer.getPlayerState().positionInMs;
     }
 
     public String getSongUri() {
@@ -102,6 +132,11 @@ public class SpotifyHandler implements
 
     public void next() {
         mPlayer.skipToNext();
+    }
+
+    public void queue(SpotifyTrack track) {
+        Log.v(track.getName(), "PLEASE ADD");
+        mPlayer.queue(track.getUri());
     }
 
     @Override
