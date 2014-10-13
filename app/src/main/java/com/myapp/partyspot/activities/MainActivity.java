@@ -95,8 +95,8 @@ public class MainActivity extends Activity {
         this.playlistName = playlist;
     }
 
-    public boolean existsPlaylist(String playlist) {
-        return this.firebaseHandler.existsChild(playlist);
+    public void validate(String playlist) {
+        this.firebaseHandler.addEventListener(playlist);
     }
 
     @Override

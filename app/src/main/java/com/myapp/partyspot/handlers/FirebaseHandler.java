@@ -1,5 +1,9 @@
 package com.myapp.partyspot.handlers;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -75,71 +79,39 @@ public class FirebaseHandler {
         });
     }
 
-    public boolean existsChild(String playlist) {
-        DataSnapshot snapshot = new DataSnapshot(this.firebaseDatabase, new Node() {
+    public void addEventListener(final String playlist) {
+        Firebase childRef = this.firebaseDatabase.child(playlist);
+        this.firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public boolean isLeafNode() {
-                return false;
+            public void onDataChange(DataSnapshot snapshot) {
+                // do some stuff once
+                Log.v("FUCK ME", Integer.toString((int) snapshot.getChildrenCount()));
+                if (snapshot.hasChild(playlist)) {
+                    activity.playlistName = playlist;
+                    if (FirebaseHandler.this.activity.spotifyHandler.isSlave) {
+                        activity.changeToSlaveMainFragment();
+                    } else {
+                        activity.changeToSuggesterAddFragment();
+                    }
+                    Context context = FirebaseHandler.this.activity;
+                    CharSequence text = "Playlist exists";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else {
+                    activity.spotifyHandler.setNotHostOrSlave();
+                    Context context = FirebaseHandler.this.activity;
+                    CharSequence text = "Playlist doesn't exist";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
             }
 
             @Override
-            public NodePriority getPriority() {
-                return null;
-            }
-
-            @Override
-            public Node getChild(Path path) {
-                return null;
-            }
-
-            @Override
-            public Node getImmediateChild(ChildName childName) {
-                return null;
-            }
-
-            @Override
-            public Node updateImmediateChild(ChildName childName, Node node) {
-                return null;
-            }
-
-            @Override
-            public Node updateChild(Path path, Node node) {
-                return null;
-            }
-
-            @Override
-            public Node updatePriority(NodePriority nodePriority) {
-                return null;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public int getChildCount() {
-                return 0;
-            }
-
-            @Override
-            public Object getValue() {
-                return null;
-            }
-
-            @Override
-            public Object getValue(boolean b) {
-                return null;
-            }
-
-            @Override
-            public ChildName getPredecessorChildName(ChildName childName, Node node) {
-                return null;
-            }
-
-            @Override
-            public String getHash() {
-                return null;
+            public void onCancelled(FirebaseError firebaseError) {
             }
         });
     }

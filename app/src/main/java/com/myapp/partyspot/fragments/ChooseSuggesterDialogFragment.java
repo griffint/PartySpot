@@ -35,17 +35,7 @@ public class ChooseSuggesterDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         String name = myEditText.getText().toString();
                         if (!name.equals("")) {
-                            if (activity.existsPlaylist(name)) {
-                                activity.playlistName = name;
-                                activity.changeToSuggesterAddFragment();
-                            } else {
-                                Context context = ChooseSuggesterDialogFragment.this.getActivity();
-                                CharSequence text = "Playlist doesn't exist";
-                                int duration = Toast.LENGTH_SHORT;
-
-                                Toast toast = Toast.makeText(context, text, duration);
-                                toast.show();
-                            }
+                            activity.validate(name);
                         }
                     }
                 })
