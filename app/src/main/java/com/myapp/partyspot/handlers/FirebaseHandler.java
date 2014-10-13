@@ -39,20 +39,16 @@ public class FirebaseHandler {
                     this.timeStamp = timeStamp;
                     this.playerState = playerState;
                 }
-
-                //cuz it's 3 am
-                public String suckMyDick(){
-                    return "JIIIZZZZZZZZZ";
                 }
 
-            }
-
-               public void pushToFirebase(String playlistName, String currentlyPlaying, float songTime, float timeStamp, boolean playerState ){
-                   hostData currentData = new hostData(playlistName, currentlyPlaying, songTime, timeStamp, playerState);
+               public void pushToFirebase(hostData host ){
                    //now set up hashmap of all hosted playlists
-                   Map<String, hostData> hostedPlaylists = new HashMap<String, hostData>();
-                   //now  use .put to insert the current playlist data
-                   hostedPlaylists.put("", alanisawesome);
+                   //Unsure what second entry in Map should be,probably not host
+                   Map<String, Object> hostedPlaylists = new HashMap<String, Object>();
+                   //now  use .put to insert the current playlist data and push it to firebase
+                   hostedPlaylists.put("playlistName",host.playlistName);
+                   hostedPlaylists.put("currentlyPlaying",host.currentlyPlaying);
+                   
 
 
 }
