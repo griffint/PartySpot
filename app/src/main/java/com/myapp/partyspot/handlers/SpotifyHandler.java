@@ -33,6 +33,7 @@ public class SpotifyHandler implements
     public SpotifyTracks playingTracks;
     public int songIndex;
     public boolean isHost;
+    public boolean isSlave;
 
     public SpotifyHandler(MainActivity activity) {
         this.isHost = false;
@@ -44,6 +45,7 @@ public class SpotifyHandler implements
         this.playlistId = "4KekJB2Z8CE0EhUDiKzHUU";
         this.playingTracks = new SpotifyTracks();
         this.songIndex = -1;
+        this.isSlave = false;
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -82,8 +84,8 @@ public class SpotifyHandler implements
                     if (eventType == EventType.TRACK_CHANGED) {
                         SpotifyHandler.this.songIndex += 1;
                         String playlist = SpotifyHandler.this.activity.playlistName;
-                        String song = SpotifyHandler.this.playingTracks.tracks.get(SpotifyHandler.this.songIndex).getUri();
-                        int time = mPlayer.getPlaybackPosition();
+                        String song = getSongUri();
+                        int time = getSongPosInMs();
                         boolean playing = true;
                         Log.v(playlist, song);
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, song, time, playing);
@@ -93,19 +95,28 @@ public class SpotifyHandler implements
         });
     }
 
-    public void synchronize(String songUri, long timestamp, int origSongPos) {
+    public void synchronize(String songUri, long timestamp, int origSongPos, boolean playerState) {
         long current_time = new Date().getTime();
         int diff = (int) (current_time-timestamp);
         int newSongPos = origSongPos+diff;
         mPlayer.play(songUri);
+        mPlayer.seekToPosition(newSongPos);
+        if (!playerState) {
+            mPlayer.pause();
+        }
     }
 
     public void setHost() {
         this.isHost = true;
     }
 
-    public void setNotHost() {
+    public void setSlave() {
+        this.isSlave = true;
+    }
+
+    public void setNotHostOrSlave() {
         this.isHost = false;
+        this.isSlave = false;
     }
 
     public void setPlaylist(String playlistOwner, String playlistId) {
@@ -118,11 +129,11 @@ public class SpotifyHandler implements
     }
 
     public int getSongPosInMs() {
-        return this.mPlayer.getPlayerState().positionInMs;
+        return this.mPlayer.getPlaybackPosition();
     }
 
     public String getSongUri() {
-        return "";
+        return this.playingTracks.tracks.get(songIndex).getUri();
     }
 
     public ArrayList<String> getTrackUriArray() {

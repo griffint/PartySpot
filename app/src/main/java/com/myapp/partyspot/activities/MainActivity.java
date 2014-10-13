@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.myapp.partyspot.fragments.ChooseSlaveDialogFragment;
 import com.myapp.partyspot.fragments.ChooseSuggesterDialogFragment;
@@ -94,7 +96,7 @@ public class MainActivity extends Activity {
     }
 
     public boolean existsPlaylist(String playlist) {
-        return this.playlists.contains(playlist);
+        return this.firebaseHandler.existsChild(playlist);
     }
 
     @Override
@@ -271,7 +273,7 @@ public class MainActivity extends Activity {
     }
 
     public void changeToMainFragment() {
-        this.spotifyHandler.setNotHost();
+        this.spotifyHandler.setNotHostOrSlave();
         this.spotifyHandler.songIndex = -1;
         this.spotifyHandler.onPlaylist = false;
         this.playing = false;

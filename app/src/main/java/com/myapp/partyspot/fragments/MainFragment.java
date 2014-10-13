@@ -56,6 +56,7 @@ public class MainFragment extends Fragment {
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((MainActivity)getActivity()).spotifyHandler.setSlave();
                 ((MainActivity)getActivity()).choosePlaylistSlave();
             }
         });
