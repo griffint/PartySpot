@@ -65,30 +65,33 @@ public class SpotifyHandler implements
                 if (SpotifyHandler.this.isHost) {
                     if (eventType == EventType.PAUSE) {
                         String playlist = SpotifyHandler.this.activity.playlistName;
-                        String song = SpotifyHandler.this.playingTracks.tracks.get(SpotifyHandler.this.songIndex).getUri();
+                        String songUri = getSongUri();
+                        String song = getSongName();
                         int time = mPlayer.getPlaybackPosition();
                         boolean playing = false;
                         Log.v(playlist, song);
-                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, song, time, playing);
+                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
                     if (eventType == EventType.PLAY) {
                         String playlist = SpotifyHandler.this.activity.playlistName;
-                        String song = SpotifyHandler.this.playingTracks.tracks.get(SpotifyHandler.this.songIndex).getUri();
+                        String songUri = getSongUri();
+                        String song = getSongName();
                         int time = mPlayer.getPlaybackPosition();
                         boolean playing = true;
                         Log.v(playlist, song);
-                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, song, time, playing);
+                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
 
                     // We're only allowing the user to go forward, so call this as if it means onNextSong:
                     if (eventType == EventType.TRACK_CHANGED) {
                         SpotifyHandler.this.songIndex += 1;
                         String playlist = SpotifyHandler.this.activity.playlistName;
-                        String song = getSongUri();
+                        String songUri = getSongUri();
+                        String song = getSongName();
                         int time = getSongPosInMs();
                         boolean playing = true;
                         Log.v(playlist, song);
-                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, song, time, playing);
+                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
                 }
             }
@@ -134,6 +137,10 @@ public class SpotifyHandler implements
 
     public String getSongUri() {
         return this.playingTracks.tracks.get(songIndex).getUri();
+    }
+
+    public String getSongName() {
+        return this.playingTracks.tracks.get(songIndex).getName();
     }
 
     public ArrayList<String> getTrackUriArray() {
