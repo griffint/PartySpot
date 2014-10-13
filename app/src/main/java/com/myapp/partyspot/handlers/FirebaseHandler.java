@@ -41,14 +41,15 @@ public class FirebaseHandler {
         }
     }*/
 
-    public void pushToFirebase(String playlistName, String currentlyPlaying, float songTime, boolean playerState) {
+    public void pushToFirebase(String playlistName, String currentlyPlaying, int songTime, boolean playerState) {
         Firebase playlists = firebaseDatabase.child(playlistName);
-
-        //now set up hashmap of all hosted playlists
-        Map<String, Object> playlistMap = new HashMap<String, Object>();
+        playlists.child(playlistName).child("currentlyPlaying").setValue(currentlyPlaying);
+        playlists.child(playlistName).child("songTime").setValue(songTime);
+        playlists.child(playlistName).child("playerState").setValue(playerState);
         //now  use .put to insert the current playlist data and push it to firebase
-        playlistMap.put("currentlyPlaying", currentlyPlaying);
-        playlistMap.put("songTime", songTime);
-        playlistMap.put("playerState", playerState);
+    }
+
+    public void pullFromFirebase(){
+        
     }
 }
