@@ -3,6 +3,7 @@ package com.myapp.partyspot.handlers;
 import com.firebase.client.Firebase;
 import com.myapp.partyspot.activities.MainActivity;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +47,7 @@ public class FirebaseHandler {
         playlists.child("currentlyPlaying").setValue(currentlyPlaying);
         playlists.child("songTime").setValue(songTime);
         playlists.child("playerState").setValue(playerState);
+        playlists.child("timestamp").setValue(new Date().getTime());
         //now  use .put to insert the current playlist data and push it to firebase
     }
 
