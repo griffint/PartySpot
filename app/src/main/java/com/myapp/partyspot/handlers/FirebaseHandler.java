@@ -71,10 +71,12 @@ public class FirebaseHandler {
             public void onDataChange(DataSnapshot snapshot) {
                 Log.v("DICKS","DICKS");
                 String uri = (String) snapshot.child("currentlyPlaying").getValue();
-                Integer songTime = (Integer) snapshot.child("SongTime").getValue();
+                int songTime = ((Long) snapshot.child("songTime").getValue()).intValue();
                 Boolean playerState = (Boolean) snapshot.child("playerState").getValue();
                 Long timestamp = (Long) snapshot.child("timestamp").getValue();
                 Log.v(uri, Long.toString(timestamp));
+                Log.v(Integer.toString(songTime), Long.toString(timestamp));
+                Log.v(Boolean.toString(playerState), Long.toString(timestamp));
                 FirebaseHandler.this.activity.spotifyHandler.synchronize(uri, timestamp, songTime, playerState);
             }
 
