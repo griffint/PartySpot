@@ -28,14 +28,17 @@ public class AddDialogFragment extends DialogFragment {
 
         String s = "";
         String u = "";
+        String a = "";
 
         if(getArguments()!=null) {
             s = getArguments().getString("song");
             u = getArguments().getString("uri");
+            a = getArguments().getString("artist");
         }
 
         final String song_name = s;
         final String uri = u;
+        final String artist = a;
 
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -48,7 +51,7 @@ public class AddDialogFragment extends DialogFragment {
         builder.setView(view)
                 .setPositiveButton(R.string.add_now, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        SpotifyTrack track = new SpotifyTrack(song_name, uri);
+                        SpotifyTrack track = new SpotifyTrack(song_name, uri, artist);
                         ((MainActivity)getActivity()).spotifyHandler.queue(track); // sets variables for spotifyHandler
                     }
                 })

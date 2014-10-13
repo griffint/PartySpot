@@ -42,7 +42,6 @@ public class HostAddFragment extends Fragment {
 
         inflater.inflate(R.menu.hostmenu, menu);
 
-
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
@@ -74,7 +73,7 @@ public class HostAddFragment extends Fragment {
         final SpotifyTracks suggested = ((MainActivity)getActivity()).suggestedSongs;
 
         // called after the httpFunctions gets the users playlists
-        ArrayList<String> list = suggested.makeNameArray();
+        ArrayList<String> list = suggested.makeNameWithArtistArray();
 
         // displays the list of playlists
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
@@ -85,7 +84,10 @@ public class HostAddFragment extends Fragment {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String s = (String) myListView.getItemAtPosition(position);
+                String tmp = (String) myListView.getItemAtPosition(position);
+                int pos = tmp.indexOf(" - ");
+                String s = tmp.substring(0,pos);
+                Log.v("YAYYYYYYYYYYYYYYYYYYYYY", s);
 
                 DialogFragment newFragment = new AddDialogFragment();
                 newFragment.show(getFragmentManager(), "missiles");
@@ -93,6 +95,7 @@ public class HostAddFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("song", s); //any string to be sent
                 bundle.putString("uri", suggested.getUriFromTitle(s));
+                bundle.putString("uri", suggested.getArtistFromTitle(s));
                 newFragment.setArguments(bundle);
             }
         });

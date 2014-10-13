@@ -139,7 +139,7 @@ public class HostSearchResultsFragment extends Fragment {
 
     public void displaySearchResults(final SpotifyTracks tracks) {
         // called after the httpFunctions gets the users playlists
-        ArrayList<String> list = tracks.makeNameArray();
+        ArrayList<String> list = tracks.makeNameWithArtistArray();
 
         // displays the list of playlists
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
@@ -150,7 +150,9 @@ public class HostSearchResultsFragment extends Fragment {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String s = (String) myListView.getItemAtPosition(position);
+                String tmp = (String) myListView.getItemAtPosition(position);
+                int pos = tmp.indexOf(" - ");
+                String s = tmp.substring(0,pos);
 
                 DialogFragment newFragment = new AddDialogFragment();
                 newFragment.show(getFragmentManager(), "missiles");
@@ -158,6 +160,7 @@ public class HostSearchResultsFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("song", s); //any string to be sent
                 bundle.putString("uri", tracks.getUriFromTitle(s));
+                bundle.putString("artist", tracks.getArtistFromTitle(s));
                 newFragment.setArguments(bundle);
             }
         });
