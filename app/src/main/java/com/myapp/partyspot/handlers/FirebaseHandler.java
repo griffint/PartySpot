@@ -62,14 +62,20 @@ public class FirebaseHandler {
         //now  use .put to insert the current playlist data and push it to firebase
     }
 
-    public void pullFromFirebase(){
+    public void pullFromFirebase(String playlist){
         //print tests for pulling form firebase on changes
         //this will pull all data from the firebase, isn't what we want in our final project
-        firebaseDatabase.addValueEventListener(new ValueEventListener() {
+        Firebase playlistRef = firebaseDatabase.child(playlist);
+        playlistRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
-                System.out.println(snapshot.getValue());
+                Log.v("DICKS","DICKS");
+                String uri = (String) snapshot.child("currentlyPlaying").getValue();
+                Integer songTime = (Integer) snapshot.child("SongTime").getValue();
+                Boolean playerState = (Boolean) snapshot.child("playerState").getValue();
+                Long timestamp = (Long) snapshot.child("currentlyPlaying").getValue();
+                Log.v(uri, Long.toString(timestamp));
+                FirebaseHandler.this.activity.spotifyHandler.synchronize(uri, timestamp, songTime, playerState);
             }
 
             @Override
@@ -79,8 +85,7 @@ public class FirebaseHandler {
         });
     }
 
-    public void addEventListener(final String playlist) {
-        Firebase childRef = this.firebaseDatabase.child(playlist);
+    public void validatePlaylist(final String playlist) {
         this.firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -90,6 +95,7 @@ public class FirebaseHandler {
                     activity.playlistName = playlist;
                     if (FirebaseHandler.this.activity.spotifyHandler.isSlave) {
                         activity.changeToSlaveMainFragment();
+                        FirebaseHandler.this.pullFromFirebase(playlist);
                     } else {
                         activity.changeToSuggesterAddFragment();
                     }

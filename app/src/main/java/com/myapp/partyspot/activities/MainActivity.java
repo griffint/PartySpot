@@ -9,13 +9,11 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.myapp.partyspot.fragments.ChooseSlaveDialogFragment;
 import com.myapp.partyspot.fragments.ChooseSuggesterDialogFragment;
@@ -96,7 +94,7 @@ public class MainActivity extends Activity {
     }
 
     public void validate(String playlist) {
-        this.firebaseHandler.addEventListener(playlist);
+        this.firebaseHandler.validatePlaylist(playlist);
     }
 
     @Override
