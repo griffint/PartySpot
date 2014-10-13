@@ -58,7 +58,7 @@ public class FirebaseHandler {
         //now  use .put to insert the current playlist data and push it to firebase
     }
 
-    public void pullFromFirebase(){
+    public void pullTestFromFirebase(){
         //print tests for pulling form firebase on changes
         //this will pull all data from the firebase, isn't what we want in our final project
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
@@ -75,86 +75,4 @@ public class FirebaseHandler {
         });
     }
 
-    public boolean existsChild(String playlist) {
-        DataSnapshot snapshot = new DataSnapshot(this.firebaseDatabase, new Node() {
-            @Override
-            public boolean isLeafNode() {
-                return false;
-            }
-
-            @Override
-            public NodePriority getPriority() {
-                return null;
-            }
-
-            @Override
-            public Node getChild(Path path) {
-                return null;
-            }
-
-            @Override
-            public Node getImmediateChild(ChildName childName) {
-                return null;
-            }
-
-            @Override
-            public Node updateImmediateChild(ChildName childName, Node node) {
-                return null;
-            }
-
-            @Override
-            public Node updateChild(Path path, Node node) {
-                return null;
-            }
-
-            @Override
-            public Node updatePriority(NodePriority nodePriority) {
-                return null;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public int getChildCount() {
-                return 0;
-            }
-
-            @Override
-            public Object getValue() {
-                return null;
-            }
-
-            @Override
-            public Object getValue(boolean b) {
-                return null;
-            }
-
-            @Override
-            public ChildName getPredecessorChildName(ChildName childName, Node node) {
-                return null;
-            }
-
-            @Override
-            public String getHash() {
-                return null;
-            }
-        });
-    }
-
-    /*
-    firebaseDatabase.addChildEventListener(new ChildEventListener() {
-        // Retrieve new posts as they are added to Firebase
-        @Override
-        public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-            Map<String, Object> newPost = (Map<String, Object>) snapshot.getValue();
-            System.out.println("Author: " + newPost.get("author"));
-            System.out.println("Title: " + newPost.get("title"));
-        }
-        //... ChildEventListener also defines onChildChanged, onChildRemoved,
-        //    onChildMoved and onCanceled, covered in later sections.
-    });
-    */
 }
