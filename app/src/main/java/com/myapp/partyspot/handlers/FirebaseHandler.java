@@ -43,9 +43,9 @@ public class FirebaseHandler {
 
     public void pushToFirebase(String playlistName, String currentlyPlaying, int songTime, boolean playerState) {
         Firebase playlists = firebaseDatabase.child(playlistName);
-        playlists.child(playlistName).child("currentlyPlaying").setValue(currentlyPlaying);
-        playlists.child(playlistName).child("songTime").setValue(songTime);
-        playlists.child(playlistName).child("playerState").setValue(playerState);
+        playlists.child("currentlyPlaying").setValue(currentlyPlaying);
+        playlists.child("songTime").setValue(songTime);
+        playlists.child("playerState").setValue(playerState);
         //now  use .put to insert the current playlist data and push it to firebase
     }
 
