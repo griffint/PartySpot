@@ -1,6 +1,9 @@
 package com.myapp.partyspot.handlers;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.myapp.partyspot.activities.MainActivity;
 
 import java.util.Date;
@@ -52,6 +55,32 @@ public class FirebaseHandler {
     }
 
     public void pullFromFirebase(){
-        
+        //print tests for pulling form firebase on changes
+        //this will pull all data from the firebase, isn't what we want in our final project
+        firebaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                System.out.println(snapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
     }
+    /*
+    firebaseDatabase.addChildEventListener(new ChildEventListener() {
+        // Retrieve new posts as they are added to Firebase
+        @Override
+        public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+            Map<String, Object> newPost = (Map<String, Object>) snapshot.getValue();
+            System.out.println("Author: " + newPost.get("author"));
+            System.out.println("Title: " + newPost.get("title"));
+        }
+        //... ChildEventListener also defines onChildChanged, onChildRemoved,
+        //    onChildMoved and onCanceled, covered in later sections.
+    });
+    */
 }
