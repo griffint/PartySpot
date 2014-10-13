@@ -112,9 +112,9 @@ public class MainActivity extends Activity {
         }
 
         // temporary suggested songs
-        suggestedSongs.addTrack(new SpotifyTrack("Whoa Whoa Whoa", "spotify:track:3tpdc8zHIOXy8rYhuI9car"));
-        suggestedSongs.addTrack(new SpotifyTrack("3005", "spotify:track:3Z2sglqDj1rDRMF5x0Sz2R"));
-        suggestedSongs.addTrack(new SpotifyTrack("Handyman", "spotify:track:3tpdc8zHIOXy8rYhuI9car"));
+        suggestedSongs.addTrack(new SpotifyTrack("Whoa Whoa Whoa", "spotify:track:3tpdc8zHIOXy8rYhuI9car", "Watsky"));
+        suggestedSongs.addTrack(new SpotifyTrack("3005", "spotify:track:3Z2sglqDj1rDRMF5x0Sz2R", "Childish Gambino"));
+        suggestedSongs.addTrack(new SpotifyTrack("Handyman", "spotify:track:3tpdc8zHIOXy8rYhuI9car", "Seven"));
     }
 
     @Override
@@ -296,19 +296,16 @@ public class MainActivity extends Activity {
     }
 
     public void displayHostSearchResults(SpotifyTracks tracks) {
-        Log.v("HI HO", tracks.tracks.get(0).getName());
         HostSearchResultsFragment frag = (HostSearchResultsFragment) getFragmentManager().findFragmentByTag("host_search");
         frag.displaySearchResults(tracks);
     }
 
     public void displaySlaveSearchResults(SpotifyTracks tracks) {
-        Log.v("HI HO", tracks.tracks.get(0).getName());
         SlaveSearchResultsFragment frag = (SlaveSearchResultsFragment) getFragmentManager().findFragmentByTag("slave_search");
         frag.displaySearchResults(tracks);
     }
 
     public void displaySuggesterSearchResults(SpotifyTracks tracks) {
-        Log.v("HI HO", tracks.tracks.get(0).getName());
         SuggesterSearchResultsFragment frag = (SuggesterSearchResultsFragment) getFragmentManager().findFragmentByTag("suggester_search");
         frag.displaySearchResults(tracks);
     }

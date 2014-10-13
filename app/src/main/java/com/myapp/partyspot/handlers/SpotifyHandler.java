@@ -12,6 +12,7 @@ import com.spotify.sdk.android.playback.Player;
 import com.spotify.sdk.android.playback.PlayerNotificationCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by svaughan on 9/30/14.
@@ -78,6 +79,13 @@ public class SpotifyHandler implements
         });
     }
 
+    public void synchronize(String songUri, long timestamp, int origSongPos) {
+        long current_time = new Date().getTime();
+        int diff = (int) (current_time-timestamp);
+        int newSongPos = origSongPos+diff;
+        mPlayer.play(songUri);
+    }
+
     public void setHost() {
         this.isHost = true;
     }
@@ -135,7 +143,7 @@ public class SpotifyHandler implements
     }
 
     public void queue(SpotifyTrack track) {
-        Log.v(track.getName(), "PLEASE ADD");
+        // needs work
         mPlayer.queue(track.getUri());
     }
 

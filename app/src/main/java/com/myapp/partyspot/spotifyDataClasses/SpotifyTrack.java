@@ -6,10 +6,12 @@ package com.myapp.partyspot.spotifyDataClasses;
 public class SpotifyTrack {
     public String uri;
     public String name;
+    public String artist;
 
-    public SpotifyTrack(String name, String uri) {
+    public SpotifyTrack(String name, String uri, String artist) {
         this.name = name;
         this.uri = uri;
+        this.artist = artist;
     }
 
     public String getName() {
@@ -18,5 +20,9 @@ public class SpotifyTrack {
 
     public String getUri() {
         return this.uri;
+    }
+
+    public String getArtist() {
+        return this.artist;
     }
 }
