@@ -23,32 +23,34 @@ public class FirebaseHandler {
         this.URL = "https://partyspot.firebaseIO.com";
         this.firebaseDatabase = new Firebase(this.URL);
     }
+
     //hostData class will hold all the info that the host needs to be pushing to firebase
-      public class hostData {
-                public String playlistName;     //self explanatory
-                public String currentlyPlaying;     //currently playing song - calculated or actual data?
-                public float songTime;      //how far into currently playing song the host is
-                public float timeStamp;     //
-                public boolean playerState;     //true=playing, false=paused
+    public class hostData {
+        public String playlistName;     //self explanatory
+        public String currentlyPlaying;     //currently playing song - calculated or actual data?
+        public float songTime;      //how far into currently playing song the host is
+        public float timeStamp;     //
+        public boolean playerState;     //true=playing, false=paused
 
-                //constructor bullshit
-                public hostData(String playlistName, String currentlyPlaying, float songTime, float timeStamp, boolean playerState ){
-                    this.playlistName = playlistName;
-                    this.currentlyPlaying = currentlyPlaying;
-                    this.songTime = songTime;
-                    this.timeStamp = timeStamp;
-                    this.playerState = playerState;
-                }
-                }
+        //constructor bullshit
+        public hostData(String playlistName, String currentlyPlaying, float songTime, float timeStamp, boolean playerState) {
+            this.playlistName = playlistName;
+            this.currentlyPlaying = currentlyPlaying;
+            this.songTime = songTime;
+            this.timeStamp = timeStamp;
+            this.playerState = playerState;
+        }
+    }
 
-               public void pushToFirebase(hostData host ){
-                   //now set up hashmap of all hosted playlists
-                   //Unsure what second entry in Map should be,probably not host
-                   Map<String, Object> hostedPlaylists = new HashMap<String, Object>();
-                   //now  use .put to insert the current playlist data and push it to firebase
-                   hostedPlaylists.put("playlistName",host.playlistName);
-                   hostedPlaylists.put("currentlyPlaying",host.currentlyPlaying);
-                   
-
-
+    public void pushToFirebase(hostData host) {
+        //now set up hashmap of all hosted playlists
+        //Unsure what second entry in Map should be,probably not host
+        Map<String, Object> hostedPlaylists = new HashMap<String, Object>();
+        //now  use .put to insert the current playlist data and push it to firebase
+        hostedPlaylists.put("playlistName", host.playlistName);
+        hostedPlaylists.put("currentlyPlaying", host.currentlyPlaying);
+        hostedPlaylists.put("songTime", host.songTime);
+        hostedPlaylists.put("timeStamp", host.timeStamp);
+        hostedPlaylists.put("playerState", host.playerState);
+    }
 }
