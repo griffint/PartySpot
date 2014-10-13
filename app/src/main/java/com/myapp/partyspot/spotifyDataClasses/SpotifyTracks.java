@@ -36,6 +36,14 @@ public class SpotifyTracks {
         return names;
     }
 
+    public ArrayList<String> makeNameWithArtistArray() {
+        ArrayList<String> names = new ArrayList<String>();
+        for (int i=0; i<this.tracks.size(); i++) {
+            names.add(this.tracks.get(i).getName()+" - "+this.tracks.get(i).getArtist());
+        }
+        return names;
+    }
+
     public ArrayList<String> makeUriArray() {
         ArrayList<String> uris = new ArrayList<String>();
         for (int i=0; i<this.tracks.size(); i++) {
@@ -53,9 +61,21 @@ public class SpotifyTracks {
         return null;
     }
 
+    public String getArtistFromTitle(String title) {
+        for (int i=0; i<this.tracks.size(); i++) {
+            if (this.tracks.get(i).getName().equals(title)) {
+                return this.tracks.get(i).getArtist();
+            }
+        }
+        return null;
+    }
+
     public SpotifyTrack getTrackFromTitle(String title) {
         for (int i=0; i<this.tracks.size(); i++) {
             if (this.tracks.get(i).getName().equals(title)) {
+                return this.tracks.get(i);
+            }
+            if ((this.tracks.get(i).getName()+" - "+this.tracks.get(i).getArtist()).equals(title)) {
                 return this.tracks.get(i);
             }
         }

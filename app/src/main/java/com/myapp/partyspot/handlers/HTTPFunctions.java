@@ -262,7 +262,8 @@ public class HTTPFunctions {
                                 JSONObject trackInfo = (JSONObject)((JSONObject)responseList.get(i)).get("track");
                                 String name = trackInfo.get("name").toString();
                                 String uri = trackInfo.get("uri").toString();
-                                tracks.addTrack(new SpotifyTrack(name, uri));
+                                String artist = ((JSONObject)((JSONArray)trackInfo.get("artists")).get(0)).get("name").toString();
+                                tracks.addTrack(new SpotifyTrack(name, uri, artist));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -312,8 +313,9 @@ public class HTTPFunctions {
                 JSONObject entry = responseList.getJSONObject(i);
                 String name = entry.getString("name");
                 String uri = entry.getString("uri");
+                String artist = ((JSONObject)((JSONArray)entry.get("artists")).get(0)).get("name").toString();
                 Log.d(name,uri);
-                SpotifyTrack track = new SpotifyTrack(name,uri);
+                SpotifyTrack track = new SpotifyTrack(name,uri, artist);
                 tracks.addTrack(track);
                 Log.v("HO", tracks.tracks.get(0).getName());
 
@@ -321,7 +323,6 @@ public class HTTPFunctions {
                 e.printStackTrace();
             }
         }
-            //returnArray.add(new SpotifyTrack(artistHref, artistName, href, trackName));
         Log.v("HOHOHO", tracks.tracks.get(0).getName());
 
         return tracks;
