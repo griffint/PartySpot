@@ -9,6 +9,7 @@ import com.firebase.client.snapshot.ChildName;
 import com.firebase.client.snapshot.Node;
 import com.firebase.client.snapshot.NodePriority;
 import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -49,30 +50,22 @@ public class FirebaseHandler {
         }
     }*/
 
-    public void pushToFirebase(String playlistName, String currentlyPlaying, int songTime, boolean playerState) {
+    public void pushToFirebase(String playlistName, String currentlyPlayingURI, int songTime, boolean playerState) {
         Firebase playlists = firebaseDatabase.child(playlistName);
-        playlists.child("currentlyPlaying").setValue(currentlyPlaying);     //this should be set to push the uri of the current song
+        playlists.child("currentlyPlaying").setValue(currentlyPlayingURI);     //this should be set to push the uri of the current song
         playlists.child("songTime").setValue(songTime);
         playlists.child("playerState").setValue(playerState);
         playlists.child("timestamp").setValue(new Date().getTime());
         //now  use .put to insert the current playlist data and push it to firebase
     }
 
-    public void pullTestFromFirebase(){
-        //print tests for pulling form firebase on changes
-        //this will pull all data from the firebase, isn't what we want in our final project
-        firebaseDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-
-                System.out.println(snapshot.getValue());
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });
+    public void pushSuggestion(String currentPlaylist, SpotifyTrack track){
+        Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child(suggestedSongURI);
+        playlist.child("uri").setValue();
     }
 
+    public String pullSuggestion(){
+
+        return null;
+    }
 }
