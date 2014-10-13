@@ -126,7 +126,11 @@ public class FirebaseHandler {
     }
 
     public void pushSuggestion(String currentPlaylist, SpotifyTrack track){
-        //Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child(suggestedSongURI);
+        //track is a spotify track class, consists of
+//        public String uri;
+//        public String name;
+//        public String artist;
+        Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child();
         //playlist.child("uri").setValue();
     }
 
