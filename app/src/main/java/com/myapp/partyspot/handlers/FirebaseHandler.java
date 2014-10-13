@@ -24,33 +24,31 @@ public class FirebaseHandler {
         this.firebaseDatabase = new Firebase(this.URL);
     }
 
+    /*
     //hostData class will hold all the info that the host needs to be pushing to firebase
     public class hostData {
         public String playlistName;     //self explanatory
         public String currentlyPlaying;     //currently playing song - calculated or actual data?
         public float songTime;      //how far into currently playing song the host is
-        public float timeStamp;     //
         public boolean playerState;     //true=playing, false=paused
 
-        //constructor bullshit
-        public hostData(String playlistName, String currentlyPlaying, float songTime, float timeStamp, boolean playerState) {
+        //constructor stuff
+        public hostData(String playlistName, String currentlyPlaying, float songTime, boolean playerState) {
             this.playlistName = playlistName;
             this.currentlyPlaying = currentlyPlaying;
             this.songTime = songTime;
-            this.timeStamp = timeStamp;
             this.playerState = playerState;
         }
-    }
+    }*/
 
-    public void pushToFirebase(hostData host) {
+    public void pushToFirebase(String playlistName, String currentlyPlaying, float songTime, boolean playerState) {
+        Firebase playlists = firebaseDatabase.child(playlistName);
+
         //now set up hashmap of all hosted playlists
-        //Unsure what second entry in Map should be,probably not host
-        Map<String, Object> hostedPlaylists = new HashMap<String, Object>();
+        Map<String, Object> playlistMap = new HashMap<String, Object>();
         //now  use .put to insert the current playlist data and push it to firebase
-        hostedPlaylists.put("playlistName", host.playlistName);
-        hostedPlaylists.put("currentlyPlaying", host.currentlyPlaying);
-        hostedPlaylists.put("songTime", host.songTime);
-        hostedPlaylists.put("timeStamp", host.timeStamp);
-        hostedPlaylists.put("playerState", host.playerState);
+        playlistMap.put("currentlyPlaying", currentlyPlaying);
+        playlistMap.put("songTime", songTime);
+        playlistMap.put("playerState", playerState);
     }
 }
