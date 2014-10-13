@@ -73,7 +73,7 @@ public class FirebaseHandler {
                 String uri = (String) snapshot.child("currentlyPlaying").getValue();
                 Integer songTime = (Integer) snapshot.child("SongTime").getValue();
                 Boolean playerState = (Boolean) snapshot.child("playerState").getValue();
-                Long timestamp = (Long) snapshot.child("currentlyPlaying").getValue();
+                Long timestamp = (Long) snapshot.child("timestamp").getValue();
                 Log.v(uri, Long.toString(timestamp));
                 FirebaseHandler.this.activity.spotifyHandler.synchronize(uri, timestamp, songTime, playerState);
             }
