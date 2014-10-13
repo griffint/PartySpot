@@ -70,9 +70,13 @@ public class SpotifyHandler implements
 
                     // We're only allowing the user to go forward, so call this as if it means onNextSong:
                     if (eventType == EventType.TRACK_CHANGED) {
-                        Log.v("Changed", "yay");
                         SpotifyHandler.this.songIndex += 1;
-                        Log.v(SpotifyHandler.this.playingTracks.tracks.get(songIndex).getName(), "FOUND THE TRACK");
+                        String playlist = SpotifyHandler.this.activity.playlistName;
+                        String song = "SUCK IT GRIFFIN";
+                        int time = 200;
+                        boolean playing = true;
+                        Log.v(playlist, song);
+                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, song, time, playing);
                     }
                 }
             }
