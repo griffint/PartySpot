@@ -14,6 +14,7 @@ import android.widget.SearchView;
 import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
+import com.myapp.partyspot.handlers.SpotifyHandler;
 
 /**
  * Created by svaughan on 9/30/14.
@@ -28,7 +29,6 @@ public class HostMainFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu ,MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Log.d("HERE","RAGEEEEE");
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.hostmenu, menu);
@@ -60,7 +60,6 @@ public class HostMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_host_main, container, false);
         setHasOptionsMenu(true);
-        Log.d("DUCK","GUCK");
         final Button play = (Button) rootView.findViewById(R.id.play);
         final Button next = (Button) rootView.findViewById(R.id.next);
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
@@ -120,7 +119,9 @@ public class HostMainFragment extends Fragment {
 
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((MainActivity)getActivity()).spotifyHandler.next();
+                MainActivity activity = ((MainActivity)getActivity());
+                SpotifyHandler handler = activity.spotifyHandler;
+                handler.next();
             }
         });
 
