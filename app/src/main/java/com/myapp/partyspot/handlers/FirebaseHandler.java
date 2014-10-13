@@ -13,6 +13,7 @@ import com.firebase.client.snapshot.ChildName;
 import com.firebase.client.snapshot.Node;
 import com.firebase.client.snapshot.NodePriority;
 import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -53,9 +54,9 @@ public class FirebaseHandler {
         }
     }*/
 
-    public void pushToFirebase(String playlistName, String currentlyPlaying, int songTime, boolean playerState) {
+    public void pushToFirebase(String playlistName, String currentlyPlayingURI, int songTime, boolean playerState) {
         Firebase playlists = firebaseDatabase.child(playlistName);
-        playlists.child("currentlyPlaying").setValue(currentlyPlaying);     //this should be set to push the uri of the current song
+        playlists.child("currentlyPlaying").setValue(currentlyPlayingURI);     //this should be set to push the uri of the current song
         playlists.child("songTime").setValue(songTime);
         playlists.child("playerState").setValue(playerState);
         playlists.child("timestamp").setValue(new Date().getTime());
@@ -124,17 +125,13 @@ public class FirebaseHandler {
         });
     }
 
-    /*
-    firebaseDatabase.addChildEventListener(new ChildEventListener() {
-        // Retrieve new posts as they are added to Firebase
-        @Override
-        public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-            Map<String, Object> newPost = (Map<String, Object>) snapshot.getValue();
-            System.out.println("Author: " + newPost.get("author"));
-            System.out.println("Title: " + newPost.get("title"));
-        }
-        //... ChildEventListener also defines onChildChanged, onChildRemoved,
-        //    onChildMoved and onCanceled, covered in later sections.
-    });
-    */
+    public void pushSuggestion(String currentPlaylist, SpotifyTrack track){
+        //Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child(suggestedSongURI);
+        //playlist.child("uri").setValue();
+    }
+
+    public String pullSuggestion(){
+
+        return null;
+    }
 }
