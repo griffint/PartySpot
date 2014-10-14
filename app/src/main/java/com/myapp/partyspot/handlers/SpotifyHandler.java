@@ -10,6 +10,7 @@ import com.spotify.sdk.android.Spotify;
 import com.spotify.sdk.android.playback.ConnectionStateCallback;
 import com.spotify.sdk.android.playback.Player;
 import com.spotify.sdk.android.playback.PlayerNotificationCallback;
+import com.spotify.sdk.android.playback.PlayerState;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +35,9 @@ public class SpotifyHandler implements
     public int songIndex;
     public boolean isHost;
     public boolean isSlave;
+    public long timestamp;
+    public int origSongPos;
+    public int newSongPos;
 
     public SpotifyHandler(MainActivity activity) {
         this.isHost = false;
@@ -44,8 +48,9 @@ public class SpotifyHandler implements
         this.playlistOwner = "bgatkinson";
         this.playlistId = "4KekJB2Z8CE0EhUDiKzHUU";
         this.playingTracks = new SpotifyTracks();
-        this.songIndex = -1;
         this.isSlave = false;
+        this.timestamp = 0;
+        this.origSongPos = 0;
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -61,53 +66,62 @@ public class SpotifyHandler implements
         });
         mPlayer.addPlayerNotificationCallback(new PlayerNotificationCallback() {
             @Override
-            public void onPlaybackEvent(EventType eventType) {
+            public void onPlaybackEvent(EventType eventType, PlayerState state) {
                 if (SpotifyHandler.this.isHost) {
                     if (eventType == EventType.PAUSE) {
                         String playlist = SpotifyHandler.this.activity.playlistName;
-                        String songUri = getSongUri();
-                        String song = getSongName();
-                        int time = mPlayer.getPlaybackPosition();
+                        String songUri = state.trackUri;
+                        String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
+                        int time = state.positionInMs;
                         boolean playing = false;
-                        Log.v(playlist, song);
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
                     if (eventType == EventType.PLAY) {
                         String playlist = SpotifyHandler.this.activity.playlistName;
-                        String songUri = getSongUri();
-                        String song = getSongName();
-                        int time = mPlayer.getPlaybackPosition();
+                        String songUri = state.trackUri;
+                        String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
+                        int time = state.positionInMs;
                         boolean playing = true;
-                        Log.v(playlist, song);
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
 
                     // We're only allowing the user to go forward, so call this as if it means onNextSong:
                     if (eventType == EventType.TRACK_CHANGED) {
-                        SpotifyHandler.this.songIndex += 1;
                         String playlist = SpotifyHandler.this.activity.playlistName;
-                        String songUri = getSongUri();
-                        String song = getSongName();
-                        int time = getSongPosInMs();
+                        String songUri = state.trackUri;
+                        String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
+                        int time = state.positionInMs;
                         boolean playing = true;
-                        Log.v(playlist, song);
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
+                    }
+                } else if (SpotifyHandler.this.isSlave) {
+                    if (eventType == EventType.AUDIO_FLUSH) {
+                        long current_time = new Date().getTime();
+                        int diff = (int) (current_time-SpotifyHandler.this.timestamp);
+                        int newPos = diff+SpotifyHandler.this.origSongPos;
+                        Log.v(Integer.toString(newPos), Integer.toString(diff));
+                        if ((Math.abs(newPos-state.positionInMs))>100) {
+                            mPlayer.seekToPosition(newPos);
+                            SpotifyHandler.this.activity.setNotMuted();
+                        }
                     }
                 }
             }
         });
     }
 
-    public void synchronize(String songUri, long timestamp, int origSongPos, boolean playerState) {
-        long current_time = new Date().getTime();
-        int diff = (int) (current_time-timestamp);
-        int newSongPos = origSongPos+diff;
+    public void synchronize(String songUri, long timestamp, int origPos, boolean playerState) {
+        Log.v("sync","me");
+        this.timestamp = timestamp;
+        this.activity.setMuted();
         mPlayer.play(songUri);
-        mPlayer.seekToPosition(newSongPos);
+        this.origSongPos = origPos;
         if (!playerState) {
             mPlayer.pause();
         }
     }
+
+
 
     public void setHost() {
         this.isHost = true;
@@ -125,22 +139,6 @@ public class SpotifyHandler implements
     public void setPlaylist(String playlistOwner, String playlistId) {
         this.playlistOwner = playlistOwner;
         this.playlistId = playlistId;
-    }
-
-    public String getSongTitle() {
-        return this.playingTracks.tracks.get(songIndex).getName();
-    }
-
-    public int getSongPosInMs() {
-        return this.mPlayer.getPlaybackPosition();
-    }
-
-    public String getSongUri() {
-        return this.playingTracks.tracks.get(songIndex).getUri();
-    }
-
-    public String getSongName() {
-        return this.playingTracks.tracks.get(songIndex).getName();
     }
 
     public ArrayList<String> getTrackUriArray() {
@@ -190,6 +188,11 @@ public class SpotifyHandler implements
     }
 
     @Override
+    public void onLoginFailed(Throwable t) {
+
+    }
+
+    @Override
     public void onTemporaryError() {
         Log.d("MainActivity", "Temporary error occurred");
     }
@@ -205,13 +208,10 @@ public class SpotifyHandler implements
     }
 
     @Override
-    public void onPlaybackEvent(PlayerNotificationCallback.EventType eventType) {
+    public void onPlaybackEvent(PlayerNotificationCallback.EventType eventType, PlayerState state) {
         Log.d("MainActivity", "Playback event received: " + eventType.name());
-        switch (eventType) {
-            // TODO: Handle event type as necessary
-            default:
-                break;
-        }
+
+
     }
 
     public void destroy() {
