@@ -323,7 +323,6 @@ public class HTTPFunctions {
                 e.printStackTrace();
             }
         }
-        Log.v("HOHOHO", tracks.tracks.get(0).getName());
 
         return tracks;
     }
