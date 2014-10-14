@@ -80,7 +80,6 @@ public class MainActivity extends Activity {
     public void setNotMuted() {
         if (this.muted) {
             this.muted = false;
-            Log.v("Not", Boolean.toString(this.muted));
             AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
             audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
         }
@@ -89,7 +88,6 @@ public class MainActivity extends Activity {
     public void setMuted() {
         if (!this.muted) {
             this.muted = true;
-            Log.v("Muted", Boolean.toString(this.muted));
             AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
             audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
         }
@@ -129,7 +127,7 @@ public class MainActivity extends Activity {
         // temporary suggested songs
         suggestedSongs.addTrack(new SpotifyTrack("Whoa Whoa Whoa", "spotify:track:3tpdc8zHIOXy8rYhuI9car", "Watsky"));
         suggestedSongs.addTrack(new SpotifyTrack("3005", "spotify:track:3Z2sglqDj1rDRMF5x0Sz2R", "Childish Gambino"));
-        suggestedSongs.addTrack(new SpotifyTrack("Handyman", "spotify:track:3tpdc8zHIOXy8rYhuI9car", "Seven"));
+        suggestedSongs.addTrack(new SpotifyTrack("Handyman", "spotify:track:31Fw4CZistkNF4Uo3S39Md", "Seven"));
     }
 
     @Override
@@ -287,7 +285,7 @@ public class MainActivity extends Activity {
 
     public void changeToMainFragment() {
         this.spotifyHandler.setNotHostOrSlave();
-        this.spotifyHandler.songIndex = -1;
+        this.spotifyHandler.songIndex = 0;
         this.spotifyHandler.onPlaylist = false;
         this.playing = false;
         this.playlistName ="";
@@ -414,5 +412,10 @@ public class MainActivity extends Activity {
 
     public Spotify getSpotify() {
         return this.spotify;
+    }
+
+    @Override
+    public void onDestroy() {
+        this.spotifyHandler.destroy();
     }
 }

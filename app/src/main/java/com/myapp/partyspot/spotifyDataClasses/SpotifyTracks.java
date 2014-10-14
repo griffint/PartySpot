@@ -1,5 +1,7 @@
 package com.myapp.partyspot.spotifyDataClasses;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -89,5 +91,15 @@ public class SpotifyTracks {
             }
         }
         return null;
+    }
+
+    public void appendLast(SpotifyTrack track) {
+        this.addTrack(track);
+    }
+
+    public void appendNext(SpotifyTrack track, int currentIndex) {
+        Log.v(this.tracks.get(currentIndex).getName(), "NO");
+        Log.v(track.getUri(), "NO");
+        this.tracks.add(currentIndex+1, track);
     }
 }

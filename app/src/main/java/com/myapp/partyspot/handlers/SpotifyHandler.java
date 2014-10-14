@@ -37,7 +37,6 @@ public class SpotifyHandler implements
     public boolean isSlave;
     public long timestamp;
     public int origSongPos;
-    public int newSongPos;
 
     public SpotifyHandler(MainActivity activity) {
         this.isHost = false;
@@ -51,6 +50,7 @@ public class SpotifyHandler implements
         this.isSlave = false;
         this.timestamp = 0;
         this.origSongPos = 0;
+        this.songIndex = 0;
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -86,13 +86,9 @@ public class SpotifyHandler implements
                     }
 
                     // We're only allowing the user to go forward, so call this as if it means onNextSong:
-                    if (eventType == EventType.TRACK_CHANGED) {
-                        String playlist = SpotifyHandler.this.activity.playlistName;
-                        String songUri = state.trackUri;
-                        String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
-                        int time = state.positionInMs;
-                        boolean playing = true;
-                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
+                    if (eventType == EventType.END_OF_CONTEXT) {
+                        SpotifyHandler.this.songIndex += 1;
+                        SpotifyHandler.this.mPlayer.play(SpotifyHandler.this.playingTracks.tracks.get(SpotifyHandler.this.songIndex).getUri());
                     }
                 } else if (SpotifyHandler.this.isSlave) {
                     if (eventType == EventType.AUDIO_FLUSH) {
@@ -100,7 +96,7 @@ public class SpotifyHandler implements
                         int diff = (int) (current_time-SpotifyHandler.this.timestamp);
                         int newPos = diff+SpotifyHandler.this.origSongPos;
                         Log.v(Integer.toString(newPos), Integer.toString(diff));
-                        if ((Math.abs(newPos-state.positionInMs))>100) {
+                        if ((Math.abs(newPos-state.positionInMs))>150) {
                             mPlayer.seekToPosition(newPos);
                             SpotifyHandler.this.activity.setNotMuted();
                         }
@@ -150,7 +146,7 @@ public class SpotifyHandler implements
             resume();
             this.paused = false;
         } else {
-            mPlayer.play(this.getTrackUriArray());
+            mPlayer.play(this.getTrackUriArray().get(this.songIndex));
             this.onPlaylist = true;
         }
     }
@@ -172,9 +168,12 @@ public class SpotifyHandler implements
         mPlayer.skipToNext();
     }
 
-    public void queue(SpotifyTrack track) {
-        // needs work
-        mPlayer.queue(track.getUri());
+    public void queueNext(SpotifyTrack track) {
+        this.playingTracks.appendNext(track,this.songIndex);
+    }
+
+    public void queueLast(SpotifyTrack track) {
+        this.playingTracks.appendLast(track);
     }
 
     @Override
