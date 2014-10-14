@@ -100,9 +100,8 @@ public class SpotifyHandler implements
                         int diff = (int) (current_time-SpotifyHandler.this.timestamp);
                         int newPos = diff+SpotifyHandler.this.origSongPos;
                         Log.v(Integer.toString(newPos), Integer.toString(diff));
-                        if ((Math.abs(newPos-state.positionInMs))>200) {
+                        if ((Math.abs(newPos-state.positionInMs))>100) {
                             mPlayer.seekToPosition(newPos);
-                        } else {
                             SpotifyHandler.this.activity.setNotMuted();
                         }
                     }
@@ -112,6 +111,7 @@ public class SpotifyHandler implements
     }
 
     public void synchronize(String songUri, long timestamp, int origPos, boolean playerState) {
+        Log.v("sync","me");
         this.timestamp = timestamp;
         this.activity.setMuted();
         mPlayer.play(songUri);

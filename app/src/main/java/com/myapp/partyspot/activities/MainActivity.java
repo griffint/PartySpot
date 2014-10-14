@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -77,15 +78,21 @@ public class MainActivity extends Activity {
     }
 
     public void setNotMuted() {
-        this.muted = false;
-        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+        if (this.muted) {
+            this.muted = false;
+            Log.v("Not", Boolean.toString(this.muted));
+            AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+            audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+        }
     }
 
     public void setMuted() {
-        this.muted = true;
-        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+        if (!this.muted) {
+            this.muted = true;
+            Log.v("Muted", Boolean.toString(this.muted));
+            AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+            audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+        }
     }
 
     public void changeMutedState() {
