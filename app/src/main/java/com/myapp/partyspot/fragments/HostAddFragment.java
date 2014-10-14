@@ -70,6 +70,7 @@ public class HostAddFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_host_add, container, false);
         setHasOptionsMenu(true);
 
+        // need to replace this line
         final SpotifyTracks suggested = ((MainActivity)getActivity()).suggestedSongs;
 
         // called after the httpFunctions gets the users playlists
@@ -95,7 +96,7 @@ public class HostAddFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("song", s); //any string to be sent
                 bundle.putString("uri", suggested.getUriFromTitle(s));
-                bundle.putString("uri", suggested.getArtistFromTitle(s));
+                bundle.putString("artist", suggested.getArtistFromTitle(s));
                 newFragment.setArguments(bundle);
             }
         });

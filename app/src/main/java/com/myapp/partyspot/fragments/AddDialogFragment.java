@@ -48,16 +48,19 @@ public class AddDialogFragment extends DialogFragment {
         final TextView myListView = (TextView) view.findViewById(R.id.add_dialog);
         myListView.setText(song_name);
 
+        final SpotifyTrack track = new SpotifyTrack(song_name, uri, artist);
+        Log.v(track.getName(), track.getUri());
+        Log.v(track.getArtist(), "NOOOO");
+
         builder.setView(view)
                 .setPositiveButton(R.string.add_now, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        SpotifyTrack track = new SpotifyTrack(song_name, uri, artist);
-                        ((MainActivity)getActivity()).spotifyHandler.queue(track); // sets variables for spotifyHandler
+                        ((MainActivity)getActivity()).spotifyHandler.queueNext(track); // sets variables for spotifyHandler
                     }
                 })
                 .setNeutralButton(R.string.add_last, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.v("ADD", "last");
+                        ((MainActivity)getActivity()).spotifyHandler.queueLast(track);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

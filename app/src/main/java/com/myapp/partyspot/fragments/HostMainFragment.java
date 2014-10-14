@@ -76,13 +76,13 @@ public class HostMainFragment extends Fragment {
         volume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeMutedState();
-
-                if (((MainActivity)getActivity()).muted) {
-                    volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
-                } else {
-                    volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
-                }
+            if (((MainActivity)getActivity()).muted) {
+                ((MainActivity)getActivity()).setNotMuted();
+                volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
+            } else {
+                ((MainActivity)getActivity()).setMuted();
+                volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
+            }
             }
         });
 
