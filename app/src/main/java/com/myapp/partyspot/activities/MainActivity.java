@@ -82,6 +82,12 @@ public class MainActivity extends Activity {
         audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
     }
 
+    public void setMuted() {
+        this.muted = true;
+        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
+    }
+
     public void changeMutedState() {
         this.muted = !this.muted;
         AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
@@ -96,6 +102,8 @@ public class MainActivity extends Activity {
     public void validate(String playlist) {
         this.firebaseHandler.validatePlaylist(playlist);
     }
+
+    public void validateHost(String playlist) {this.firebaseHandler.validatePlaylistHost(playlist);}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

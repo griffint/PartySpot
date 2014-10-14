@@ -36,8 +36,7 @@ public class NameDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         String name = myEditText.getText().toString();
                         if (!name.equals("")) {
-                            activity.setPlaylist(name);
-                            activity.changeToChoosePlaylistToHostFragment();
+                            activity.validateHost(name);
                         }
                     }
                 })

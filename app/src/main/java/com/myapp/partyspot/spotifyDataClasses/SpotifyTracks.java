@@ -70,6 +70,15 @@ public class SpotifyTracks {
         return null;
     }
 
+    public String getTitleFromUri(String uri) {
+        for (int i=0; i<this.tracks.size(); i++) {
+            if (this.tracks.get(i).getUri().equals(uri)) {
+                return this.tracks.get(i).getName();
+            }
+        }
+        return null;
+    }
+
     public SpotifyTrack getTrackFromTitle(String title) {
         for (int i=0; i<this.tracks.size(); i++) {
             if (this.tracks.get(i).getName().equals(title)) {

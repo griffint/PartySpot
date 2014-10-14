@@ -71,7 +71,6 @@ public class FirebaseHandler {
         playlistRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                Log.v("DICKS","DICKS");
                 String uri = (String) snapshot.child("currentlyPlaying").getValue();
                 int songTime = ((Long) snapshot.child("songTime").getValue()).intValue();
                 Boolean playerState = (Boolean) snapshot.child("playerState").getValue();
@@ -89,12 +88,36 @@ public class FirebaseHandler {
         });
     }
 
+    public void validatePlaylistHost(final String playlist) {
+        this.firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // do some stuff once
+                if (snapshot.hasChild(playlist)) {
+                    activity.spotifyHandler.setNotHostOrSlave();
+                    Context context = FirebaseHandler.this.activity;
+                    CharSequence text = "Playlist already exists";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else {
+                    activity.playlistName = playlist;
+                    activity.changeToChoosePlaylistToHostFragment();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+    }
+
     public void validatePlaylist(final String playlist) {
         this.firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 // do some stuff once
-                Log.v("FUCK ME", Integer.toString((int) snapshot.getChildrenCount()));
                 if (snapshot.hasChild(playlist)) {
                     activity.playlistName = playlist;
                     if (FirebaseHandler.this.activity.spotifyHandler.isSlave) {
@@ -103,12 +126,6 @@ public class FirebaseHandler {
                     } else {
                         activity.changeToSuggesterAddFragment();
                     }
-                    Context context = FirebaseHandler.this.activity;
-                    CharSequence text = "Playlist exists";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
                 } else {
                     activity.spotifyHandler.setNotHostOrSlave();
                     Context context = FirebaseHandler.this.activity;
@@ -131,7 +148,7 @@ public class FirebaseHandler {
 //        public String uri;
 //        public String name;
 //        public String artist;
-        Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child();
+        //Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child();
         //playlist.child("uri").setValue();
     }
 
