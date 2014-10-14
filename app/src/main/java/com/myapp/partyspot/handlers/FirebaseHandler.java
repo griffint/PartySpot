@@ -50,7 +50,7 @@ public class FirebaseHandler {
 
     public void pullFromFirebase(String playlist){
         //print tests for pulling form firebase on changes
-        //this will pull all data from the firebase, isn't what we want in our final project
+
         Firebase playlistRef = firebaseDatabase.child(playlist);
         playlistRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -141,11 +141,33 @@ public class FirebaseHandler {
         suggestions.child("artist").setValue(artist);
    }
 
-    public SpotifyTrack pullSuggestion(){
+    public SpotifyTrack pullSuggestion(String playlist){
         /*this function will pull the data down from firebase about a given selection
         and will output a SpotifyTrack object
+        We're putting this seperate from the rest of pulling from firebase, because we want people who aren't
+        slave or master phones to be able to suggest songs
         */
+        Firebase playlistSuggestions = firebaseDatabase.child(playlist);    //setting up firebase reference
+        playlistSuggestions.addValueEventListener(new ValueEventListener() {        //looks for a change in data
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String title = (String) snapshot.child("curre").getValue();
+                String uri = (String) snapshot.child("uri").getValue();
+                String artist = (String) snapshot.child("artist").getValue();
 
+                //makes a new SpotifyTrack with the output data from the firebase pull
+                //there are potential asynchronous issues here
+                SpotifyTrack outputTrack = new SpotifyTrack(title,uri,artist);
+                // return outputTrack;
+            }
+
+
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
 
         return null;
     }
