@@ -37,22 +37,6 @@ public class FirebaseHandler {
         this.firebaseDatabase = new Firebase(this.URL);
     }
 
-    /*
-    //hostData class will hold all the info that the host needs to be pushing to firebase
-    public class hostData {
-        public String playlistName;     //self explanatory
-        public String currentlyPlaying;     //currently playing song - calculated or actual data?
-        public float songTime;      //how far into currently playing song the host is
-        public boolean playerState;     //true=playing, false=paused
-
-        //constructor stuff
-        public hostData(String playlistName, String currentlyPlaying, float songTime, boolean playerState) {
-            this.playlistName = playlistName;
-            this.currentlyPlaying = currentlyPlaying;
-            this.songTime = songTime;
-            this.playerState = playerState;
-        }
-    }*/
 
     public void pushToFirebase(String playlistName, String currentlyPlayingURI, String songName, int songTime, boolean playerState) {
         Firebase playlists = firebaseDatabase.child(playlistName);
@@ -146,12 +130,20 @@ public class FirebaseHandler {
         public String name;
         public String artist;
         this will need to extract the relevant info from the track class to send to firebase*/
+        String trackName = track.name;
+        String uri=track.uri;
+        String artist=track.artist;
 
-        //playlist.child("uri").setValue();
-    }
+        //Here we create a child of the current playlist called suggestions, then create a child of that that is the song's name
+        Firebase suggestions = firebaseDatabase.child(currentPlaylist).child("suggestions").child(trackName);
+        //then feed in the uri and artist as children of the trackname
+        suggestions.child("uri").setValue(uri);
+        suggestions.child("artist").setValue(artist);
+   }
 
-    public String pullSuggestion(){
-        /*this function will pull the data down from 
+    public SpotifyTrack pullSuggestion(){
+        /*this function will pull the data down from firebase about a given selection
+        and will output a SpotifyTrack object
         */
 
 
