@@ -131,7 +131,7 @@ public class FirebaseHandler {
 //        public String uri;
 //        public String name;
 //        public String artist;
-        Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child();
+       // Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child();
         //playlist.child("uri").setValue();
     }
 
