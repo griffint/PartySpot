@@ -141,15 +141,19 @@ public class FirebaseHandler {
     }
 
     public void pushSuggestion(String currentPlaylist, SpotifyTrack track){
-        //track is a spotify track class, consists of
-//        public String uri;
-//        public String name;
-//        public String artist;
+/*        track is a spotify track class, consists of
+        public String uri;
+        public String name;
+        public String artist;
+        this will need to extract the relevant info from the track class to send to firebase*/
 
         //playlist.child("uri").setValue();
     }
 
     public String pullSuggestion(){
+        /*this function will pull the data down from 
+        */
+
 
         return null;
     }
