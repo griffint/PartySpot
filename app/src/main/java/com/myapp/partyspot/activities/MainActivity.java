@@ -303,7 +303,7 @@ public class MainActivity extends Activity {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
+        transaction.replace(R.id.container, fragment, "Slave");
         transaction.commit();
     }
 
@@ -313,7 +313,7 @@ public class MainActivity extends Activity {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
+        transaction.replace(R.id.container, fragment, "Suggester");
         transaction.commit();
     }
 

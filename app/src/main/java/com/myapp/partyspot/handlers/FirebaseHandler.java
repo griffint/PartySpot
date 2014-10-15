@@ -10,6 +10,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.fragments.SlaveFragment;
+import com.myapp.partyspot.fragments.SuggesterFragment;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
@@ -98,12 +100,18 @@ public class FirebaseHandler {
                 // do some stuff once
                 if (snapshot.hasChild(playlist)) {
                     activity.playlistName = playlist;
-                    if (FirebaseHandler.this.activity.spotifyHandler.isSlave) {
+                    if (activity.fragment.equals("Slave")) {
                         activity.changeToSlaveFragment();
                         FirebaseHandler.this.pullFromFirebase(playlist);
                         FirebaseHandler.this.pullSuggestion(playlist);
-                    } else {
+                        SlaveFragment frag = (SlaveFragment) activity.getFragmentManager().findFragmentByTag("Slave");
+                        frag.displaySuggested(activity.suggestedSongs);
+                    } else if (activity.fragment.equals("Suggester")) {
                         activity.changeToSuggesterFragment();
+                        FirebaseHandler.this.pullFromFirebase(playlist);
+                        FirebaseHandler.this.pullSuggestion(playlist);
+                        SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
+                        frag.displaySuggested(activity.suggestedSongs);
                     }
                 } else {
                     activity.spotifyHandler.setNotHostOrSlave();
@@ -149,16 +157,18 @@ public class FirebaseHandler {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 //get the SpotifyTrack object from data in firebase
-                String trackname = (String) snapshot.getValue();
+                String trackname = snapshot.getName();
                 String uri = (String) snapshot.child("uri").getValue();
                 String artist = (String) snapshot.child("artist").getValue();
                 //testing to see if it worked
 
-                Log.d("updated song is",trackname);
+                Log.d("updated song is", trackname);
                 //then add it to the SpotifyTracks object
                 SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
 
                 activity.suggestedSongs.addTrack(outputTrack);
+                SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
+                frag.displaySuggested(activity.suggestedSongs);
 
                 //-----------IMPORTANT-----------------
                 //SOMETHING SHOULD BE CALLED HERE TO ADD THE TRACK outputTrack TO suggestedSongs in mainactivity
@@ -172,18 +182,18 @@ public class FirebaseHandler {
             }
 
 
-
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
+
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s){
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
