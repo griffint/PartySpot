@@ -100,6 +100,24 @@ public class HostFragment extends Fragment {
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
+        final SpotifyTracks queue = ((MainActivity)getActivity()).spotifyHandler.playingTracks;
+
+
+        ArrayList<String> list = queue.makeNameWithArtistArray();
+
+        // displays the queue
+        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.queue_view, list);
+        final ListView myListView = (ListView) rootView.findViewById(R.id.queue);
+        myListView.setAdapter(myListAdapter);
+
+        //create an onItemClickListener for the user to choose playlist to play
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Log.d("POOP","POOP");
+        }
+        });
+
         if (((MainActivity)getActivity()).muted) {
             volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
         } else {

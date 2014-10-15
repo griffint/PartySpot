@@ -11,15 +11,8 @@ tools:ignore="MergeRootFrame" >
     android:text="@string/main_menu"
     android:id="@+id/main_menu"/>
 
-    <TextView
-    android:text="@string/suggested_songs"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/main_menu"
-    android:textSize="20sp"
-    android:id="@+id/textView" />
 
-<RelativeLayout
+    <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="100dp"
     android:orientation="horizontal"
@@ -29,7 +22,7 @@ tools:ignore="MergeRootFrame" >
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
     android:padding="6dip"
-    android:id="@+id/relativeLayout2">
+    android:id="@+id/relativeLayout">
 
     <Button
         android:background="@drawable/play"
@@ -62,10 +55,43 @@ tools:ignore="MergeRootFrame" >
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/queue"
+        android:layout_alignRight="@+id/main_menu"
+        android:layout_alignEnd="@+id/main_menu"
+        android:layout_above="@+id/relativeLayout"
+        android:layout_below="@+id/textView" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/suggested"
-        android:layout_above="@+id/relativeLayout2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/queue"
+        android:layout_toEndOf="@+id/queue"
+        android:layout_above="@+id/relativeLayout"
+        android:layout_below="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Queue"
+        android:id="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView" />
+        android:layout_below="@id/main_menu" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Suggested Songs"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/queue"
+        android:layout_toRightOf="@+id/queue"
+        android:layout_toEndOf="@+id/queue" />
+
+
 
 </RelativeLayout>
