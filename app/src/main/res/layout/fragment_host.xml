@@ -11,16 +11,7 @@ tools:ignore="MergeRootFrame" >
     android:text="@string/main_menu"
     android:id="@+id/main_menu"/>
 
-<<<<<<< HEAD
-<<<<<<< HEAD:app/src/main/res/layout/fragment_host.xml
-    <TextView
-    android:text="@string/suggested_songs"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/main_menu"
-    android:textSize="20sp"
-    android:id="@+id/textView" />
-=======
+
 <Button
     android:layout_below="@id/main_menu"
     android:layout_width="wrap_content"
@@ -28,9 +19,7 @@ tools:ignore="MergeRootFrame" >
     android:text="@string/host_add_songs"
     android:id="@+id/host_add_songs"/>
 
->>>>>>> suggestionImplementation:app/src/main/res/layout/fragment_host_main.xml
-=======
->>>>>>> 206d1ed9c0d05214550b7d6b767e9fb0639ad079
+
 
     <RelativeLayout
     android:layout_width="wrap_content"
@@ -41,16 +30,8 @@ tools:ignore="MergeRootFrame" >
     android:layout_alignParentStart="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
-    android:padding="6dip"
-<<<<<<< HEAD
-<<<<<<< HEAD:app/src/main/res/layout/fragment_host.xml
-    android:id="@+id/relativeLayout2">
-=======
-    android:id="@+id/relativeLayout">
->>>>>>> suggestionImplementation:app/src/main/res/layout/fragment_host_main.xml
-=======
-    android:id="@+id/relativeLayout">
->>>>>>> 206d1ed9c0d05214550b7d6b767e9fb0639ad079
+    android:padding="6dip">
+
 
     <Button
         android:background="@drawable/play"
@@ -83,46 +64,38 @@ tools:ignore="MergeRootFrame" >
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-<<<<<<< HEAD:app/src/main/res/layout/fragment_host.xml
-=======
+
         android:id="@+id/queue"
         android:layout_alignRight="@+id/main_menu"
         android:layout_alignEnd="@+id/main_menu"
         android:layout_above="@+id/relativeLayout"
-        android:layout_below="@+id/textView" />
+        android:layout_alignTop="@+id/suggested"></ListView>
+
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
->>>>>>> 206d1ed9c0d05214550b7d6b767e9fb0639ad079
+
         android:id="@+id/suggested"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/queue"
         android:layout_toEndOf="@+id/queue"
         android:layout_above="@+id/relativeLayout"
-        android:layout_below="@+id/textView" />
+        android:layout_below="@+id/textView3" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Queue"
-        android:id="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-<<<<<<< HEAD
-        android:layout_below="@+id/textView" />
-=======
-        android:id="@+id/queue"
+
+        android:id="@+id/textView3"
         android:layout_below="@+id/host_add_songs"
-        android:layout_alignRight="@+id/main_menu"
-        android:layout_alignEnd="@+id/main_menu"
-        android:layout_above="@+id/relativeLayout" />
->>>>>>> suggestionImplementation:app/src/main/res/layout/fragment_host_main.xml
-=======
-        android:layout_below="@id/main_menu" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -134,7 +107,5 @@ tools:ignore="MergeRootFrame" >
         android:layout_toRightOf="@+id/queue"
         android:layout_toEndOf="@+id/queue" />
 
-
->>>>>>> 206d1ed9c0d05214550b7d6b767e9fb0639ad079
 
 </RelativeLayout>
