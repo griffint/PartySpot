@@ -20,8 +20,8 @@ public class LoginFragment extends Fragment {
     public String REDIRECT_URI;
 
     public LoginFragment() {
-        CLIENT_ID = "3e85d4f69cfb4ede9bca519fb86ce216";
-        REDIRECT_URI = "partyspot://partyspot";
+        CLIENT_ID = "3e85d4f69cfb4ede9bca519fb86ce216"; // required by Spotify, unique to our app
+        REDIRECT_URI = "partyspot://partyspot"; // required by Spotify, unique to our app
     }
 
     @Override
@@ -36,7 +36,7 @@ public class LoginFragment extends Fragment {
                     SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
                         new String[]{"user-read-private", "playlist-read-private", "streaming"}, null, getActivity());
             }
-        });
+        }); // redirects the user to a login page
         return rootView;
     }
 }

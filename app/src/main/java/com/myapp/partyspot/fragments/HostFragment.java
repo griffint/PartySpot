@@ -49,11 +49,10 @@ public class HostFragment extends Fragment {
             }
 
             public boolean onQueryTextSubmit(String query) {
-                Log.d("Test", query);
-                HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
-                String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
+                HTTPFunctions http = new HTTPFunctions(getActivity());
+                String URL = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
                 ((MainActivity)HostFragment.this.getActivity()).changeToHostSearchResults();
-                http.getHostSearch(Tracksjson);
+                http.getHostSearch(URL);
                 //Here u can getHostSearch the value "query" which is entered in the search box.
                 return true;
             }

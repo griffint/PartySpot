@@ -40,23 +40,24 @@ import com.spotify.sdk.android.authentication.SpotifyAuthentication;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    public boolean loggedIn;
-    public Spotify spotify;
-    public SpotifyHandler spotifyHandler;
-    public FirebaseHandler firebaseHandler;
+    // This class holds most of the state of the app and contains the handlers that interact with firebase and spotify
+
+    // fields
+    public boolean loggedIn; // whether the user is logged in
+    public Spotify spotify; // the spotify session
+    public SpotifyHandler spotifyHandler; // the class that handles all spotify events
+    public FirebaseHandler firebaseHandler; // the class that handles all firebase events
     public String accessToken; // Authentication token from spotify
     public String user; // user's name
     public boolean premiumUser; // true if premium, false otherwise
-    public SpotifyTracks suggestedSongs;
-    public boolean playing;
-    public String playlistName;
-    public ArrayList<String> playlists;
-    public boolean muted;
+    public SpotifyTracks suggestedSongs; // a list of the suggested songs
+    public boolean playing; // whether the spotify player is currently streaming music
+    public String playlistName; // stores the name of the playlist that the app is following or hosting
+    public boolean muted; // whether the app is muted or not
     public String userType; //host, slave or suggester
     public String fragment; // current fragment
 
     public MainActivity() {
-        this.playlists = new ArrayList<String>();
         this.loggedIn=false;
         this.spotify = null;
         this.spotifyHandler = null;
@@ -73,7 +74,7 @@ public class MainActivity extends Activity {
     }
 
     public void setNotMuted() {
-        if (this.muted) {
+        if (this.muted) { // if it is muted, set to be not muted
             this.muted = false;
             AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
             audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
@@ -81,38 +82,35 @@ public class MainActivity extends Activity {
     }
 
     public void setMuted() {
-        if (!this.muted) {
+        if (!this.muted) { // if it is not muted, set to be muted
             this.muted = true;
             AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
             audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
         }
     }
 
-    public void changeMutedState() {
-        this.muted = !this.muted;
-        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
-    }
-
     public void setPlaylist(String playlist) {
-        this.playlists.add(playlist);
         this.playlistName = playlist;
     }
-    public void displaycurrentQueue(Integer index){
-         SpotifyTracks tracks = this.spotifyHandler.getSongsToEnd(index);
+
+    public void displayCurrentQueue(Integer index) {
+        SpotifyTracks tracks = this.spotifyHandler.getSongsToEnd(index);
         ArrayList<String> list = tracks.makeNameWithArtistArray();
-        Log.d("Log", "WITHINDISPLAYCURRENTTRACK");
+
         // displays the queue
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(this, R.layout.queue_view, list);
         final ListView myListView = (ListView) findViewById(R.id.queue);
         myListView.setAdapter(myListAdapter);
-
     }
-    public void validate(String playlist) {
+
+
+    public void validate(String playlist) { // gets called when the slave or suggester needs to check whether the playlist exists
         this.firebaseHandler.validatePlaylist(playlist);
     }
 
-    public void validateHost(String playlist) {this.firebaseHandler.validatePlaylistHost(playlist);}
+    public void validateHost(String playlist) { // called when host checks the playlist's validity
+        this.firebaseHandler.validatePlaylistHost(playlist);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +122,7 @@ public class MainActivity extends Activity {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     // starts the app by prompting user to login
-                    .add(R.id.container, new LoginFragment(), "LoginFragment")
+                    .add(R.id.container, new LoginFragment(), "LoginFragment") // starts with logging in the user
                     .commit();
         }
 
@@ -136,10 +134,11 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        // this method gets called when user logs in with spotify
+        // this method gets called when user logs in with spotify, kind of breaks if app is restarted or switched
         Uri uri = intent.getData();
         if (uri != null) {
             AuthenticationResponse response = SpotifyAuthentication.parseOauthResponse(uri);
+
             // gets access token to create spotify class and for web api requests.
             this.accessToken = response.getAccessToken();
             this.spotify = new Spotify(this.accessToken);
@@ -154,7 +153,7 @@ public class MainActivity extends Activity {
 
     public void setPlayingTracks(SpotifyTracks tracks) {
         this.spotifyHandler.playingTracks = tracks;
-        shuffleTracks();
+        shuffleTracks(); //defaults to shuffling, might change later
     }
 
     public void setPremiumUser() {
@@ -172,7 +171,7 @@ public class MainActivity extends Activity {
     public void getUser() {
         try {
             HTTPFunctions functions = new HTTPFunctions(this);
-            functions.getUser();
+            functions.getUser(); // will get the user and then set the fragment to be loaded
         } catch (Exception e) { // needed by volley
             e.printStackTrace();
         }
@@ -181,7 +180,7 @@ public class MainActivity extends Activity {
     public void getPlaylistTracks(String playlistOwner, String playlistId) {
         try {
             HTTPFunctions functions = new HTTPFunctions(this);
-            functions.getPlaylistTracks(playlistOwner, playlistId);
+            functions.getPlaylistTracks(playlistOwner, playlistId); // called when user picks playlist, gets tracks, and starts playing
         } catch (Exception e) { // needed by volley
             e.printStackTrace();
         }
@@ -190,7 +189,7 @@ public class MainActivity extends Activity {
     public void getPlaylists() {
         try {
             HTTPFunctions functions = new HTTPFunctions(this);
-            functions.getPlaylists(this.user);
+            functions.getPlaylists(this.user); // gets user's playlists to use as base
         } catch (Exception e) { // needed by volley
             e.printStackTrace();
         }
@@ -198,6 +197,7 @@ public class MainActivity extends Activity {
 
     public void displayPlaylists(final SpotifyPlaylists playlists) {
         // called after the httpFunctions gets the users playlists
+        // needed so that playlists can be displayed asynchronously
         ArrayList<String> list = playlists.makeNameArray();
 
         // displays the list of playlists
@@ -246,6 +246,7 @@ public class MainActivity extends Activity {
     }
 
     public void setMainFragmentLoaded() {
+        // called after user is found so that the app doesn't break while it's loading
         findViewById(R.id.loadingBar).setVisibility(View.GONE);
         if (this.premiumUser) {
             findViewById(R.id.host_playlist).setVisibility(View.VISIBLE);
@@ -255,6 +256,7 @@ public class MainActivity extends Activity {
     }
 
     public void changeToMainFragment() {
+        // reset all the variables related to current playlist
         this.fragment = "Main";
         this.spotifyHandler.setNotHostOrSlave();
         this.spotifyHandler.songIndex = 0;
@@ -263,6 +265,8 @@ public class MainActivity extends Activity {
         this.playlistName ="";
         this.spotifyHandler.pause();
         this.setNotMuted();
+
+        // change fragment
         MainFragment fragment = new MainFragment();
 
         FragmentManager fm = getFragmentManager();
@@ -271,18 +275,18 @@ public class MainActivity extends Activity {
         transaction.commit();
     }
 
-    public void displayHostSearchResults(SpotifyTracks tracks) {
+    public void displayHostSearchResults(SpotifyTracks tracks) { // called asynchronously after gotten with http
         HostSearchResultsFragment frag = (HostSearchResultsFragment) getFragmentManager().findFragmentByTag("host_search");
         frag.displaySearchResults(tracks);
     }
 
-    public void displaySlaveSearchResults(SpotifyTracks tracks) {
+    public void displaySlaveSearchResults(SpotifyTracks tracks) { // called asynchronously after gotten with http
         SlaveSearchResultsFragment frag = (SlaveSearchResultsFragment) getFragmentManager().findFragmentByTag("slave_search");
         frag.displaySearchResults(tracks);
     }
 
     public void changeToHostSearchResults() {
-        if (!this.fragment.equals("HostSearchResults")) {
+        if (!this.fragment.equals("HostSearchResults")) { // needed because android has a bug where search is submitted twice
             this.fragment = "HostSearchResults";
             DialogFragment newFragment = new HostSearchResultsFragment();
             newFragment.show(getFragmentManager(), "host_search");
@@ -290,7 +294,7 @@ public class MainActivity extends Activity {
     }
 
     public void changeToSlaveSearchResults() {
-        if (!this.fragment.equals("SlaveSearchResults")) {
+        if (!this.fragment.equals("SlaveSearchResults")) { // needed because android has a bug where search is submitted twice
             this.fragment = "SlaveSearchResults";
             DialogFragment newFragment = new SlaveSearchResultsFragment();
             newFragment.show(getFragmentManager(), "slave_search");
@@ -299,12 +303,12 @@ public class MainActivity extends Activity {
 
     public void namePlaylist() {
         DialogFragment newFragment = new NameDialogFragment();
-        newFragment.show(getFragmentManager(), "missiles");
+        newFragment.show(getFragmentManager(), "host_name_playlist");
     }
 
     public void choosePlaylistSlave() {
         DialogFragment newFragment = new ChooseSlaveDialogFragment();
-        newFragment.show(getFragmentManager(), "missiles");
+        newFragment.show(getFragmentManager(), "slave_choose_playlist");
     }
 
     public void changeToSlaveFragment() {
@@ -333,6 +337,6 @@ public class MainActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        this.spotifyHandler.destroy();
+        this.spotifyHandler.destroy(); // needed so android doesn't leak resources
     }
 }

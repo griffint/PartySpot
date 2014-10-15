@@ -19,6 +19,7 @@ import com.myapp.partyspot.R;
  * Created by svaughan on 10/10/14.
  */
 public class ChooseSlaveDialogFragment extends DialogFragment {
+    // this class makes the slave choose which playlist to join
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -34,8 +35,8 @@ public class ChooseSlaveDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.proceed, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String name = myEditText.getText().toString();
-                        if (!name.equals("")) {
-                            activity.validate(name);
+                        if (!name.equals("")) { // check for empty string
+                            activity.validate(name); // make sure that the playlist exists. If so, user will be redirected to playlist by HTTPFunctions
                         }
                     }
                 })

@@ -19,6 +19,7 @@ import com.myapp.partyspot.R;
  * Created by svaughan on 10/10/14.
  */
 public class NameDialogFragment extends DialogFragment {
+    // this fragment lets the host choose the playlists name for the others to join by
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class NameDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         String name = myEditText.getText().toString();
                         if (!name.equals("")) {
-                            activity.validateHost(name);
+                            activity.validateHost(name); // checks whether the playlist doesn't exist, then begins hosting
                         }
                     }
                 })

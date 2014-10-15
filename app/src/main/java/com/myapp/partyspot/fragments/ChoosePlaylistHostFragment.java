@@ -17,13 +17,10 @@ import java.util.HashMap;
  */
 public class ChoosePlaylistHostFragment extends Fragment {
     // This fragment lets the user choose which playlist to host
-
-    // class fields
-    HashMap<String, String> playlistIdMap;
+    // the playlist information will be added as soon as it is retrieved by HTTPFunctions, that is why this class is so empty
 
     // class constructor
     public ChoosePlaylistHostFragment() {
-        this.playlistIdMap = null;
     }
 
     @Override

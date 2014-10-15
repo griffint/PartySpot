@@ -10,13 +10,6 @@
         android:text="@string/main_menu"
         android:id="@+id/main_menu"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/host_main"
-        android:id="@+id/slave_main"
-        android:layout_below="@id/main_menu"/>
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="100dp"

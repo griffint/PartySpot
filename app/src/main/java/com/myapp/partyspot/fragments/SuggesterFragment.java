@@ -29,7 +29,7 @@ public class SuggesterFragment extends Fragment {
     // This fragment allows the suggester to suggest songs to the host
 
     // class fields
-    public ListView myListView;
+    public ListView myListView; // for easy manipulation of the list later
 
     // class constructor
     public SuggesterFragment() {
@@ -38,7 +38,6 @@ public class SuggesterFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Log.d("HERE", "RAGEEEEE");
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.hostmenu, menu);
@@ -52,13 +51,10 @@ public class SuggesterFragment extends Fragment {
             }
 
             public boolean onQueryTextSubmit(String query) {
-                Log.d("Test", query);
-                HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
-                String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
-                Log.v("CHANGE","CHANGE");
+                HTTPFunctions http = new HTTPFunctions(getActivity());
+                String URL = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
                 ((MainActivity) SuggesterFragment.this.getActivity()).changeToSlaveSearchResults();
-                http.getSlaveSearch(Tracksjson);
-                //Here u can getHostSearch the value "query" which is entered in the search box.
+                http.getSlaveSearch(URL);
                 return true;
             }
         };
@@ -75,6 +71,7 @@ public class SuggesterFragment extends Fragment {
 
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
 
+        // go back to main menu
         main_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +85,7 @@ public class SuggesterFragment extends Fragment {
     }
 
     public void displaySuggested(final SpotifyTracks tracks) {
-        // called after the httpFunctions gets the users playlists
+        // called after the suggested songs are updated through firebase
         ArrayList<String> list = tracks.makeNameWithArtistArray();
 
         // displays the list of playlists
