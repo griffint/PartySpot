@@ -19,6 +19,12 @@ public class SpotifyTracks {
         this.tracks.add(track);
     }
 
+    public void addTrackIfNotDuplicate(SpotifyTrack track) {
+        if (this.getTitleFromUri(track.getUri())==null) {
+            this.tracks.add(track);
+        }
+    }
+
     public void shuffleTracks() {
         Random rnd = new Random();
         for (int i = this.tracks.size() - 1; i > 0; i--) {

@@ -35,6 +35,7 @@ public class ChooseSlaveDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         String name = myEditText.getText().toString();
                         if (!name.equals("")) {
+                            Log.v("VALIDATED","SON");
                             activity.validate(name);
                         }
                     }

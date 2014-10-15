@@ -10,6 +10,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.fragments.HostFragment;
 import com.myapp.partyspot.fragments.SlaveFragment;
 import com.myapp.partyspot.fragments.SuggesterFragment;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
@@ -84,6 +85,7 @@ public class FirebaseHandler {
                 } else {
                     activity.playlistName = playlist;
                     activity.changeToChoosePlaylistToHostFragment();
+                    FirebaseHandler.this.pullSuggestion(playlist);
                 }
             }
 
@@ -100,18 +102,14 @@ public class FirebaseHandler {
                 // do some stuff once
                 if (snapshot.hasChild(playlist)) {
                     activity.playlistName = playlist;
-                    if (activity.fragment.equals("Slave")) {
+                    if (activity.spotifyHandler.isSlave) {
                         activity.changeToSlaveFragment();
                         FirebaseHandler.this.pullFromFirebase(playlist);
                         FirebaseHandler.this.pullSuggestion(playlist);
-                        SlaveFragment frag = (SlaveFragment) activity.getFragmentManager().findFragmentByTag("Slave");
-                        frag.displaySuggested(activity.suggestedSongs);
-                    } else if (activity.fragment.equals("Suggester")) {
+                    } else {
                         activity.changeToSuggesterFragment();
                         FirebaseHandler.this.pullFromFirebase(playlist);
                         FirebaseHandler.this.pullSuggestion(playlist);
-                        SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
-                        frag.displaySuggested(activity.suggestedSongs);
                     }
                 } else {
                     activity.spotifyHandler.setNotHostOrSlave();
@@ -160,15 +158,21 @@ public class FirebaseHandler {
                 String trackname = snapshot.getName();
                 String uri = (String) snapshot.child("uri").getValue();
                 String artist = (String) snapshot.child("artist").getValue();
-                //testing to see if it worked
-
-                Log.d("updated song is", trackname);
+                
                 //then add it to the SpotifyTracks object
                 SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
 
-                activity.suggestedSongs.addTrack(outputTrack);
-                SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
-                frag.displaySuggested(activity.suggestedSongs);
+                activity.suggestedSongs.addTrackIfNotDuplicate(outputTrack);
+                if (activity.fragment.equals("Suggester")) {
+                    SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
+                    frag.displaySuggested(activity.suggestedSongs);
+                } else if (activity.fragment.equals("Slave")) {
+                    SlaveFragment frag = (SlaveFragment) activity.getFragmentManager().findFragmentByTag("Slave");
+                    frag.displaySuggested(activity.suggestedSongs);
+                } else if (activity.fragment.equals("Host")) {
+                    HostFragment frag = (HostFragment) activity.getFragmentManager().findFragmentByTag("Host");
+                    frag.displaySuggested(activity.suggestedSongs);
+                }
 
                 //-----------IMPORTANT-----------------
                 //SOMETHING SHOULD BE CALLED HERE TO ADD THE TRACK outputTrack TO suggestedSongs in mainactivity

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -99,6 +100,7 @@ public class MainActivity extends Activity {
     }
 
     public void validate(String playlist) {
+        Log.v("VALIDATING", "NOW");
         this.firebaseHandler.validatePlaylist(playlist);
     }
 

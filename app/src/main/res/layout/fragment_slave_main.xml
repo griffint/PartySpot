@@ -27,7 +27,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:padding="6dip"
-        android:layout_below="@+id/slave_main">
+        android:layout_below="@id/main_menu">
 
         <ListView
             android:layout_width="wrap_content"
