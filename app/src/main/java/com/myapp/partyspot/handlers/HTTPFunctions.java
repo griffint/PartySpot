@@ -22,8 +22,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 /**
@@ -44,6 +42,7 @@ public class HTTPFunctions {
         Log.v("ho", URL);
         URL = URL.replaceAll(" ","+");
         Log.v("ho", URL);
+        final MainActivity activity = ((MainActivity)HTTPFunctions.this.context);
         this.queriedTracks = new ArrayList<SpotifyTrack>();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>()
@@ -54,7 +53,9 @@ public class HTTPFunctions {
                         Log.d("Response", response.toString());
                         //JANK FIX SHOULD FIGURE OUT A BETTER WAY
                         SpotifyTracks results = JSONtoSpotifyTrack(response);
-                        ((MainActivity)HTTPFunctions.this.context).displayHostSearchResults(results);
+                        if (activity.fragment.equals("HostSearchResults")) {
+                            activity.displayHostSearchResults(results);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -81,6 +82,7 @@ public class HTTPFunctions {
         Log.v("ho", URL);
         URL = URL.replaceAll(" ","+");
         Log.v("ho", URL);
+        final MainActivity activity = ((MainActivity)HTTPFunctions.this.context);
         this.queriedTracks = new ArrayList<SpotifyTrack>();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>()
@@ -91,7 +93,9 @@ public class HTTPFunctions {
                         Log.d("Response", response.toString());
                         //JANK FIX SHOULD FIGURE OUT A BETTER WAY
                         SpotifyTracks results = JSONtoSpotifyTrack(response);
-                        ((MainActivity)HTTPFunctions.this.context).displaySlaveSearchResults(results);
+                        if (activity.fragment.equals("SlaveSearchResults") || activity.fragment.equals("SuggesterSearchResults")) {
+                            activity.displaySlaveSearchResults(results);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -113,45 +117,6 @@ public class HTTPFunctions {
 
         queue.add(getRequest);
     }
-
-    public void getSuggesterSearch(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
-        Log.v("ho", URL);
-        URL = URL.replaceAll(" ","+");
-        Log.v("ho", URL);
-        this.queriedTracks = new ArrayList<SpotifyTrack>();
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
-                new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // display response
-                        Log.d("Response", response.toString());
-                        //JANK FIX SHOULD FIGURE OUT A BETTER WAY
-                        SpotifyTracks results = JSONtoSpotifyTrack(response);
-                        ((MainActivity)HTTPFunctions.this.context).displaySuggesterSearchResults(results);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "COULDN'T GET");
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
-                params.put("Accept", "application/json");
-
-                return params;
-            }
-        };
-
-        queue.add(getRequest);
-    }
-
-
 
     public void getPlaylists(String user) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
         Log.v("DICKS", user);
@@ -269,7 +234,7 @@ public class HTTPFunctions {
                             }
                         }
                         ((MainActivity)HTTPFunctions.this.context).setPlayingTracks(tracks);
-                        ((MainActivity)HTTPFunctions.this.context).changeToHostMainFragment();
+                        ((MainActivity)HTTPFunctions.this.context).changeToHostFragment();
 
                     }
                 },

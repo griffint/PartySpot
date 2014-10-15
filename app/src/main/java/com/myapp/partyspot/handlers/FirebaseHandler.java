@@ -1,7 +1,6 @@
 package com.myapp.partyspot.handlers;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
@@ -9,17 +8,11 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.firebase.client.core.Path;
-import com.firebase.client.snapshot.ChildName;
-import com.firebase.client.snapshot.Node;
-import com.firebase.client.snapshot.NodePriority;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by svaughan on 10/2/14.
@@ -104,10 +97,10 @@ public class FirebaseHandler {
                 if (snapshot.hasChild(playlist)) {
                     activity.playlistName = playlist;
                     if (FirebaseHandler.this.activity.spotifyHandler.isSlave) {
-                        activity.changeToSlaveMainFragment();
+                        activity.changeToSlaveFragment();
                         FirebaseHandler.this.pullFromFirebase(playlist);
                     } else {
-                        activity.changeToSuggesterAddFragment();
+                        activity.changeToSuggesterFragment();
                     }
                 } else {
                     activity.spotifyHandler.setNotHostOrSlave();
