@@ -10,6 +10,15 @@
         android:text="@string/main_menu"
         android:id="@+id/main_menu"/>
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/suggested_slave"
+        android:layout_below="@+id/main_menu"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/relativeLayout" />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="100dp"
@@ -20,15 +29,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:padding="6dip"
-        android:layout_below="@id/main_menu">
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/suggested_slave"
-            android:layout_above="@+id/volume"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+        android:id="@+id/relativeLayout">
 
         <Button
             android:id="@+id/volume"
