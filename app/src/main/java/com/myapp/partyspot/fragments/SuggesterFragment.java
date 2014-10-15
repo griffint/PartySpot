@@ -13,23 +13,22 @@ import com.myapp.partyspot.R;
 /**
  * Created by svaughan on 10/2/14.
  */
-public class ChoosePlaylistToFollowFragment extends Fragment {
-    // This fragment lets the user choose which fragment to follow
+public class SuggesterFragment extends Fragment {
+    // This fragment allows the suggester to suggest songs to the host
 
     // class fields
 
     // class constructor
-    public ChoosePlaylistToFollowFragment() {
+    public SuggesterFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_choose_playlist_slave, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_suggester, container, false);
 
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
 
-        // return to main menu
         main_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

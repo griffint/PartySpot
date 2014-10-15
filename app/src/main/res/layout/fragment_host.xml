@@ -11,19 +11,13 @@ tools:ignore="MergeRootFrame" >
     android:text="@string/main_menu"
     android:id="@+id/main_menu"/>
 
-<Button
+    <TextView
+    android:text="@string/suggested_songs"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_below="@id/main_menu"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/host_add_songs"
-    android:id="@+id/host_add_songs"/>
-
-<TextView
-    android:text="@string/hello_world"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id = "@+id/hello_world"
-    android:layout_below="@id/host_add_songs"/>
+    android:textSize="20sp"
+    android:id="@+id/textView" />
 
 <RelativeLayout
     android:layout_width="wrap_content"
@@ -34,7 +28,8 @@ tools:ignore="MergeRootFrame" >
     android:layout_alignParentStart="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
-    android:padding="6dip">
+    android:padding="6dip"
+    android:id="@+id/relativeLayout2">
 
     <Button
         android:background="@drawable/play"
@@ -63,5 +58,14 @@ tools:ignore="MergeRootFrame" >
         android:layout_alignParentTop="true" />
 
 </RelativeLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/suggested"
+        android:layout_above="@+id/relativeLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView" />
 
 </RelativeLayout>
