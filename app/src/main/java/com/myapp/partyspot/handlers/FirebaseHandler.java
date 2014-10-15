@@ -1,6 +1,7 @@
 package com.myapp.partyspot.handlers;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
@@ -137,32 +138,35 @@ public class FirebaseHandler {
    }
 
     public SpotifyTrack pullSuggestion(String playlist){
-        /*this function will pull the data down from firebase about a given selection
-        and will output a SpotifyTrack object
-        We're putting this seperate from the rest of pulling from firebase, because we want people who aren't
-        slave or master phones to be able to suggest songs
-
-        Also need to implement a loop to get all the suggested songs from the firebase
+        /*this function will pull down any new suggestion from firebase when a suggestion is added
         */
-        Firebase playlistSuggestions = firebaseDatabase.child(playlist);    //setting up firebase reference
+        Firebase playlistSuggestions = firebaseDatabase.child(playlist).child("suggestions");    //setting up firebase reference
 
         playlistSuggestions.addChildEventListener(new ChildEventListener() {
+            //this onChildAdded will add any new suggestions to the suggestion SpotifyTracks object
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+                //get the SpotifyTrack object from data in firebase
+                String trackname = (String) snapshot.getValue();
+                String uri = (String) snapshot.child("uri").getValue();
+                String artist = (String) snapshot.child("artist").getValue();
+                //testing to see if it worked
+
+                Log.d("updated song is",trackname);
+                //then add it to the SpotifyTracks object
+                SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
+
+                //-----------IMPORTANT-----------------
+                //SOMETHING SHOULD BE CALLED HERE TO ADD THE TRACK outputTrack TO suggestedSongs in mainactivity
+                //------------IMPORTANT STUFF OVER-------------------
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
-                String title = (String) snapshot.child("title").getValue();
-                System.out.println("The updated post title is " + title);
+
             }
 
-            //makes a new SpotifyTrack with the output data from the firebase pull
-            //there are potential asynchronous issues here
-            //SpotifyTrack outputTrack = new SpotifyTrack(title, uri, artist);
-            // generate a SpotifyTracks object containing all the necesary SpotifyTrack objects
-            //SpotifyTracks outputList = new SpotifyTracks();
 
 
             @Override
