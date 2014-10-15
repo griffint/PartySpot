@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -100,7 +101,7 @@ public class MainActivity extends Activity {
     public void displaycurrentQueue(Integer index){
          SpotifyTracks tracks = this.spotifyHandler.getSongsToEnd(index);
         ArrayList<String> list = tracks.makeNameWithArtistArray();
-        Log.d("Log","WITHINDISPLAYCURRENTTRACK");
+        Log.d("Log", "WITHINDISPLAYCURRENTTRACK");
         // displays the queue
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(this, R.layout.queue_view, list);
         final ListView myListView = (ListView) findViewById(R.id.queue);

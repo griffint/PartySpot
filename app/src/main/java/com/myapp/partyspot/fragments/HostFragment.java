@@ -52,6 +52,7 @@ public class HostFragment extends Fragment {
                 Log.d("Test", query);
                 HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
                 String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
+                ((MainActivity)HostFragment.this.getActivity()).changeToHostSearchResults();
                 http.getHostSearch(Tracksjson);
                 //Here u can getHostSearch the value "query" which is entered in the search box.
                 return true;
@@ -103,15 +104,15 @@ public class HostFragment extends Fragment {
         final SpotifyTracks queue = ((MainActivity)getActivity()).spotifyHandler.playingTracks;
 
 
-        ArrayList<String> list = queue.makeNameWithArtistArray();
+        ArrayList<String> queuelist = queue.makeNameWithArtistArray();
 
         // displays the queue
-        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.queue_view, list);
-        final ListView myListView = (ListView) rootView.findViewById(R.id.queue);
-        myListView.setAdapter(myListAdapter);
+        ArrayAdapter<String> queueListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.queue_view, queuelist);
+        final ListView queueListView = (ListView) rootView.findViewById(R.id.queue);
+        queueListView.setAdapter(queueListAdapter);
 
         //create an onItemClickListener for the user to choose playlist to play
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        queueListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Log.d("POOP","POOP");

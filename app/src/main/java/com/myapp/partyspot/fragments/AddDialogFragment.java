@@ -56,14 +56,16 @@ public class AddDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.add_now, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         ((MainActivity)getActivity()).spotifyHandler.queueNext(track);
-                        ((DialogFragment)getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
+                        if (((MainActivity)getActivity()).fragment.equals("HostSearchResults")) {
+                            ((DialogFragment) getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
+                        }
                         activity.fragment = "Host";
                     }
                 })
                 .setNeutralButton(R.string.add_last, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity)getActivity()).spotifyHandler.queueLast(track);
-                        ((DialogFragment)getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
+                        ((MainActivity) getActivity()).spotifyHandler.queueLast(track);
+                        ((DialogFragment) getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
                         activity.fragment = "Host";
                     }
                 })

@@ -74,6 +74,7 @@ public class SpotifyHandler implements
                         String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
                         int time = state.positionInMs;
                         boolean playing = false;
+                        Log.d("0GIT","TEST");
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
                     if (eventType == EventType.PLAY) {
