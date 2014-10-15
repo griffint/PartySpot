@@ -1,5 +1,6 @@
 package com.myapp.partyspot.fragments;
 
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,13 +9,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
 import com.myapp.partyspot.handlers.SpotifyHandler;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
+
+import java.util.ArrayList;
 
 /**
  * Created by svaughan on 9/30/14.
@@ -65,6 +72,25 @@ public class HostMainFragment extends Fragment {
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
         final Button host_add = (Button) rootView.findViewById(R.id.host_add_songs);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
+
+        final SpotifyTracks queue = ((MainActivity)getActivity()).spotifyHandler.playingTracks;
+
+
+        ArrayList<String> list = queue.makeNameWithArtistArray();
+
+        // displays the queue
+        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.queue_view, list);
+        final ListView myListView = (ListView) rootView.findViewById(R.id.queue);
+        myListView.setAdapter(myListAdapter);
+
+        //create an onItemClickListener for the user to choose playlist to play
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Log.d("POOP","POOP");
+        }
+        });
+
 
         if (((MainActivity)getActivity()).muted) {
             volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));

@@ -30,6 +30,15 @@ public class SpotifyTracks {
         }
     }
 
+    public void removeTrack(Integer index){
+        tracks.remove(index);
+    }
+
+
+    public void reorderTrack(Integer newIndex, Integer previousIndex) {
+       // SpotifyTrack songToMove
+    }
+
     public ArrayList<String> makeNameArray() {
         ArrayList<String> names = new ArrayList<String>();
         for (int i=0; i<this.tracks.size(); i++) {

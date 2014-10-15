@@ -87,8 +87,12 @@ public class SpotifyHandler implements
 
                     // We're only allowing the user to go forward, so call this as if it means onNextSong:
                     if (eventType == EventType.END_OF_CONTEXT) {
+                        MainActivity activity2 = SpotifyHandler.this.activity;
+
                         SpotifyHandler.this.songIndex += 1;
                         SpotifyHandler.this.mPlayer.play(SpotifyHandler.this.playingTracks.tracks.get(SpotifyHandler.this.songIndex).getUri());
+
+                               activity2.displaycurrentQueue(SpotifyHandler.this.songIndex);
                     }
                 } else if (SpotifyHandler.this.isSlave) {
                     if (eventType == EventType.AUDIO_FLUSH) {
@@ -105,7 +109,15 @@ public class SpotifyHandler implements
             }
         });
     }
+    public SpotifyTracks getSongsToEnd(Integer index){
+        SpotifyTracks returnTracks = new SpotifyTracks();
+        Integer size = playingTracks.tracks.size();
+        for (int bullshit;index< size;index++){
+            returnTracks.addTrack(playingTracks.tracks.get(index));
+        }
+        return returnTracks;
 
+    }
     public void synchronize(String songUri, long timestamp, int origPos, boolean playerState) {
         Log.v("sync","me");
         this.timestamp = timestamp;
