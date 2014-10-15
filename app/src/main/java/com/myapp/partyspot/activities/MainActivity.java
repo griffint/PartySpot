@@ -39,23 +39,24 @@ import com.spotify.sdk.android.authentication.SpotifyAuthentication;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    public boolean loggedIn;
-    public Spotify spotify;
-    public SpotifyHandler spotifyHandler;
-    public FirebaseHandler firebaseHandler;
+    // This class holds most of the state of the app and contains the handlers that interact with firebase and spotify
+
+    // fields
+    public boolean loggedIn; // whether the user is logged in
+    public Spotify spotify; // the spotify session
+    public SpotifyHandler spotifyHandler; // the class that handles all spotify events
+    public FirebaseHandler firebaseHandler; // the class that handles all firebase events
     public String accessToken; // Authentication token from spotify
     public String user; // user's name
     public boolean premiumUser; // true if premium, false otherwise
-    public SpotifyTracks suggestedSongs;
-    public boolean playing;
-    public String playlistName;
-    public ArrayList<String> playlists;
-    public boolean muted;
+    public SpotifyTracks suggestedSongs; // a list of the suggested songs
+    public boolean playing; // whether the spotify player is currently streaming music
+    public String playlistName; // stores the name of the playlist that the app is following or hosting
+    public boolean muted; // whether the app is muted or not
     public String userType; //host, slave or suggester
     public String fragment; // current fragment
 
     public MainActivity() {
-        this.playlists = new ArrayList<String>();
         this.loggedIn=false;
         this.spotify = null;
         this.spotifyHandler = null;
@@ -72,7 +73,7 @@ public class MainActivity extends Activity {
     }
 
     public void setNotMuted() {
-        if (this.muted) {
+        if (this.muted) { // if it is muted, set to be not muted
             this.muted = false;
             AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
             audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
@@ -80,29 +81,24 @@ public class MainActivity extends Activity {
     }
 
     public void setMuted() {
-        if (!this.muted) {
+        if (!this.muted) { // if it is not muted, set to be muted
             this.muted = true;
             AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
             audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
         }
     }
 
-    public void changeMutedState() {
-        this.muted = !this.muted;
-        AudioManager audio = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        audio.setStreamMute(AudioManager.STREAM_MUSIC, this.muted);
-    }
-
     public void setPlaylist(String playlist) {
-        this.playlists.add(playlist);
         this.playlistName = playlist;
     }
 
-    public void validate(String playlist) {
+    public void validate(String playlist) { // gets called when the slave or suggester needs to check whether the playlist exists
         this.firebaseHandler.validatePlaylist(playlist);
     }
 
-    public void validateHost(String playlist) {this.firebaseHandler.validatePlaylistHost(playlist);}
+    public void validateHost(String playlist) { // called when host checks the playlist's validity
+        this.firebaseHandler.validatePlaylistHost(playlist);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +110,7 @@ public class MainActivity extends Activity {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     // starts the app by prompting user to login
-                    .add(R.id.container, new LoginFragment(), "LoginFragment")
+                    .add(R.id.container, new LoginFragment(), "LoginFragment") // starts with logging in the user
                     .commit();
         }
 
@@ -126,10 +122,11 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        // this method gets called when user logs in with spotify
+        // this method gets called when user logs in with spotify, kind of breaks if app is restarted or switched
         Uri uri = intent.getData();
         if (uri != null) {
             AuthenticationResponse response = SpotifyAuthentication.parseOauthResponse(uri);
+
             // gets access token to create spotify class and for web api requests.
             this.accessToken = response.getAccessToken();
             this.spotify = new Spotify(this.accessToken);
@@ -144,7 +141,7 @@ public class MainActivity extends Activity {
 
     public void setPlayingTracks(SpotifyTracks tracks) {
         this.spotifyHandler.playingTracks = tracks;
-        shuffleTracks();
+        shuffleTracks(); //defaults to shuffling, might change later
     }
 
     public void setPremiumUser() {
