@@ -97,7 +97,16 @@ public class MainActivity extends Activity {
         this.playlists.add(playlist);
         this.playlistName = playlist;
     }
+    public void displaycurrentQueue(Integer index){
+         SpotifyTracks tracks = this.spotifyHandler.getSongsToEnd(index);
+        ArrayList<String> list = tracks.makeNameWithArtistArray();
+        Log.d("Log","WITHINDISPLAYCURRENTTRACK");
+        // displays the queue
+        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(this, R.layout.queue_view, list);
+        final ListView myListView = (ListView) findViewById(R.id.queue);
+        myListView.setAdapter(myListAdapter);
 
+    }
     public void validate(String playlist) {
         this.firebaseHandler.validatePlaylist(playlist);
     }
