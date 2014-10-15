@@ -30,22 +30,6 @@ public class FirebaseHandler {
         this.firebaseDatabase = new Firebase(this.URL);
     }
 
-    /*
-    //hostData class will hold all the info that the host needs to be pushing to firebase
-    public class hostData {
-        public String playlistName;     //self explanatory
-        public String currentlyPlaying;     //currently playing song - calculated or actual data?
-        public float songTime;      //how far into currently playing song the host is
-        public boolean playerState;     //true=playing, false=paused
-
-        //constructor stuff
-        public hostData(String playlistName, String currentlyPlaying, float songTime, boolean playerState) {
-            this.playlistName = playlistName;
-            this.currentlyPlaying = currentlyPlaying;
-            this.songTime = songTime;
-            this.playerState = playerState;
-        }
-    }*/
 
     public void pushToFirebase(String playlistName, String currentlyPlayingURI, String songName, int songTime, boolean playerState) {
         Firebase playlists = firebaseDatabase.child(playlistName);
@@ -59,7 +43,7 @@ public class FirebaseHandler {
 
     public void pullFromFirebase(String playlist){
         //print tests for pulling form firebase on changes
-        //this will pull all data from the firebase, isn't what we want in our final project
+
         Firebase playlistRef = firebaseDatabase.child(playlist);
         playlistRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -134,15 +118,49 @@ public class FirebaseHandler {
     }
 
     public void pushSuggestion(String currentPlaylist, SpotifyTrack track){
-        //track is a spotify track class, consists of
-//        public String uri;
-//        public String name;
-//        public String artist;
-        //Firebase playlist = firebaseDatabase.child(currentPlaylist).child("suggestions").child();
-        //playlist.child("uri").setValue();
-    }
+/*        track is a spotify track class, consists of
+        public String uri;
+        public String name;
+        public String artist;
+        this will need to extract the relevant info from the track class to send to firebase*/
+        String trackName = track.name;
+        String uri=track.uri;
+        String artist=track.artist;
 
-    public String pullSuggestion(){
+        //Here we create a child of the current playlist called suggestions, then create a child of that that is the song's name
+        Firebase suggestions = firebaseDatabase.child(currentPlaylist).child("suggestions").child(trackName);
+        //then feed in the uri and artist as children of the trackname
+        suggestions.child("uri").setValue(uri);
+        suggestions.child("artist").setValue(artist);
+   }
+
+    public SpotifyTrack pullSuggestion(String playlist){
+        /*this function will pull the data down from firebase about a given selection
+        and will output a SpotifyTrack object
+        We're putting this seperate from the rest of pulling from firebase, because we want people who aren't
+        slave or master phones to be able to suggest songs
+        */
+        Firebase playlistSuggestions = firebaseDatabase.child(playlist);    //setting up firebase reference
+        playlistSuggestions.addValueEventListener(new ValueEventListener() {        //looks for a change in data
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                String title = (String) snapshot.child("curre").getValue();
+                String uri = (String) snapshot.child("uri").getValue();
+                String artist = (String) snapshot.child("artist").getValue();
+
+                //makes a new SpotifyTrack with the output data from the firebase pull
+                //there are potential asynchronous issues here
+                SpotifyTrack outputTrack = new SpotifyTrack(title,uri,artist);
+                // return outputTrack;
+            }
+
+
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
 
         return null;
     }
