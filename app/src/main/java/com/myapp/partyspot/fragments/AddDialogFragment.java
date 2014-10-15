@@ -55,12 +55,14 @@ public class AddDialogFragment extends DialogFragment {
         builder.setView(view)
                 .setPositiveButton(R.string.add_now, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity)getActivity()).spotifyHandler.queueNext(track); // sets variables for spotifyHandler
+                        ((MainActivity)getActivity()).spotifyHandler.queueNext(track);
+                        ((DialogFragment)getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
                     }
                 })
                 .setNeutralButton(R.string.add_last, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         ((MainActivity)getActivity()).spotifyHandler.queueLast(track);
+                        ((DialogFragment)getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

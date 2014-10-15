@@ -18,13 +18,13 @@ import com.myapp.partyspot.handlers.HTTPFunctions;
 /**
  * Created by svaughan on 10/2/14.
  */
-public class SlaveAddFragment extends Fragment {
-    // This fragment allows the slave phone to suggest songs to the host
+public class SlaveFragment extends Fragment {
+    // This fragment holds the main view for the slave phone
 
     // class fields
 
     // class constructor
-    public SlaveAddFragment() {
+    public SlaveFragment() {
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SlaveAddFragment extends Fragment {
                 Log.d("Test", query);
                 HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
                 String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
-                ((MainActivity) SlaveAddFragment.this.getActivity()).changeToSlaveSearchResults();
+                ((MainActivity) SlaveFragment.this.getActivity()).changeToSlaveSearchResults();
                 http.getSlaveSearch(Tracksjson);
                 //Here u can getHostSearch the value "query" which is entered in the search box.
                 return true;
@@ -60,7 +60,7 @@ public class SlaveAddFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_slave_add, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_slave_main, container, false);
         setHasOptionsMenu(true);
 
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
@@ -97,10 +97,11 @@ public class SlaveAddFragment extends Fragment {
         slave_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToSlaveMainFragment();
+                ((MainActivity)getActivity()).changeToSlaveFragment();
             }
         });
 
         return rootView;
     }
+
 }

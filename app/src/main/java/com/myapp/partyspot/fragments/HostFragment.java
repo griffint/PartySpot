@@ -15,29 +15,27 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
-import com.myapp.partyspot.handlers.HTTPFunctions;
+import com.myapp.partyspot.handlers.SpotifyHandler;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.ArrayList;
 
 /**
- * Created by svaughan on 10/2/14.
+ * Created by svaughan on 9/30/14.
  */
-public class HostAddFragment extends Fragment {
-    // This fragment allows the host to add to the playlist, whether from voted or searching
+public class HostFragment extends Fragment {
+    // This class holds the main view for the host
 
-    // class fields
+    public HostFragment() {
 
-    // class constructor
-    public HostAddFragment() {
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu ,MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Log.d("HERE", "RAGEEEEE");
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.hostmenu, menu);
@@ -54,7 +52,7 @@ public class HostAddFragment extends Fragment {
                 Log.d("Test", query);
                 HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
                 String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
-                ((MainActivity)HostAddFragment.this.getActivity()).changeToHostSearchResults();
+                ((MainActivity)HostFragment.this.getActivity()).changeToHostSearchResults();
                 http.getHostSearch(Tracksjson);
                 //Here u can getHostSearch the value "query" which is entered in the search box.
                 return true;
@@ -67,10 +65,8 @@ public class HostAddFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_host_add, container, false);
-        setHasOptionsMenu(true);
-
-        // need to replace this line
+        View rootView = inflater.inflate(R.layout.fragment_host, container, false);
+        setHasOptionsMenu(true);// need to replace this line
         final SpotifyTracks suggested = ((MainActivity)getActivity()).suggestedSongs;
 
         // called after the httpFunctions gets the users playlists
@@ -78,7 +74,7 @@ public class HostAddFragment extends Fragment {
 
         // displays the list of playlists
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
-        final ListView myListView = (ListView) rootView.findViewById(R.id.host_suggested);
+        final ListView myListView = (ListView) rootView.findViewById(R.id.suggested);
         myListView.setAdapter(myListAdapter);
 
         //create an onItemClickListener for the user to choose playlist to play
@@ -87,11 +83,10 @@ public class HostAddFragment extends Fragment {
                                     int position, long id) {
                 String tmp = (String) myListView.getItemAtPosition(position);
                 int pos = tmp.indexOf(" - ");
-                String s = tmp.substring(0,pos);
-                Log.v("YAYYYYYYYYYYYYYYYYYYYYY", s);
+                String s = tmp.substring(0, pos);
 
                 DialogFragment newFragment = new AddDialogFragment();
-                newFragment.show(getFragmentManager(), "missiles");
+                newFragment.show(getFragmentManager(), "add");
 
                 Bundle bundle = new Bundle();
                 bundle.putString("song", s); //any string to be sent
@@ -101,10 +96,9 @@ public class HostAddFragment extends Fragment {
             }
         });
 
-        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
-        final Button host_main = (Button) rootView.findViewById(R.id.host_main);
         final Button play = (Button) rootView.findViewById(R.id.play);
         final Button next = (Button) rootView.findViewById(R.id.next);
+        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
         if (((MainActivity)getActivity()).muted) {
@@ -117,13 +111,13 @@ public class HostAddFragment extends Fragment {
         volume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeMutedState();
-
-                if (((MainActivity)getActivity()).muted) {
-                    volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
-                } else {
-                    volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
-                }
+            if (((MainActivity)getActivity()).muted) {
+                ((MainActivity)getActivity()).setNotMuted();
+                volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
+            } else {
+                ((MainActivity)getActivity()).setMuted();
+                volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
+            }
             }
         });
 
@@ -132,6 +126,15 @@ public class HostAddFragment extends Fragment {
         } else {
             play.setBackground(getResources().getDrawable(R.drawable.play));
         }
+
+        // return to main menu
+        main_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeToMainFragment();
+            }
+        });
+
 
         play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -148,28 +151,17 @@ public class HostAddFragment extends Fragment {
             }
         });
 
+
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((MainActivity)getActivity()).spotifyHandler.next();
-            }
-        });
-
-        // return to main menu
-        main_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToMainFragment();
-            }
-        });
-
-        // return to main menu
-        host_main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToHostMainFragment();
+                MainActivity activity = ((MainActivity)getActivity());
+                SpotifyHandler handler = activity.spotifyHandler;
+                handler.next();
             }
         });
 
         return rootView;
     }
+
+
 }

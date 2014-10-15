@@ -22,8 +22,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 /**
@@ -269,7 +267,7 @@ public class HTTPFunctions {
                             }
                         }
                         ((MainActivity)HTTPFunctions.this.context).setPlayingTracks(tracks);
-                        ((MainActivity)HTTPFunctions.this.context).changeToHostMainFragment();
+                        ((MainActivity)HTTPFunctions.this.context).changeToHostFragment();
 
                     }
                 },

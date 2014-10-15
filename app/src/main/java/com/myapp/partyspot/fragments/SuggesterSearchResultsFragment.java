@@ -98,7 +98,7 @@ public class SuggesterSearchResultsFragment extends Fragment {
         slave_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToSlaveMainFragment();
+                ((MainActivity)getActivity()).changeToSlaveFragment();
             }
         });
 
