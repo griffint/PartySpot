@@ -48,6 +48,7 @@ public class SlaveFragment extends Fragment {
                 Log.d("Test", query);
                 HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
                 String Tracksjson = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
+                Log.v("CHANGE","CHANGE");
                 ((MainActivity) SlaveFragment.this.getActivity()).changeToSlaveSearchResults();
                 http.getSlaveSearch(Tracksjson);
                 //Here u can getHostSearch the value "query" which is entered in the search box.

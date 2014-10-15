@@ -3,24 +3,16 @@ package com.myapp.partyspot.fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SearchView;
 
-import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
-import com.myapp.partyspot.handlers.HTTPFunctions;
+import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.ArrayList;
@@ -36,16 +28,17 @@ public class HostSearchResultsFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final MainActivity activity = (MainActivity) getActivity();
 
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View view = inflater.inflate(R.layout.fragment_host_search_results, null);
-        this.myListView = (ListView) view.findViewById(R.id.host_search_results);
+        final View view = inflater.inflate(R.layout.fragment_search_results, null);
+        this.myListView = (ListView) view.findViewById(R.id.search_results);
 
         builder.setView(view)
                 .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        activity.fragment = "Host";
                     }
                 });
 

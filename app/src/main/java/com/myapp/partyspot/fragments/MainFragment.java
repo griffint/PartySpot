@@ -64,7 +64,7 @@ public class MainFragment extends Fragment {
         suggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).choosePlaylistSuggester();
+                ((MainActivity)getActivity()).choosePlaylistSlave();
             }
         });
 

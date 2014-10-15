@@ -3,12 +3,14 @@ package com.myapp.partyspot.handlers;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.Date;
 
@@ -139,29 +141,46 @@ public class FirebaseHandler {
         and will output a SpotifyTrack object
         We're putting this seperate from the rest of pulling from firebase, because we want people who aren't
         slave or master phones to be able to suggest songs
+
+        Also need to implement a loop to get all the suggested songs from the firebase
         */
         Firebase playlistSuggestions = firebaseDatabase.child(playlist);    //setting up firebase reference
-        playlistSuggestions.addValueEventListener(new ValueEventListener() {        //looks for a change in data
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                String title = (String) snapshot.child("curre").getValue();
-                String uri = (String) snapshot.child("uri").getValue();
-                String artist = (String) snapshot.child("artist").getValue();
 
-                //makes a new SpotifyTrack with the output data from the firebase pull
-                //there are potential asynchronous issues here
-                SpotifyTrack outputTrack = new SpotifyTrack(title,uri,artist);
-                // return outputTrack;
+        playlistSuggestions.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+
             }
 
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+                String title = (String) snapshot.child("title").getValue();
+                System.out.println("The updated post title is " + title);
+            }
+
+            //makes a new SpotifyTrack with the output data from the firebase pull
+            //there are potential asynchronous issues here
+            //SpotifyTrack outputTrack = new SpotifyTrack(title, uri, artist);
+            // generate a SpotifyTracks object containing all the necesary SpotifyTrack objects
+            //SpotifyTracks outputList = new SpotifyTracks();
 
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s){
+
+            }
+
         });
 
         return null;
-    }
+}
 }
