@@ -16,14 +16,12 @@ import android.widget.ListView;
 
 import com.firebase.client.Firebase;
 import com.myapp.partyspot.fragments.ChooseSlaveDialogFragment;
-import com.myapp.partyspot.fragments.ChooseSuggesterDialogFragment;
 import com.myapp.partyspot.fragments.HostFragment;
 import com.myapp.partyspot.fragments.HostSearchResultsFragment;
 import com.myapp.partyspot.fragments.NameDialogFragment;
 import com.myapp.partyspot.fragments.SlaveFragment;
 import com.myapp.partyspot.fragments.SlaveSearchResultsFragment;
 import com.myapp.partyspot.fragments.SuggesterFragment;
-import com.myapp.partyspot.fragments.SuggesterSearchResultsFragment;
 import com.myapp.partyspot.handlers.FirebaseHandler;
 import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.R;
@@ -273,16 +271,19 @@ public class MainActivity extends Activity {
         frag.displaySearchResults(tracks);
     }
 
-    public void displaySuggesterSearchResults(SpotifyTracks tracks) {
-        SuggesterSearchResultsFragment frag = (SuggesterSearchResultsFragment) getFragmentManager().findFragmentByTag("suggester_search");
-        frag.displaySearchResults(tracks);
-    }
-
     public void changeToHostSearchResults() {
         if (!this.fragment.equals("HostSearchResults")) {
             this.fragment = "HostSearchResults";
             DialogFragment newFragment = new HostSearchResultsFragment();
             newFragment.show(getFragmentManager(), "host_search");
+        }
+    }
+
+    public void changeToSlaveSearchResults() {
+        if (!this.fragment.equals("SlaveSearchResults")) {
+            this.fragment = "SlaveSearchResults";
+            DialogFragment newFragment = new SlaveSearchResultsFragment();
+            newFragment.show(getFragmentManager(), "slave_search");
         }
     }
 
@@ -296,11 +297,6 @@ public class MainActivity extends Activity {
         newFragment.show(getFragmentManager(), "missiles");
     }
 
-    public void choosePlaylistSuggester() {
-        DialogFragment newFragment = new ChooseSuggesterDialogFragment();
-        newFragment.show(getFragmentManager(), "missiles");
-    }
-
     public void changeToSlaveFragment() {
         this.fragment = "Slave";
         SlaveFragment fragment = new SlaveFragment();
@@ -308,24 +304,6 @@ public class MainActivity extends Activity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
-    public void changeToSlaveSearchResults() {
-        SlaveSearchResultsFragment fragment = new SlaveSearchResultsFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment, "slave_search");
-        transaction.commit();
-    }
-
-    public void changeToSuggesterSearchResults() {
-        SuggesterSearchResultsFragment fragment = new SuggesterSearchResultsFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment, "suggester_search");
         transaction.commit();
     }
 
