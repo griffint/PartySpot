@@ -30,7 +30,8 @@ tools:ignore="MergeRootFrame" >
     android:layout_alignParentStart="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
-    android:padding="6dip">
+    android:padding="6dip"
+        android:id="@+id/relativeLayout">
 
 
     <Button
@@ -81,8 +82,8 @@ tools:ignore="MergeRootFrame" >
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/queue"
         android:layout_toEndOf="@+id/queue"
-        android:layout_above="@+id/relativeLayout"
-        android:layout_below="@+id/textView3" />
+        android:layout_below="@+id/textView3"
+        android:layout_above="@+id/relativeLayout" />
 
 
     <TextView
