@@ -22,8 +22,8 @@ import java.util.ArrayList;
  */
 
 public class HostSearchResultsFragment extends DialogFragment {
-
-    public ListView myListView;
+    // this fragment displays the search results for the host
+    public ListView myListView; // for easy storage to manipulate the list
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class HostSearchResultsFragment extends DialogFragment {
         this.myListView = (ListView) view.findViewById(R.id.search_results);
 
         builder.setView(view)
+                // set a cancel button for the user
                 .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         activity.fragment = "Host";
@@ -64,6 +65,7 @@ public class HostSearchResultsFragment extends DialogFragment {
                 DialogFragment newFragment = new AddDialogFragment();
                 newFragment.show(getFragmentManager(), "missiles");
 
+                // this is how the track information is passed to the add dialog
                 Bundle bundle = new Bundle();
                 bundle.putString("song", s); //any string to be sent
                 bundle.putString("uri", tracks.getUriFromTitle(s));

@@ -66,8 +66,9 @@ public class SlaveSearchResultsFragment extends DialogFragment {
                 String s = tmp.substring(0,pos);
 
                 DialogFragment newFragment = new SuggestDialogFragment();
-                newFragment.show(getFragmentManager(), "missiles");
+                newFragment.show(getFragmentManager(), "suggest");
 
+                // this is how arguments are passed to the dialog
                 Bundle bundle = new Bundle();
                 bundle.putString("song", s); //any string to be sent
                 bundle.putString("uri", tracks.getUriFromTitle(s));

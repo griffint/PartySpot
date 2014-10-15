@@ -1,6 +1,5 @@
 package com.myapp.partyspot.handlers;
 
-import android.content.Intent;
 import android.util.Log;
 
 import com.myapp.partyspot.activities.MainActivity;
@@ -93,7 +92,7 @@ public class SpotifyHandler implements
                         SpotifyHandler.this.songIndex += 1;
                         SpotifyHandler.this.mPlayer.play(SpotifyHandler.this.playingTracks.tracks.get(SpotifyHandler.this.songIndex).getUri());
 
-                               activity2.displaycurrentQueue(SpotifyHandler.this.songIndex);
+                               activity2.displayCurrentQueue(SpotifyHandler.this.songIndex);
                     }
                 } else if (SpotifyHandler.this.isSlave) {
                     if (eventType == EventType.AUDIO_FLUSH) {

@@ -39,9 +39,7 @@ public class HTTPFunctions {
     }//ALWAYS PASS IN getActivity
 
     public void getHostSearch(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
-        Log.v("ho", URL);
-        URL = URL.replaceAll(" ","+");
-        Log.v("ho", URL);
+        URL = URL.replaceAll(" ","+"); // for proper url functionality
         final MainActivity activity = ((MainActivity)HTTPFunctions.this.context);
         this.queriedTracks = new ArrayList<SpotifyTrack>();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,

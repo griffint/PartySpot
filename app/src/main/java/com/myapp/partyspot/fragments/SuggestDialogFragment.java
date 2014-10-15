@@ -30,12 +30,14 @@ public class SuggestDialogFragment extends DialogFragment {
         String u = "";
         String a = "";
 
+        // this is how arguments are passed to fragments
         if(getArguments()!=null) {
             s = getArguments().getString("song");
             u = getArguments().getString("uri");
             a = getArguments().getString("artist");
         }
 
+        // declared final so they can be accessed from different class
         final String song_name = s;
         final String uri = u;
         final String artist = a;
@@ -46,6 +48,7 @@ public class SuggestDialogFragment extends DialogFragment {
 
         final MainActivity activity = (MainActivity) getActivity();
 
+        // display the song that the user is trying to suggest
         final TextView myTextView = (TextView) view.findViewById(R.id.add_dialog);
         myTextView.setText(song_name);
 
@@ -55,8 +58,9 @@ public class SuggestDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.add_now, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //fix this:::::::::((MainActivity)getActivity()).firebaseHandler.suggest(track);
-                        ((DialogFragment)getActivity().getFragmentManager().findFragmentByTag("slave_search")).dismiss();
-                        Log.v(track.getName(), "YOYOYOYOYO");
+                        if (activity.fragment.equals("SlaveSearchResults") || activity.fragment.equals("SuggesterSearchResults")) { // if is suggesting from search, also dismiss search
+                            ((DialogFragment) getActivity().getFragmentManager().findFragmentByTag("slave_search")).dismiss();
+                        }
                         if (activity.spotifyHandler.isSlave) {
                             activity.fragment = "Slave";
                         } else {

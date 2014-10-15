@@ -30,31 +30,14 @@ public class FirebaseHandler {
         this.firebaseDatabase = new Firebase(this.URL);
     }
 
-    /*
-    //hostData class will hold all the info that the host needs to be pushing to firebase
-    public class hostData {
-        public String playlistName;     //self explanatory
-        public String currentlyPlaying;     //currently playing song - calculated or actual data?
-        public float songTime;      //how far into currently playing song the host is
-        public boolean playerState;     //true=playing, false=paused
-
-        //constructor stuff
-        public hostData(String playlistName, String currentlyPlaying, float songTime, boolean playerState) {
-            this.playlistName = playlistName;
-            this.currentlyPlaying = currentlyPlaying;
-            this.songTime = songTime;
-            this.playerState = playerState;
-        }
-    }*/
-
     public void pushToFirebase(String playlistName, String currentlyPlayingURI, String songName, int songTime, boolean playerState) {
+        // this function is called by the host to push the current playlist status
         Firebase playlists = firebaseDatabase.child(playlistName);
         playlists.child("currentlyPlaying").setValue(currentlyPlayingURI);     //this should be set to push the uri of the current song
         playlists.child("songTime").setValue(songTime);
         playlists.child("title").setValue(songName);
         playlists.child("playerState").setValue(playerState);
         playlists.child("timestamp").setValue(new Date().getTime());
-        //now  use .put to insert the current playlist data and push it to firebase
     }
 
     public void pullFromFirebase(String playlist){
@@ -79,6 +62,7 @@ public class FirebaseHandler {
     }
 
     public void validatePlaylistHost(final String playlist) {
+        // checks whether the playlist exists. If it doesn't, redirect to host fragment
         this.firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -104,6 +88,7 @@ public class FirebaseHandler {
     }
 
     public void validatePlaylist(final String playlist) {
+        // checks whether the playlist exists. If it does, redirect to slave fragment
         this.firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
