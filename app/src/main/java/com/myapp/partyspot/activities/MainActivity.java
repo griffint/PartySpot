@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,28 +16,19 @@ import android.widget.ListView;
 
 import com.firebase.client.Firebase;
 import com.myapp.partyspot.fragments.ChooseSlaveDialogFragment;
-import com.myapp.partyspot.fragments.ChooseSuggesterDialogFragment;
+import com.myapp.partyspot.fragments.HostFragment;
 import com.myapp.partyspot.fragments.HostSearchResultsFragment;
 import com.myapp.partyspot.fragments.NameDialogFragment;
+import com.myapp.partyspot.fragments.SlaveFragment;
 import com.myapp.partyspot.fragments.SlaveSearchResultsFragment;
-import com.myapp.partyspot.fragments.SuggesterSearchResultsFragment;
+import com.myapp.partyspot.fragments.SuggesterFragment;
 import com.myapp.partyspot.handlers.FirebaseHandler;
 import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.R;
 import com.myapp.partyspot.handlers.SpotifyHandler;
-import com.myapp.partyspot.fragments.ChooseHostOrSlaveFragment;
 import com.myapp.partyspot.fragments.ChoosePlaylistHostFragment;
-import com.myapp.partyspot.fragments.ChoosePlaylistToFollowFragment;
-import com.myapp.partyspot.fragments.HostAddFragment;
-import com.myapp.partyspot.fragments.HostMainFragment;
 import com.myapp.partyspot.fragments.LoginFragment;
 import com.myapp.partyspot.fragments.MainFragment;
-import com.myapp.partyspot.fragments.NameHostedFragment;
-import com.myapp.partyspot.fragments.SlaveAddFragment;
-import com.myapp.partyspot.fragments.SlaveMainFragment;
-import com.myapp.partyspot.fragments.SlaveVoteFragment;
-import com.myapp.partyspot.fragments.SuggesterAddFragment;
-import com.myapp.partyspot.fragments.SuggesterVoteFragment;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyPlaylists;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
@@ -61,6 +51,8 @@ public class MainActivity extends Activity {
     public String playlistName;
     public ArrayList<String> playlists;
     public boolean muted;
+    public String userType; //host, slave or suggester
+    public String fragment; // current fragment
 
     public MainActivity() {
         this.playlists = new ArrayList<String>();
@@ -75,6 +67,8 @@ public class MainActivity extends Activity {
         this.playing = false;
         this.playlistName = "";
         this.muted = false;
+        this.userType = "";
+        this.fragment = "Login";
     }
 
     public void setNotMuted() {
@@ -144,6 +138,7 @@ public class MainActivity extends Activity {
         }
 
         getUser(); // gets and sets user from the web api
+        this.fragment = "Main";
         changeToMainFragment();
     }
 
@@ -213,8 +208,9 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void changeToHostMainFragment() {
-        HostMainFragment fragment = new HostMainFragment();
+    public void changeToHostFragment() {
+        this.fragment = "Host";
+        HostFragment fragment = new HostFragment();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -227,25 +223,8 @@ public class MainActivity extends Activity {
         findViewById(R.id.loadingBar).setVisibility(View.GONE);
     }
 
-    public void changeToChooseHostOrSlaveFragment() {
-        ChooseHostOrSlaveFragment fragment = new ChooseHostOrSlaveFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
-    public void changeToChoosePlaylistToFollowFragment() {
-        ChoosePlaylistToFollowFragment fragment = new ChoosePlaylistToFollowFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
     public void changeToChoosePlaylistToHostFragment() {
+        this.fragment = "ChoosePlaylistHost";
         ChoosePlaylistHostFragment fragment = new ChoosePlaylistHostFragment();
 
         FragmentManager fm = getFragmentManager();
@@ -265,25 +244,8 @@ public class MainActivity extends Activity {
         findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
     }
 
-    public void changeToHostAddFragment() {
-        HostAddFragment fragment = new HostAddFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
-    public void changeToLoginFragment() {
-        LoginFragment fragment = new LoginFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
     public void changeToMainFragment() {
+        this.fragment = "Main";
         this.spotifyHandler.setNotHostOrSlave();
         this.spotifyHandler.songIndex = 0;
         this.spotifyHandler.onPlaylist = false;
@@ -292,15 +254,6 @@ public class MainActivity extends Activity {
         this.spotifyHandler.pause();
         this.setNotMuted();
         MainFragment fragment = new MainFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
-    public void changeToNameHostedFragment() {
-        NameHostedFragment fragment = new NameHostedFragment();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -318,18 +271,20 @@ public class MainActivity extends Activity {
         frag.displaySearchResults(tracks);
     }
 
-    public void displaySuggesterSearchResults(SpotifyTracks tracks) {
-        SuggesterSearchResultsFragment frag = (SuggesterSearchResultsFragment) getFragmentManager().findFragmentByTag("suggester_search");
-        frag.displaySearchResults(tracks);
+    public void changeToHostSearchResults() {
+        if (!this.fragment.equals("HostSearchResults")) {
+            this.fragment = "HostSearchResults";
+            DialogFragment newFragment = new HostSearchResultsFragment();
+            newFragment.show(getFragmentManager(), "host_search");
+        }
     }
 
-    public void changeToHostSearchResults() {
-        HostSearchResultsFragment fragment = new HostSearchResultsFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment, "host_search");
-        transaction.commit();
+    public void changeToSlaveSearchResults() {
+        if (!this.fragment.equals("SlaveSearchResults")) {
+            this.fragment = "SlaveSearchResults";
+            DialogFragment newFragment = new SlaveSearchResultsFragment();
+            newFragment.show(getFragmentManager(), "slave_search");
+        }
     }
 
     public void namePlaylist() {
@@ -342,13 +297,9 @@ public class MainActivity extends Activity {
         newFragment.show(getFragmentManager(), "missiles");
     }
 
-    public void choosePlaylistSuggester() {
-        DialogFragment newFragment = new ChooseSuggesterDialogFragment();
-        newFragment.show(getFragmentManager(), "missiles");
-    }
-
-    public void changeToSlaveAddFragment() {
-        SlaveAddFragment fragment = new SlaveAddFragment();
+    public void changeToSlaveFragment() {
+        this.fragment = "Slave";
+        SlaveFragment fragment = new SlaveFragment();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -356,53 +307,9 @@ public class MainActivity extends Activity {
         transaction.commit();
     }
 
-    public void changeToSlaveMainFragment() {
-        SlaveMainFragment fragment = new SlaveMainFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
-    public void changeToSlaveSearchResults() {
-        SlaveSearchResultsFragment fragment = new SlaveSearchResultsFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment, "slave_search");
-        transaction.commit();
-    }
-
-    public void changeToSuggesterSearchResults() {
-        SuggesterSearchResultsFragment fragment = new SuggesterSearchResultsFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment, "suggester_search");
-        transaction.commit();
-    }
-
-    public void changeToSlaveVoteFragment() {
-        SlaveVoteFragment fragment = new SlaveVoteFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
-    public void changeToSuggesterAddFragment() {
-        SuggesterAddFragment fragment = new SuggesterAddFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
-    public void changeToSuggesterVoteFragment() {
-        SuggesterVoteFragment fragment = new SuggesterVoteFragment();
+    public void changeToSuggesterFragment() {
+        this.fragment = "Suggester";
+        SuggesterFragment fragment = new SuggesterFragment();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();

@@ -93,6 +93,7 @@ public class SpotifyHandler implements
                 } else if (SpotifyHandler.this.isSlave) {
                     if (eventType == EventType.AUDIO_FLUSH) {
                         long current_time = new Date().getTime();
+                        Log.v("sync",Long.toString(current_time));
                         int diff = (int) (current_time-SpotifyHandler.this.timestamp);
                         int newPos = diff+SpotifyHandler.this.origSongPos;
                         Log.v(Integer.toString(newPos), Integer.toString(diff));
@@ -107,7 +108,7 @@ public class SpotifyHandler implements
     }
 
     public void synchronize(String songUri, long timestamp, int origPos, boolean playerState) {
-        Log.v("sync","me");
+        Log.v("sync",Long.toString(timestamp));
         this.timestamp = timestamp;
         this.activity.setMuted();
         mPlayer.play(songUri);

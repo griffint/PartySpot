@@ -24,5 +24,6 @@
     <string name="set_playlist_name">Set Your Playlist\'s Name:</string>
     <string name="search_title">Search</string>
     <string name="choose_playlist_name">Enter the name of the playlist you want to join:</string>
+    <string name="suggested_songs">Suggested Songs:</string>
 
 </resources>

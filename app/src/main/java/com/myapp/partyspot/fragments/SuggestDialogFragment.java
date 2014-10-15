@@ -20,7 +20,7 @@ import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 /**
  * Created by svaughan on 10/10/14.
  */
-public class AddDialogFragment extends DialogFragment {
+public class SuggestDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -45,26 +45,23 @@ public class AddDialogFragment extends DialogFragment {
         final View view = inflater.inflate(R.layout.fragment_add_dialog, null);
 
         final MainActivity activity = (MainActivity) getActivity();
-        final TextView myListView = (TextView) view.findViewById(R.id.add_dialog);
-        myListView.setText(song_name);
+
+        final TextView myTextView = (TextView) view.findViewById(R.id.add_dialog);
+        myTextView.setText(song_name);
 
         final SpotifyTrack track = new SpotifyTrack(song_name, uri, artist);
-        Log.v(track.getName(), track.getUri());
-        Log.v(track.getArtist(), "NOOOO");
 
         builder.setView(view)
                 .setPositiveButton(R.string.add_now, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity)getActivity()).spotifyHandler.queueNext(track);
-                        ((DialogFragment)getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
-                        activity.fragment = "Host";
-                    }
-                })
-                .setNeutralButton(R.string.add_last, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity)getActivity()).spotifyHandler.queueLast(track);
-                        ((DialogFragment)getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
-                        activity.fragment = "Host";
+                        //fix this:::::::::((MainActivity)getActivity()).firebaseHandler.suggest(track);
+                        ((DialogFragment)getActivity().getFragmentManager().findFragmentByTag("slave_search")).dismiss();
+                        Log.v(track.getName(), "YOYOYOYOYO");
+                        if (activity.spotifyHandler.isSlave) {
+                            activity.fragment = "Slave";
+                        } else {
+                            activity.fragment = "Suggester";
+                        }
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
