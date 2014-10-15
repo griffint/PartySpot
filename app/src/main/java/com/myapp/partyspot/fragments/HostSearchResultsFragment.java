@@ -31,6 +31,8 @@ import java.util.ArrayList;
 
 public class HostSearchResultsFragment extends DialogFragment {
 
+    public ListView myListView;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -38,6 +40,7 @@ public class HostSearchResultsFragment extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.fragment_host_search_results, null);
+        this.myListView = (ListView) view.findViewById(R.id.host_search_results);
 
         builder.setView(view)
                 .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -55,11 +58,10 @@ public class HostSearchResultsFragment extends DialogFragment {
 
         // displays the list of playlists
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
-        final ListView myListView = (ListView) getActivity().findViewById(R.id.host_search_results);
-        myListView.setAdapter(myListAdapter);
+        this.myListView.setAdapter(myListAdapter);
 
         //create an onItemClickListener for the user to choose playlist to play
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        this.myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 String tmp = (String) myListView.getItemAtPosition(position);
