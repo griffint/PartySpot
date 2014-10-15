@@ -76,7 +76,7 @@ public class SpotifyHandler implements
                         boolean playing = false;
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
-                    if (eventType == EventType.PLAY) {
+                    if (eventType == EventType.AUDIO_FLUSH) {
                         String playlist = SpotifyHandler.this.activity.playlistName;
                         String songUri = state.trackUri;
                         String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);

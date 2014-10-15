@@ -74,6 +74,7 @@ public class FirebaseHandler {
                     activity.spotifyHandler.setNotHostOrSlave();
                     Context context = FirebaseHandler.this.activity;
                     CharSequence text = "Playlist already exists";
+                    FirebaseHandler.this.pullSuggestion(playlist);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -100,6 +101,7 @@ public class FirebaseHandler {
                     if (FirebaseHandler.this.activity.spotifyHandler.isSlave) {
                         activity.changeToSlaveFragment();
                         FirebaseHandler.this.pullFromFirebase(playlist);
+                        FirebaseHandler.this.pullSuggestion(playlist);
                     } else {
                         activity.changeToSuggesterFragment();
                     }
@@ -155,6 +157,8 @@ public class FirebaseHandler {
                 Log.d("updated song is",trackname);
                 //then add it to the SpotifyTracks object
                 SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
+
+                activity.suggestedSongs.addTrack(outputTrack);
 
                 //-----------IMPORTANT-----------------
                 //SOMETHING SHOULD BE CALLED HERE TO ADD THE TRACK outputTrack TO suggestedSongs in mainactivity

@@ -119,9 +119,9 @@ public class MainActivity extends Activity {
         }
 
         // temporary suggested songs
-        suggestedSongs.addTrack(new SpotifyTrack("Whoa Whoa Whoa", "spotify:track:3tpdc8zHIOXy8rYhuI9car", "Watsky"));
-        suggestedSongs.addTrack(new SpotifyTrack("3005", "spotify:track:3Z2sglqDj1rDRMF5x0Sz2R", "Childish Gambino"));
-        suggestedSongs.addTrack(new SpotifyTrack("Handyman", "spotify:track:31Fw4CZistkNF4Uo3S39Md", "Seven"));
+        //suggestedSongs.addTrack(new SpotifyTrack("Whoa Whoa Whoa", "spotify:track:3tpdc8zHIOXy8rYhuI9car", "Watsky"));
+        //suggestedSongs.addTrack(new SpotifyTrack("3005", "spotify:track:3Z2sglqDj1rDRMF5x0Sz2R", "Childish Gambino"));
+        //suggestedSongs.addTrack(new SpotifyTrack("Handyman", "spotify:track:31Fw4CZistkNF4Uo3S39Md", "Seven"));
     }
 
     @Override
