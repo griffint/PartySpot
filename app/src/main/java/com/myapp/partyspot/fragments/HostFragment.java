@@ -29,6 +29,8 @@ import java.util.ArrayList;
 public class HostFragment extends Fragment {
     // This class holds the main view for the host
 
+    public ListView suggestedListView;
+
     public HostFragment() {
 
     }
@@ -66,34 +68,11 @@ public class HostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_host, container, false);
         setHasOptionsMenu(true);// need to replace this line
+
+        this.suggestedListView = (ListView) rootView.findViewById(R.id.suggested);
         final SpotifyTracks suggested = ((MainActivity)getActivity()).suggestedSongs;
 
-        // called after the httpFunctions gets the users playlists
-        ArrayList<String> list = suggested.makeNameWithArtistArray();
-
-        // displays the list of playlists
-        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
-        final ListView myListView = (ListView) rootView.findViewById(R.id.suggested);
-        myListView.setAdapter(myListAdapter);
-
-        //create an onItemClickListener for the user to choose playlist to play
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                String tmp = (String) myListView.getItemAtPosition(position);
-                int pos = tmp.indexOf(" - ");
-                String s = tmp.substring(0, pos);
-
-                DialogFragment newFragment = new AddDialogFragment();
-                newFragment.show(getFragmentManager(), "add");
-
-                Bundle bundle = new Bundle();
-                bundle.putString("song", s); //any string to be sent
-                bundle.putString("uri", suggested.getUriFromTitle(s));
-                bundle.putString("artist", suggested.getArtistFromTitle(s));
-                newFragment.setArguments(bundle);
-            }
-        });
+        displaySuggested(suggested);
 
         final Button play = (Button) rootView.findViewById(R.id.play);
         final Button next = (Button) rootView.findViewById(R.id.next);
@@ -180,5 +159,36 @@ public class HostFragment extends Fragment {
         return rootView;
     }
 
+
+
+    public void displaySuggested(final SpotifyTracks suggested) {
+
+        // called after the httpFunctions gets the users playlists
+        ArrayList<String> list = suggested.makeNameWithArtistArray();
+
+        // displays the list of playlists
+        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
+        this.suggestedListView.setAdapter(myListAdapter);
+
+        //create an onItemClickListener for the user to choose playlist to play
+        this.suggestedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String tmp = (String) HostFragment.this.suggestedListView.getItemAtPosition(position);
+                int pos = tmp.indexOf(" - ");
+                String s = tmp.substring(0, pos);
+
+                DialogFragment newFragment = new AddDialogFragment();
+                newFragment.show(getFragmentManager(), "add");
+
+                Bundle bundle = new Bundle();
+                bundle.putString("song", s); //any string to be sent
+                bundle.putString("uri", suggested.getUriFromTitle(s));
+                bundle.putString("artist", suggested.getArtistFromTitle(s));
+                newFragment.setArguments(bundle);
+            }
+        });
+
+    }
 
 }

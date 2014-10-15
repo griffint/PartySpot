@@ -19,15 +19,24 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:padding="6dip">
+        android:padding="6dip"
+        android:layout_below="@id/main_menu">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/suggested_slave"
+            android:layout_above="@+id/volume"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/volume"
             android:layout_height="60dp"
             android:layout_width="60dp"
-            android:layout_margin="20dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/volumeon"/>
+            android:background="@drawable/volumeon"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 
