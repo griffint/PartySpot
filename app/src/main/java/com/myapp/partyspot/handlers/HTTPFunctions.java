@@ -77,9 +77,9 @@ public class HTTPFunctions {
     }
 
     public void getSlaveSearch(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
-        Log.v("ho", URL);
+        //Log.v("ho", URL);
         URL = URL.replaceAll(" ","+");
-        Log.v("ho", URL);
+        //Log.v("ho", URL);
         final MainActivity activity = ((MainActivity)HTTPFunctions.this.context);
         this.queriedTracks = new ArrayList<SpotifyTrack>();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
@@ -91,8 +91,10 @@ public class HTTPFunctions {
                         Log.d("Response", response.toString());
                         //JANK FIX SHOULD FIGURE OUT A BETTER WAY
                         SpotifyTracks results = JSONtoSpotifyTrack(response);
+                        Log.d("Test",activity.fragment.toString());
                         if (activity.fragment.equals("SlaveSearchResults") || activity.fragment.equals("SuggesterSearchResults")) {
                             activity.displaySlaveSearchResults(results);
+                            Log.d("Here","Within getSlaveSearch");
                         }
                     }
                 },

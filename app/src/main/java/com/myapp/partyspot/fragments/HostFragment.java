@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -41,32 +43,23 @@ public class HostFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.hostmenu, menu);
-
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            public boolean onQueryTextChange(String newText) {
-                // this is your adapter that will be filtered
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.return_to_main:
+                ((MainActivity)getActivity()).changeToMainFragment();
                 return true;
-            }
-
-            public boolean onQueryTextSubmit(String query) {
-                HTTPFunctions http = new HTTPFunctions(getActivity());
-                String URL = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
-                ((MainActivity)HostFragment.this.getActivity()).changeToHostSearchResults();
-                http.getHostSearch(URL);
-                //Here u can getHostSearch the value "query" which is entered in the search box.
-                return true;
-            }
-        };
-        searchView.setOnQueryTextListener(queryTextListener);
-
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_host, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_host, container, false);
         setHasOptionsMenu(true);// need to replace this line
 
         this.suggestedListView = (ListView) rootView.findViewById(R.id.suggested);
@@ -76,7 +69,7 @@ public class HostFragment extends Fragment {
 
         final Button play = (Button) rootView.findViewById(R.id.play);
         final Button next = (Button) rootView.findViewById(R.id.next);
-        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
+        final Button suggest_song = (Button) rootView.findViewById(R.id.suggest_song);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
         final SpotifyTracks queue = ((MainActivity)getActivity()).spotifyHandler.playingTracks;
@@ -124,10 +117,16 @@ public class HostFragment extends Fragment {
         }
 
         // return to main menu
-        main_menu.setOnClickListener(new View.OnClickListener() {
+        suggest_song.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToMainFragment();
+                EditText editText = (EditText) rootView.findViewById(R.id.suggestSong);
+                HTTPFunctions http = new HTTPFunctions(getActivity());
+                String song = editText.getText().toString();
+                editText.setText("");
+                String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";
+                ((MainActivity)HostFragment.this.getActivity()).changeToHostSearchResults();
+                http.getHostSearch(URL);
             }
         });
 
