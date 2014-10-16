@@ -87,6 +87,14 @@ public class SpotifyHandler implements
                         int time = state.positionInMs;
                         ((TextView)SpotifyHandler.this.activity.findViewById(R.id.currently_playing)).setText(song);
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, !SpotifyHandler.this.paused);
+                    } else if (eventType == EventType.PLAY) {
+                        String playlist = SpotifyHandler.this.activity.playlistName;
+                        String songUri = state.trackUri;
+                        String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
+                        song = song + " - "+ SpotifyHandler.this.playingTracks.getArtistFromTitle(song);
+                        int time = state.positionInMs;
+                        ((TextView)SpotifyHandler.this.activity.findViewById(R.id.currently_playing)).setText(song);
+                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, !SpotifyHandler.this.paused);
                     }
 
                     // We're only allowing the user to go forward, so call this as if it means onNextSong:
@@ -158,9 +166,10 @@ public class SpotifyHandler implements
 
     public void play() {
         if (this.paused && this.onPlaylist) {
-            resume();
             this.paused = false;
+            resume();
         } else if (!this.playingTracks.tracks.isEmpty()) {
+            this.paused = false;
             mPlayer.play(this.getTrackUriArray().get(this.songIndex));
             this.onPlaylist = true;
         }
