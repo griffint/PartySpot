@@ -163,6 +163,8 @@ public class FirebaseHandler {
                 String trackname = snapshot.getName();
                 String uri = (String) snapshot.child("uri").getValue();
                 String artist = (String) snapshot.child("artist").getValue();
+
+                Log.v(artist, trackname);
                 
                 //then add it to the SpotifyTracks object
                 SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
