@@ -22,9 +22,21 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Here you can host a playlist for others to listen to. Others can suggest songs for your playlist and listen along as long as they know your playlist id."
+        android:id="@+id/host_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/host_playlist"
+        android:gravity="center"/>
 
     <Button
         android:layout_height="wrap_content"
@@ -32,11 +44,23 @@
         android:id="@+id/listen_playlist"
         android:background="@drawable/blue_button"
         android:layout_width="match_parent"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/host_text"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Here you can listen to a playlist, as long as you know the playlist's id. You can also suggest songs for the host to play. "
+        android:id="@+id/slave_text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_below="@id/listen_playlist"
+        android:gravity="center"/>
 
     <Button
         android:layout_height="wrap_content"
@@ -44,11 +68,22 @@
         android:id="@+id/suggest_playlist"
         android:background="@drawable/blue_button"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/slave_text"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Here you can suggest songs for a playlist, provided that you know the playlist's id. "
+        android:id="@+id/suggest_text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="80dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_below="@id/suggest_playlist"
+        android:gravity="center"/>
 
 </RelativeLayout>

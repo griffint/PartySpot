@@ -277,8 +277,11 @@ public class MainActivity extends Activity {
         if (this.premiumUser) {
             findViewById(R.id.host_playlist).setVisibility(View.VISIBLE);
             findViewById(R.id.listen_playlist).setVisibility(View.VISIBLE);
+            findViewById(R.id.host_text).setVisibility(View.VISIBLE);
+            findViewById(R.id.slave_text).setVisibility(View.VISIBLE);
         }
         this.findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
+        this.findViewById(R.id.suggest_text).setVisibility(View.VISIBLE);
     }
 
     public void changeToMainFragment() {

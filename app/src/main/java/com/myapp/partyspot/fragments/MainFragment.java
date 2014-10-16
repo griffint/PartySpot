@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
@@ -32,6 +33,9 @@ public class MainFragment extends Fragment {
         Button host = (Button) rootView.findViewById(R.id.host_playlist);
         Button listen = (Button) rootView.findViewById(R.id.listen_playlist);
         Button suggest = (Button) rootView.findViewById(R.id.suggest_playlist);
+        TextView hostText = (TextView) rootView.findViewById(R.id.host_text);
+        TextView slaveText = (TextView) rootView.findViewById(R.id.slave_text);
+        TextView suggestText = (TextView) rootView.findViewById(R.id.suggest_text);
 
         View bar = rootView.findViewById(R.id.loadingBar); // for if user isn't loaded
 
@@ -39,11 +43,16 @@ public class MainFragment extends Fragment {
             suggest.setVisibility(View.GONE);
             host.setVisibility(View.GONE);
             listen.setVisibility(View.GONE);
+            hostText.setVisibility(View.GONE);
+            slaveText.setVisibility(View.GONE);
+            suggestText.setVisibility(View.GONE);
         } else {
             bar.setVisibility(View.GONE);
             if (!((MainActivity)getActivity()).premiumUser) { // if user isn't premium, don't let them stream
                 host.setVisibility(View.GONE);
                 listen.setVisibility(View.GONE);
+                hostText.setVisibility(View.GONE);
+                slaveText.setVisibility(View.GONE);
             }
         }
 
@@ -76,6 +85,7 @@ public class MainFragment extends Fragment {
         if (((MainActivity)getActivity()).notSpotifyUser) {
             rootView.findViewById(R.id.loadingBar).setVisibility(View.GONE);
             rootView.findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.suggest_text).setVisibility(View.VISIBLE);
         }
 
         return rootView;
