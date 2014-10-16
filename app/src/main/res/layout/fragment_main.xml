@@ -5,37 +5,45 @@
     tools:context=".MainActivity"
     tools:ignore="MergeRootFrame" >
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id = "@+id/hello_world"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/hello_world"
-        android:text="@string/host"
-        android:id="@+id/host_playlist"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/host_playlist"
-        android:text="@string/listen"
-        android:id="@+id/listen_playlist"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/listen_playlist"
-        android:text="@string/suggest"
-        android:id="@+id/suggest_playlist"/>
-
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:layout_below="@id/hello_world"
-        android:id ="@+id/loadingBar"/>
+        android:id ="@+id/loadingBar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:text="@string/host"
+        android:id="@+id/host_playlist"
+        android:background="@drawable/blue_button"
+        android:layout_width="match_parent"
+        android:layout_marginTop="110dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/listen_playlist"
+        android:layout_alignStart="@+id/listen_playlist" />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:text="@string/listen"
+        android:id="@+id/listen_playlist"
+        android:background="@drawable/blue_button"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/suggest_playlist"
+        android:layout_alignStart="@+id/suggest_playlist"
+        android:layout_centerVertical="true" />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:text="@string/suggest"
+        android:id="@+id/suggest_playlist"
+        android:background="@drawable/blue_button"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="89dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/listen_playlist"
+        android:layout_alignStart="@+id/listen_playlist" />
+
 </RelativeLayout>
