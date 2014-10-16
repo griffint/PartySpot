@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PartySpot</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="login">Login</string>
+    <string name="ffw">Fast-Forward</string>
+    <string name="next">Next</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="host">Host a Playlist</string>
+    <string name="listen">Listen to a Playlist</string>
+    <string name="suggest">Suggest Songs for a Playlist</string>
+    <string name="main_menu">Return to Main Menu</string>
+    <string name="play">Play</string>
+    <string name="host_add_songs">View Suggested Songs</string>
+    <string name="host_main">Go Back to Main View</string>
+    <string name="add_now">Add to suggested songs list</string>
+    <string name="add_last">Make Last Song</string>
+    <string name="cancel">Cancel</string>
+    <string name="proceed">Continue</string>
+    <string name="back">Back</string>
+    <string name="set_playlist_name">Set Your Playlist\'s Name:</string>
+    <string name="search_title">Search</string>
+    <string name="choose_playlist_name">Enter the name of the playlist you want to join:</string>
+    <string name="suggested_songs">Suggested Songs:</string>
+    <string name="app_intro">Welcome to a more collaborative playlist! Gone are the days of a single person controlling the entire vibe of a party. PartySpot welcomes you to an environment where sharing, synchronizing and suggesting create the perfect atmosphere for your next kickback, hangout, or party. </string>
+
+</resources>
