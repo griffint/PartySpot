@@ -28,15 +28,9 @@ public class ChoosePlaylistHostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_choose_playlist_host, container, false);
 
-        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
+        
 
-        // return to main menu
-        main_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToMainFragment();
-            }
-        });
+
 
         return rootView;
     }
