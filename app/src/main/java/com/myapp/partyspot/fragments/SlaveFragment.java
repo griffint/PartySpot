@@ -100,7 +100,7 @@ public class SlaveFragment extends Fragment {
                 String song = editText.getText().toString();
                 editText.setText("");
                 String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";
-                ((MainActivity)SlaveFragment.this.getActivity()).changeToHostSearchResults();
+                ((MainActivity)SlaveFragment.this.getActivity()).changeToSlaveSearchResults();
                 http.getSlaveSearch(URL);
             }
         });
