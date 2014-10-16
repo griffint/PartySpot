@@ -25,5 +25,6 @@
     <string name="search_title">Search</string>
     <string name="choose_playlist_name">Enter the name of the playlist you want to join:</string>
     <string name="suggested_songs">Suggested Songs:</string>
+    <string name="app_intro">Welcome to a more collaborative playlist! Gone are the days of a single person controlling the entire vibe of a party. PartySpot welcomes you to an environment where sharing, synchronizing and suggesting create the perfect atmosphere for your next kickback, hangout, or party. </string>
 
 </resources>
