@@ -240,7 +240,7 @@ public class MainActivity extends Activity {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, fragment);
+        transaction.replace(R.id.container, fragment, "Host");
         transaction.commit();
     }
 
