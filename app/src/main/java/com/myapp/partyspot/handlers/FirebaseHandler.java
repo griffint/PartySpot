@@ -41,6 +41,13 @@ public class FirebaseHandler {
     public void pushToFirebase(String playlistName, String currentlyPlayingURI, String songName, int songTime, boolean playerState) {
         // this function is called by the host to push the current playlist status
         Firebase playlists = firebaseDatabase.child(playlistName);
+
+        String[] invalid_characters = {".", "#", "$", "[", "]"};
+
+        for(String str : invalid_characters){
+            songName = songName.replace(str, "");
+        }
+
         playlists.child("currentlyPlaying").setValue(currentlyPlayingURI);     //this should be set to push the uri of the current song
         playlists.child("songTime").setValue(songTime);
         playlists.child("title").setValue(songName);
@@ -61,7 +68,9 @@ public class FirebaseHandler {
                 Long timestamp = (Long) snapshot.child("timestamp").getValue();
                 String name = (String) snapshot.child("title").getValue();
                 ((TextView)FirebaseHandler.this.activity.findViewById(R.id.currently_playing)).setText(name);
-                FirebaseHandler.this.activity.spotifyHandler.synchronize(uri, timestamp, songTime, playerState);
+                if (!activity.notSpotifyUser) {
+                    FirebaseHandler.this.activity.spotifyHandler.synchronize(uri, timestamp, songTime, playerState);
+                }
             }
 
             @Override
@@ -77,11 +86,27 @@ public class FirebaseHandler {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 // do some stuff once
-                if (snapshot.hasChild(playlist)) {
+
+                String[] invalid_characters = {".", "#", "$", "[", "]"};
+                boolean valid = true;
+                for(String str : invalid_characters){
+                    if (playlist.contains(str)) {
+                        valid = false;
+                    }
+                }
+
+                if (!valid) {
+                    activity.spotifyHandler.setNotHostOrSlave();
+                    Context context = FirebaseHandler.this.activity;
+                    CharSequence text = "Playlist can't contain '.', '#', '$', '[', or ']'";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else if (snapshot.hasChild(playlist)) {
                     activity.spotifyHandler.setNotHostOrSlave();
                     Context context = FirebaseHandler.this.activity;
                     CharSequence text = "Playlist already exists";
-                    FirebaseHandler.this.pullSuggestion(playlist);
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -107,17 +132,23 @@ public class FirebaseHandler {
                 // do some stuff once
                 if (snapshot.hasChild(playlist)) {
                     activity.playlistName = playlist;
-                    if (activity.spotifyHandler.isSlave) {
+                    if (activity.notSpotifyUser) {
+                        activity.changeToSuggesterFragment();
+                        FirebaseHandler.this.pullSuggestion(playlist);
+                        FirebaseHandler.this.pullFromFirebase(playlist);
+                    } else if (activity.spotifyHandler.isSlave) {
                         activity.changeToSlaveFragment();
                         FirebaseHandler.this.pullFromFirebase(playlist);
                         FirebaseHandler.this.pullSuggestion(playlist);
                     } else {
                         activity.changeToSuggesterFragment();
-                        FirebaseHandler.this.pullFromFirebase(playlist);
                         FirebaseHandler.this.pullSuggestion(playlist);
+                        FirebaseHandler.this.pullFromFirebase(playlist);
                     }
                 } else {
-                    activity.spotifyHandler.setNotHostOrSlave();
+                    if (activity.spotifyHandler != null) {
+                        activity.spotifyHandler.setNotHostOrSlave();
+                    }
                     Context context = FirebaseHandler.this.activity;
                     CharSequence text = "Playlist doesn't exist";
                     int duration = Toast.LENGTH_SHORT;
@@ -142,6 +173,12 @@ public class FirebaseHandler {
         String trackName = track.name;
         String uri=track.uri;
         String artist=track.artist;
+
+        String[] invalid_characters = {".", "#", "$", "[", "]"};
+
+        for(String str : invalid_characters){
+            trackName = trackName.replace(str, "");
+        }
 
         //Here we create a child of the current playlist called suggestions, then create a child of that that is the song's name
         Firebase suggestions = firebaseDatabase.child(currentPlaylist).child("suggestions").child(trackName);

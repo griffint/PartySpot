@@ -102,16 +102,7 @@ public class HTTPFunctions {
                         Log.d("ERROR", "COULDN'T GET");
                     }
                 }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
-                params.put("Accept", "application/json");
-
-                return params;
-            }
-        };
+        );
 
         queue.add(getRequest);
     }

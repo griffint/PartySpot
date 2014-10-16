@@ -45,6 +45,7 @@ public class LoginFragment extends Fragment {
         skipButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity)getActivity()).loggedIn = true;
+                ((MainActivity)getActivity()).notSpotifyUser = true;
                 ((MainActivity)getActivity()).changeToMainFragmentNoLogin();
             }
         }); // redirects the user to a login page

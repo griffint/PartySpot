@@ -57,8 +57,10 @@ public class MainActivity extends Activity {
     public boolean muted; // whether the app is muted or not
     public String userType; //host, slave or suggester
     public String fragment; // current fragment
+    public boolean notSpotifyUser;
 
     public MainActivity() {
+        this.notSpotifyUser = false;
         this.loggedIn=false;
         this.spotify = null;
         this.spotifyHandler = null;
@@ -282,12 +284,14 @@ public class MainActivity extends Activity {
     public void changeToMainFragment() {
         // reset all the variables related to current playlist
         this.fragment = "Main";
-        this.spotifyHandler.setNotHostOrSlave();
-        this.spotifyHandler.songIndex = 0;
-        this.spotifyHandler.onPlaylist = false;
+        if (!this.notSpotifyUser) {
+            this.spotifyHandler.setNotHostOrSlave();
+            this.spotifyHandler.songIndex = 0;
+            this.spotifyHandler.onPlaylist = false;
+            this.spotifyHandler.pause();
+        }
         this.playing = false;
         this.playlistName ="";
-        this.spotifyHandler.pause();
         this.suggestedSongs = new SpotifyTracks();
         this.setNotMuted();
 

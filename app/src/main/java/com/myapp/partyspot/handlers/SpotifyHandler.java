@@ -38,6 +38,7 @@ public class SpotifyHandler implements
     public boolean isSlave;
     public long timestamp;
     public int origSongPos;
+    public String currentlyPlaying;
 
     public SpotifyHandler(MainActivity activity) {
         this.isHost = false;
@@ -52,6 +53,7 @@ public class SpotifyHandler implements
         this.timestamp = 0;
         this.origSongPos = 0;
         this.songIndex = 0;
+        this.currentlyPlaying = "";
 
         Spotify spotify = activity.getSpotify();
         mPlayer = spotify.getPlayer(activity, "My Company Name", this, new Player.InitializationObserver() {
@@ -102,7 +104,6 @@ public class SpotifyHandler implements
                         long current_time = new Date().getTime();
                         int diff = (int) (current_time-SpotifyHandler.this.timestamp);
                         int newPos = diff+SpotifyHandler.this.origSongPos;
-                        Log.v(Integer.toString(newPos), Integer.toString(diff));
                         if ((Math.abs(newPos-state.positionInMs))>150) {
                             mPlayer.seekToPosition(newPos);
                             SpotifyHandler.this.activity.setNotMuted();
@@ -112,22 +113,24 @@ public class SpotifyHandler implements
             }
         });
     }
-    public SpotifyTracks getSongsToEnd(Integer index){
+    public SpotifyTracks getSongsToEnd(Integer i){
         SpotifyTracks returnTracks = new SpotifyTracks();
         Integer size = playingTracks.tracks.size();
-        for (int bullshit;index< size;index++){
+        for (int index = i;index< size;index++){
             returnTracks.addTrack(playingTracks.tracks.get(index));
         }
         return returnTracks;
 
     }
     public void synchronize(String songUri, long timestamp, int origPos, boolean playerState) {
-        this.timestamp = timestamp;
-        this.activity.setMuted();
-        mPlayer.play(songUri);
-        this.origSongPos = origPos;
-        if (!playerState) {
-            mPlayer.pause();
+        if (timestamp != this.timestamp) {
+            this.timestamp = timestamp;
+            this.activity.setMuted();
+            mPlayer.play(songUri);
+            this.origSongPos = origPos;
+            if (!playerState) {
+                mPlayer.pause();
+            }
         }
     }
 

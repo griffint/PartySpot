@@ -38,7 +38,9 @@ public class SlaveSearchResultsFragment extends DialogFragment {
         builder.setView(view)
                 .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (activity.spotifyHandler.isSlave) {
+                        if (activity.notSpotifyUser) {
+                            activity.fragment = "Suggester";
+                        } else if (activity.spotifyHandler.isSlave) {
                             activity.fragment = "Slave";
                         } else {
                             activity.fragment = "Suggester";

@@ -73,7 +73,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        if (((MainActivity)getActivity()).user == null) {
+        if (((MainActivity)getActivity()).notSpotifyUser) {
             rootView.findViewById(R.id.loadingBar).setVisibility(View.GONE);
             rootView.findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
         }

@@ -63,8 +63,10 @@ public class SuggestDialogFragment extends DialogFragment {
                         if (activity.fragment.equals("SlaveSearchResults") || activity.fragment.equals("SuggesterSearchResults")) { // if is suggesting from search, also dismiss search
                             ((DialogFragment) getActivity().getFragmentManager().findFragmentByTag("slave_search")).dismiss();
                         }
-                        ((MainActivity)getActivity()).firebaseHandler.pushSuggestion(((MainActivity)getActivity()).playlistName, track);
-                        if (activity.spotifyHandler.isSlave) {
+                        ((MainActivity) getActivity()).firebaseHandler.pushSuggestion(((MainActivity) getActivity()).playlistName, track);
+                        if (activity.notSpotifyUser) {
+                            activity.fragment = "Suggester";
+                        } else if (activity.spotifyHandler.isSlave) {
                             activity.fragment = "Slave";
                         } else {
                             activity.fragment = "Suggester";
