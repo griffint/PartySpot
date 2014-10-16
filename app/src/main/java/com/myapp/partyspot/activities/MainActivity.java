@@ -145,11 +145,14 @@ public class MainActivity extends Activity {
             this.spotify = new Spotify(this.accessToken);
             this.loggedIn = true;
             this.spotifyHandler = new SpotifyHandler(this);
-        }
 
-        getUser(); // gets and sets user from the web api
-        this.fragment = "Main";
-        changeToMainFragment();
+            getUser(); // gets and sets user from the web api
+            changeToMainFragment();
+        } else {
+            if (!this.loggedIn) {
+                this.changeToLoginFragment();
+            }
+        }
     }
 
     public void setPlayingTracks(SpotifyTracks tracks) {
@@ -232,6 +235,16 @@ public class MainActivity extends Activity {
     public void changeToHostFragment() {
         this.fragment = "Host";
         HostFragment fragment = new HostFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToLoginFragment() {
+        this.fragment = "Login";
+        LoginFragment fragment = new LoginFragment();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
