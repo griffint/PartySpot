@@ -28,7 +28,7 @@ public class ChoosePlaylistHostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_choose_playlist_host, container, false);
 
-        
+
 
 
 

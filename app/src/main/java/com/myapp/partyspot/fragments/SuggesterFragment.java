@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,24 +42,17 @@ public class SuggesterFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.hostmenu, menu);
-
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            public boolean onQueryTextChange(String newText) {
-                // this is your adapter that will be filtered
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.return_to_main:
+                ((MainActivity)getActivity()).changeToMainFragment();
                 return true;
-            }
-
-            public boolean onQueryTextSubmit(String query) {
-                HTTPFunctions http = new HTTPFunctions(getActivity());
-                String URL = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
-                ((MainActivity) SuggesterFragment.this.getActivity()).changeToSlaveSearchResults();
-                http.getSlaveSearch(URL);
-                return true;
-            }
-        };
-        searchView.setOnQueryTextListener(queryTextListener);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
