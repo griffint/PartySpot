@@ -73,6 +73,11 @@ public class MainFragment extends Fragment {
             }
         });
 
+        if (((MainActivity)getActivity()).user == null) {
+            rootView.findViewById(R.id.loadingBar).setVisibility(View.GONE);
+            rootView.findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
+        }
+
         return rootView;
     }
 }

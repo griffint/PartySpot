@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.myapp.partyspot.R;
+import com.myapp.partyspot.activities.MainActivity;
 import com.spotify.sdk.android.authentication.SpotifyAuthentication;
 
 /**
@@ -37,6 +38,17 @@ public class LoginFragment extends Fragment {
                         new String[]{"user-read-private", "playlist-read-private", "streaming"}, null, getActivity());
             }
         }); // redirects the user to a login page
+
+        final Button skipButton = (Button) rootView.findViewById(R.id.no_login_button);
+
+        // if user doesn't have a spotify login
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).loggedIn = true;
+                ((MainActivity)getActivity()).changeToMainFragmentNoLogin();
+            }
+        }); // redirects the user to a login page
+
         return rootView;
     }
 }

@@ -271,12 +271,12 @@ public class MainActivity extends Activity {
 
     public void setMainFragmentLoaded() {
         // called after user is found so that the app doesn't break while it's loading
-        findViewById(R.id.loadingBar).setVisibility(View.GONE);
+        this.findViewById(R.id.loadingBar).setVisibility(View.GONE);
         if (this.premiumUser) {
             findViewById(R.id.host_playlist).setVisibility(View.VISIBLE);
             findViewById(R.id.listen_playlist).setVisibility(View.VISIBLE);
         }
-        findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
+        this.findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
     }
 
     public void changeToMainFragment() {
@@ -290,6 +290,23 @@ public class MainActivity extends Activity {
         this.spotifyHandler.pause();
         this.suggestedSongs = new SpotifyTracks();
         this.setNotMuted();
+
+        // change fragment
+        MainFragment fragment = new MainFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    public void changeToMainFragmentNoLogin() {
+        // reset all the variables related to current playlist
+        this.fragment = "Main";
+        this.playing = false;
+        this.playlistName ="";
+        this.suggestedSongs = new SpotifyTracks();
+        this.premiumUser = false;
 
         // change fragment
         MainFragment fragment = new MainFragment();
@@ -362,6 +379,8 @@ public class MainActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        this.spotifyHandler.destroy(); // needed so android doesn't leak resources
+        if (this.spotifyHandler != null) {
+            this.spotifyHandler.destroy(); // needed so android doesn't leak resources
+        }
     }
 }
