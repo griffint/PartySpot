@@ -169,7 +169,9 @@ public class FirebaseHandler {
                 //then add it to the SpotifyTracks object
                 SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
 
-                activity.suggestedSongs.addTrackIfNotDuplicate(outputTrack);
+                if (artist != null) {
+                    activity.suggestedSongs.addTrackIfNotDuplicate(outputTrack);
+                }
                 if (activity.fragment.equals("Suggester")) {
                     SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
                     frag.displaySuggested(activity.suggestedSongs);
@@ -187,9 +189,32 @@ public class FirebaseHandler {
 
             }
 
+
             @Override
             public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+                //get the SpotifyTrack object from data in firebase
+                String trackname = snapshot.getName();
+                String uri = (String) snapshot.child("uri").getValue();
+                String artist = (String) snapshot.child("artist").getValue();
 
+                Log.v(artist, trackname);
+
+                //then add it to the SpotifyTracks object
+                SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
+
+                if (artist != null) {
+                    activity.suggestedSongs.addTrackIfNotDuplicate(outputTrack);
+                }
+                if (activity.fragment.equals("Suggester")) {
+                    SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
+                    frag.displaySuggested(activity.suggestedSongs);
+                } else if (activity.fragment.equals("Slave")) {
+                    SlaveFragment frag = (SlaveFragment) activity.getFragmentManager().findFragmentByTag("Slave");
+                    frag.displaySuggested(activity.suggestedSongs);
+                } else if (activity.fragment.equals("Host")) {
+                    HostFragment frag = (HostFragment) activity.getFragmentManager().findFragmentByTag("Host");
+                    frag.displaySuggested(activity.suggestedSongs);
+                }
             }
 
 

@@ -68,7 +68,6 @@ public class SlaveFragment extends Fragment {
 
         // get buttons to add click listeners to them
         final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
-        final Button slave_main = (Button) rootView.findViewById(R.id.slave_main);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
         // set muted icon

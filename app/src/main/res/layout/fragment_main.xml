@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:id ="@+id/loadingBar"
-        android:layout_alignTop="@+id/listen_playlist"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
     <Button
         android:layout_height="wrap_content"

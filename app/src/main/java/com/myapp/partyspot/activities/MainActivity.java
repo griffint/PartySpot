@@ -264,6 +264,7 @@ public class MainActivity extends Activity {
         this.playing = false;
         this.playlistName ="";
         this.spotifyHandler.pause();
+        this.suggestedSongs = new SpotifyTracks();
         this.setNotMuted();
 
         // change fragment
