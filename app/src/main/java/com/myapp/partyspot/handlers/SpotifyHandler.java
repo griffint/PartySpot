@@ -159,7 +159,7 @@ public class SpotifyHandler implements
         if (this.paused && this.onPlaylist) {
             resume();
             this.paused = false;
-        } else {
+        } else if (!this.playingTracks.tracks.isEmpty()) {
             mPlayer.play(this.getTrackUriArray().get(this.songIndex));
             this.onPlaylist = true;
         }

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.firebase.client.Firebase;
@@ -214,6 +215,16 @@ public class MainActivity extends Activity {
                 String playlistId = playlists.getUriFromTitle(s);
                 getPlaylistTracks(playlistOwner, playlistId); // gets playlist tracks to play
                 MainActivity.this.spotifyHandler.setPlaylist(playlistOwner, playlistId); // sets variables for spotifyHandler
+            }
+        });
+
+        Button myButton = (Button) this.findViewById(R.id.scratch);
+        myButton.setVisibility(View.VISIBLE);
+        myButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.setPlayingTracks(new SpotifyTracks());
+                MainActivity.this.changeToHostFragment();
             }
         });
     }
