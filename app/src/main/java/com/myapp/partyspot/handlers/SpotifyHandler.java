@@ -77,8 +77,7 @@ public class SpotifyHandler implements
                         String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
                         song = song + " - "+ SpotifyHandler.this.playingTracks.getArtistFromTitle(song);
                         int time = state.positionInMs;
-                        boolean playing = false;
-                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
+                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, !SpotifyHandler.this.paused);
                     }
                     if (eventType == EventType.AUDIO_FLUSH) {
                         String playlist = SpotifyHandler.this.activity.playlistName;
@@ -86,9 +85,8 @@ public class SpotifyHandler implements
                         String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
                         song = song + " - "+ SpotifyHandler.this.playingTracks.getArtistFromTitle(song);
                         int time = state.positionInMs;
-                        boolean playing = true;
                         ((TextView)SpotifyHandler.this.activity.findViewById(R.id.currently_playing)).setText(song);
-                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
+                        SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, !SpotifyHandler.this.paused);
                     }
 
                     // We're only allowing the user to go forward, so call this as if it means onNextSong:
