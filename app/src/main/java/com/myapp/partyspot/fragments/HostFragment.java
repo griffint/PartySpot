@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -58,7 +59,7 @@ public class HostFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_host, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_host, container, false);
         setHasOptionsMenu(true);// need to replace this line
 
         this.suggestedListView = (ListView) rootView.findViewById(R.id.suggested);
@@ -68,7 +69,7 @@ public class HostFragment extends Fragment {
 
         final Button play = (Button) rootView.findViewById(R.id.play);
         final Button next = (Button) rootView.findViewById(R.id.next);
-        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
+        final Button suggest_song = (Button) rootView.findViewById(R.id.suggest_song);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
         final SpotifyTracks queue = ((MainActivity)getActivity()).spotifyHandler.playingTracks;
@@ -116,10 +117,15 @@ public class HostFragment extends Fragment {
         }
 
         // return to main menu
-        main_menu.setOnClickListener(new View.OnClickListener() {
+        suggest_song.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToMainFragment();
+                EditText editText = (EditText) rootView.findViewById(R.id.suggestSong);
+                HTTPFunctions http = new HTTPFunctions(getActivity());
+                String song = editText.getText().toString();
+                String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";
+                ((MainActivity)HostFragment.this.getActivity()).changeToHostSearchResults();
+                http.getHostSearch(URL);
             }
         });
 
