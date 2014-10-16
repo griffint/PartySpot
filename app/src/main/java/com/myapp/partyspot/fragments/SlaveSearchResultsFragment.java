@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,7 +70,7 @@ public class SlaveSearchResultsFragment extends DialogFragment {
 
                 DialogFragment newFragment = new SuggestDialogFragment();
                 newFragment.show(getFragmentManager(), "suggest");
-
+                Log.d("MADE IT T DIPSLAY SEAR", "HERE");
                 // this is how arguments are passed to the dialog
                 Bundle bundle = new Bundle();
                 bundle.putString("song", s); //any string to be sent

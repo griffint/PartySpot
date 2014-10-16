@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -40,34 +42,30 @@ public class SlaveFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.hostmenu, menu);
-
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            public boolean onQueryTextChange(String newText) {
-                // this is your adapter that will be filtered
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.return_to_main:
+                ((MainActivity)getActivity()).changeToMainFragment();
                 return true;
-            }
-
-            public boolean onQueryTextSubmit(String query) {
-                HTTPFunctions http = new HTTPFunctions(getActivity()); // HANDLE SPACES ALSO CWALLACE
-                String URL = "https://api.spotify.com/v1/search?q=" + query + "&type=track";
-                ((MainActivity) SlaveFragment.this.getActivity()).changeToSlaveSearchResults();
-                http.getSlaveSearch(URL);
-                return true;
-            }
-        };
-        searchView.setOnQueryTextListener(queryTextListener);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_slave, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_slave, container, false);
         setHasOptionsMenu(true);
 
         // get buttons to add click listeners to them
-        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
+
+        final Button suggest_song = (Button) rootView.findViewById(R.id.suggest_song_listener);
+
+
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
         // set muted icon
@@ -96,10 +94,16 @@ public class SlaveFragment extends Fragment {
         });
 
         // return to main menu
-        main_menu.setOnClickListener(new View.OnClickListener() {
+        suggest_song.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToMainFragment();
+                EditText editText = (EditText) rootView.findViewById(R.id.suggestedSongListener);
+                HTTPFunctions http = new HTTPFunctions(getActivity());
+                String song = editText.getText().toString();
+                editText.setText("");
+                String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";
+                ((MainActivity)SlaveFragment.this.getActivity()).changeToSlaveSearchResults();
+                http.getSlaveSearch(URL);
             }
         });
 

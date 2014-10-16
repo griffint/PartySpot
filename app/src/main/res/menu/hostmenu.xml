@@ -3,9 +3,9 @@
     tools:context="MainActivity" >
 
 
-    <item android:id="@+id/search"
-        android:title="@string/search_title"
-        android:icon="@drawable/ic_search"
+    <item android:id="@+id/return_to_main"
+        android:title="Return to Main Menu"
+
         android:showAsAction="collapseActionView|ifRoom"
         android:actionViewClass="android.widget.SearchView" />
 
