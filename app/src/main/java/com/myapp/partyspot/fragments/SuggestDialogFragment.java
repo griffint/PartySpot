@@ -57,7 +57,7 @@ public class SuggestDialogFragment extends DialogFragment {
         final SpotifyTrack track = new SpotifyTrack(song_name, uri, artist);
 
         builder.setView(view)
-                .setPositiveButton(R.string.add_now, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.suggest_song, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //fix this:::::::::((MainActivity)getActivity()).firebaseHandler.suggest(track);
                         if (activity.fragment.equals("SlaveSearchResults") || activity.fragment.equals("SuggesterSearchResults")) { // if is suggesting from search, also dismiss search
