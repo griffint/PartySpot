@@ -6,10 +6,11 @@ tools:context=".MainActivity"
 tools:ignore="MergeRootFrame" >
 
 <Button
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/main_menu"
-    android:id="@+id/main_menu"/>
+    android:id="@+id/main_menu"
+    android:background="@drawable/red_button"/>
 
 
     <RelativeLayout
@@ -53,21 +54,27 @@ tools:ignore="MergeRootFrame" >
 
 </RelativeLayout>
 
-    <ListView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/textView3"
+        android:layout_above="@+id/relativeLayout">
 
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_weight="0.5"
+        android:layout_height="match_parent"
         android:id="@+id/queue"
-        android:layout_alignRight="@+id/main_menu"
-        android:layout_alignEnd="@+id/main_menu"
         android:layout_above="@+id/relativeLayout"
-        android:layout_alignTop="@+id/suggested"></ListView>
+        android:layout_below="@+id/main_menu"></ListView>
 
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
+        android:gravity="right"
+        android:layout_width="fill_parent"
+        android:layout_weight="0.5"
+        android:layout_height="match_parent"
         android:id="@+id/suggested"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -76,13 +83,14 @@ tools:ignore="MergeRootFrame" >
         android:layout_below="@+id/textView3"
         android:layout_above="@+id/relativeLayout" />
 
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Queue"
-
         android:id="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -95,9 +103,10 @@ tools:ignore="MergeRootFrame" >
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Suggested Songs"
         android:id="@+id/textView2"
-        android:layout_above="@+id/queue"
-        android:layout_toRightOf="@+id/queue"
-        android:layout_toEndOf="@+id/queue" />
+        android:layout_toEndOf="@+id/queue"
+        android:layout_below="@+id/main_menu"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
