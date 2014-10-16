@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Suggest Song"
         android:id="@+id/suggest_song"
+        android:layout_margin="5dp"
         android:background="@drawable/red_button"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/textView5"
@@ -63,6 +64,7 @@
             android:layout_height="60dp"
             android:layout_width="60dp"
             android:layout_margin="20dp"
+
             android:layout_centerHorizontal="true"
             android:background="@drawable/volumeon"/>
 

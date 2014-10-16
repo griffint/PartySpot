@@ -5,18 +5,22 @@
     android:layout_height="match_parent">
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_menu"
-        android:id="@+id/main_menu"
-        android:background="@drawable/red_button"/>
+        android:text="Suggest Song"
+        android:layout_margin="5dp"
+        android:id="@+id/suggest_song_suggester"
+        android:background="@drawable/red_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/textView5"
+        android:layout_alignEnd="@+id/textView5" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Currently Playing"
         android:layout_margin="15dp"
-        android:layout_below="@id/main_menu"
+        android:layout_below="@id/suggest_song_suggester"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textView5" />
@@ -47,5 +51,16 @@
         android:layout_below="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/suggestSongSuggester"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_alignStart="@+id/textView5"
+        android:layout_above="@+id/textView5"
+        android:layout_toLeftOf="@+id/suggest_song_suggester"
+        android:layout_toStartOf="@+id/suggest_song_suggester" />
 
 </RelativeLayout>

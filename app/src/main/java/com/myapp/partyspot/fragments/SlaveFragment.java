@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -57,11 +58,11 @@ public class SlaveFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_slave, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_slave, container, false);
         setHasOptionsMenu(true);
 
         // get buttons to add click listeners to them
-        final Button main_menu = (Button) rootView.findViewById(R.id.main_menu);
+        final Button suggest_song = (Button) rootView.findViewById(R.id.suggest_song_listener);
         final Button slave_main = (Button) rootView.findViewById(R.id.slave_main);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
@@ -91,10 +92,16 @@ public class SlaveFragment extends Fragment {
         });
 
         // return to main menu
-        main_menu.setOnClickListener(new View.OnClickListener() {
+        suggest_song.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeToMainFragment();
+                EditText editText = (EditText) rootView.findViewById(R.id.suggestedSongListener);
+                HTTPFunctions http = new HTTPFunctions(getActivity());
+                String song = editText.getText().toString();
+                editText.setText("");
+                String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";
+                ((MainActivity)SlaveFragment.this.getActivity()).changeToHostSearchResults();
+                http.getSlaveSearch(URL);
             }
         });
 

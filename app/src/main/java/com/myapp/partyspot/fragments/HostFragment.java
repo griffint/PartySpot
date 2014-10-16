@@ -123,6 +123,7 @@ public class HostFragment extends Fragment {
                 EditText editText = (EditText) rootView.findViewById(R.id.suggestSong);
                 HTTPFunctions http = new HTTPFunctions(getActivity());
                 String song = editText.getText().toString();
+                editText.setText("");
                 String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";
                 ((MainActivity)HostFragment.this.getActivity()).changeToHostSearchResults();
                 http.getHostSearch(URL);
