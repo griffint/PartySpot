@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.myapp.partyspot.R;
 import com.myapp.partyspot.activities.MainActivity;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class HostSearchResultsFragment extends DialogFragment {
     // this fragment displays the search results for the host
     public ListView myListView; // for easy storage to manipulate the list
+    public TextView myTextView;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class HostSearchResultsFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.fragment_search_results, null);
         this.myListView = (ListView) view.findViewById(R.id.search_results);
+        this.myTextView = (TextView) view.findViewById(R.id.no_results);
 
         builder.setView(view)
                 // set a cancel button for the user
@@ -47,6 +50,11 @@ public class HostSearchResultsFragment extends DialogFragment {
     }
 
     public void displaySearchResults(final SpotifyTracks tracks) {
+        if (tracks.tracks.isEmpty()) {
+            this.myTextView.setText("We didn't get any results. Try to just search for the song's name without the artist or album");
+            return;
+        }
+
         // called after the httpFunctions gets the users playlists
         ArrayList<String> list = tracks.makeNameWithArtistArray();
 

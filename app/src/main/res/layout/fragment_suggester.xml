@@ -11,11 +11,40 @@
         android:id="@+id/main_menu"
         android:background="@drawable/red_button"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Currently Playing"
+        android:layout_margin="15dp"
+        android:layout_below="@id/main_menu"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView5"
+        android:gravity="center"
+        android:id="@+id/currently_playing"
+        android:text="Not Currently Playing"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currently_playing"
+        android:gravity="center"
+        android:layout_margin="15dp"
+        android:id="@+id/textView3"
+        android:text="Currently Suggested Songs"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/suggested_tracks"
-        android:layout_below="@+id/main_menu"
+        android:layout_below="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

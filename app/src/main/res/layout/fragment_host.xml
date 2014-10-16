@@ -12,17 +12,36 @@ tools:ignore="MergeRootFrame" >
     android:id="@+id/main_menu"
     android:background="@drawable/red_button"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Currently Playing"
+        android:layout_margin="15dp"
+        android:layout_below="@id/main_menu"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView5"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/currently_playing"
+        android:text="Not Currently Playing"/>
+
 
     <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="100dp"
-    android:orientation="horizontal"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true"
-    android:padding="6dip"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="6dip"
         android:id="@+id/relativeLayout">
 
 
@@ -66,8 +85,8 @@ tools:ignore="MergeRootFrame" >
         android:layout_weight="0.5"
         android:layout_height="match_parent"
         android:id="@+id/queue"
-        android:layout_above="@+id/relativeLayout"
-        android:layout_below="@+id/main_menu"></ListView>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_gravity="center"/>
 
 
     <ListView
@@ -76,19 +95,14 @@ tools:ignore="MergeRootFrame" >
         android:layout_weight="0.5"
         android:layout_height="match_parent"
         android:id="@+id/suggested"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/queue"
-        android:layout_toEndOf="@+id/queue"
-        android:layout_below="@+id/textView3"
-        android:layout_above="@+id/relativeLayout" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@id/main_menu"
+    android:layout_below="@id/currently_playing"
     android:layout_margin="10dp"
     android:id="@+id/relativeLayout4">
 

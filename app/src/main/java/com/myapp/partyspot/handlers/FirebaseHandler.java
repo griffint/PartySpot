@@ -2,6 +2,7 @@ package com.myapp.partyspot.handlers;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
@@ -9,6 +10,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.myapp.partyspot.R;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.fragments.HostFragment;
 import com.myapp.partyspot.fragments.SlaveFragment;
@@ -57,6 +59,8 @@ public class FirebaseHandler {
                 int songTime = ((Long) snapshot.child("songTime").getValue()).intValue();
                 Boolean playerState = (Boolean) snapshot.child("playerState").getValue();
                 Long timestamp = (Long) snapshot.child("timestamp").getValue();
+                String name = (String) snapshot.child("title").getValue();
+                ((TextView)FirebaseHandler.this.activity.findViewById(R.id.currently_playing)).setText(name);
                 FirebaseHandler.this.activity.spotifyHandler.synchronize(uri, timestamp, songTime, playerState);
             }
 

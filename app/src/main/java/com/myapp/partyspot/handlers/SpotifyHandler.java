@@ -1,7 +1,9 @@
 package com.myapp.partyspot.handlers;
 
 import android.util.Log;
+import android.widget.TextView;
 
+import com.myapp.partyspot.R;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
@@ -71,33 +73,33 @@ public class SpotifyHandler implements
                         String playlist = SpotifyHandler.this.activity.playlistName;
                         String songUri = state.trackUri;
                         String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
+                        song = song + " - "+ SpotifyHandler.this.playingTracks.getArtistFromTitle(song);
                         int time = state.positionInMs;
                         boolean playing = false;
-                        Log.d("0GIT","TEST");
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
                     if (eventType == EventType.AUDIO_FLUSH) {
                         String playlist = SpotifyHandler.this.activity.playlistName;
                         String songUri = state.trackUri;
                         String song = SpotifyHandler.this.playingTracks.getTitleFromUri(songUri);
+                        song = song + " - "+ SpotifyHandler.this.playingTracks.getArtistFromTitle(song);
                         int time = state.positionInMs;
                         boolean playing = true;
+                        ((TextView)SpotifyHandler.this.activity.findViewById(R.id.currently_playing)).setText(song);
                         SpotifyHandler.this.activity.firebaseHandler.pushToFirebase(playlist, songUri, song, time, playing);
                     }
 
                     // We're only allowing the user to go forward, so call this as if it means onNextSong:
                     if (eventType == EventType.END_OF_CONTEXT) {
-                        MainActivity activity2 = SpotifyHandler.this.activity;
+                        MainActivity activity = SpotifyHandler.this.activity;
 
                         SpotifyHandler.this.songIndex += 1;
                         SpotifyHandler.this.mPlayer.play(SpotifyHandler.this.playingTracks.tracks.get(SpotifyHandler.this.songIndex).getUri());
-
-                               activity2.displayCurrentQueue(SpotifyHandler.this.songIndex);
+                        activity.displayCurrentQueue(SpotifyHandler.this.songIndex);
                     }
                 } else if (SpotifyHandler.this.isSlave) {
                     if (eventType == EventType.AUDIO_FLUSH) {
                         long current_time = new Date().getTime();
-                        Log.v("sync",Long.toString(current_time));
                         int diff = (int) (current_time-SpotifyHandler.this.timestamp);
                         int newPos = diff+SpotifyHandler.this.origSongPos;
                         Log.v(Integer.toString(newPos), Integer.toString(diff));
@@ -120,7 +122,6 @@ public class SpotifyHandler implements
 
     }
     public void synchronize(String songUri, long timestamp, int origPos, boolean playerState) {
-        Log.v("sync",Long.toString(timestamp));
         this.timestamp = timestamp;
         this.activity.setMuted();
         mPlayer.play(songUri);
