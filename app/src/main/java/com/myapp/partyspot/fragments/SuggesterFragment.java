@@ -92,24 +92,5 @@ public class SuggesterFragment extends Fragment {
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
         this.myListView.setAdapter(myListAdapter);
 
-        //create an onItemClickListener for the user to choose playlist to play
-        this.myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                String tmp = (String) myListView.getItemAtPosition(position);
-                int pos = tmp.indexOf(" - ");
-                String s = tmp.substring(0, pos);
-
-                DialogFragment newFragment = new SuggestDialogFragment();
-                newFragment.show(getFragmentManager(), "add");
-
-                Bundle bundle = new Bundle();
-                bundle.putString("song", s); //any string to be sent
-                bundle.putString("uri", tracks.getUriFromTitle(s));
-                bundle.putString("artist", tracks.getArtistFromTitle(s));
-                newFragment.setArguments(bundle);
-            }
-        });
-
     }
 }

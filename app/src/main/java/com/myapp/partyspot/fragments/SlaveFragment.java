@@ -115,26 +115,6 @@ public class SlaveFragment extends Fragment {
         // displays the list of playlists
         ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.tracks_view, list);
         this.suggestedListView.setAdapter(myListAdapter);
-
-        //create an onItemClickListener for the user to choose playlist to play
-        this.suggestedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                String tmp = (String) SlaveFragment.this.suggestedListView.getItemAtPosition(position);
-                int pos = tmp.indexOf(" - ");
-                String s = tmp.substring(0, pos);
-
-                DialogFragment newFragment = new AddDialogFragment();
-                newFragment.show(getFragmentManager(), "add");
-
-                Bundle bundle = new Bundle();
-                bundle.putString("song", s); //any string to be sent
-                bundle.putString("uri", suggested.getUriFromTitle(s));
-                bundle.putString("artist", suggested.getArtistFromTitle(s));
-                newFragment.setArguments(bundle);
-            }
-        });
-
     }
 
 }
