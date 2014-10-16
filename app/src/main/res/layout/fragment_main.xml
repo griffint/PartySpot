@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:id ="@+id/loadingBar"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/listen_playlist"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -19,10 +19,12 @@
         android:id="@+id/host_playlist"
         android:background="@drawable/blue_button"
         android:layout_width="match_parent"
-        android:layout_marginTop="110dp"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/listen_playlist"
-        android:layout_alignStart="@+id/listen_playlist" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 
     <Button
         android:layout_height="wrap_content"
@@ -30,10 +32,11 @@
         android:id="@+id/listen_playlist"
         android:background="@drawable/blue_button"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/suggest_playlist"
-        android:layout_alignStart="@+id/suggest_playlist"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 
     <Button
         android:layout_height="wrap_content"
@@ -41,9 +44,11 @@
         android:id="@+id/suggest_playlist"
         android:background="@drawable/blue_button"
         android:layout_width="match_parent"
-        android:layout_marginBottom="89dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/listen_playlist"
-        android:layout_alignStart="@+id/listen_playlist" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
 </RelativeLayout>
