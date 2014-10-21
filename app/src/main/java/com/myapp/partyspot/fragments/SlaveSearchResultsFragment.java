@@ -70,7 +70,7 @@ public class SlaveSearchResultsFragment extends DialogFragment {
 
                 DialogFragment newFragment = new SuggestDialogFragment();
                 newFragment.show(getFragmentManager(), "suggest");
-                Log.d("MADE IT T DIPSLAY SEAR", "HERE");
+
                 // this is how arguments are passed to the dialog
                 Bundle bundle = new Bundle();
                 bundle.putString("song", s); //any string to be sent

@@ -48,7 +48,6 @@ public class HTTPFunctions {
                     @Override
                     public void onResponse(JSONObject response) {
                         // display response
-                        Log.d("Response", response.toString());
                         //JANK FIX SHOULD FIGURE OUT A BETTER WAY
                         SpotifyTracks results = JSONtoSpotifyTrack(response);
                         if (activity.fragment.equals("HostSearchResults")) {
@@ -59,7 +58,6 @@ public class HTTPFunctions {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "COULDN'T GET");
                     }
                 }
         ) {
@@ -77,9 +75,7 @@ public class HTTPFunctions {
     }
 
     public void getSlaveSearch(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
-        //Log.v("ho", URL);
         URL = URL.replaceAll(" ","+");
-        //Log.v("ho", URL);
         final MainActivity activity = ((MainActivity)HTTPFunctions.this.context);
         this.queriedTracks = new ArrayList<SpotifyTrack>();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
@@ -88,20 +84,15 @@ public class HTTPFunctions {
                     @Override
                     public void onResponse(JSONObject response) {
                         // display response
-                        Log.d("Response", response.toString());
-                        //JANK FIX SHOULD FIGURE OUT A BETTER WAY
                         SpotifyTracks results = JSONtoSpotifyTrack(response);
-                        Log.d("Test",activity.fragment.toString());
                         if (activity.fragment.equals("SlaveSearchResults") || activity.fragment.equals("SuggesterSearchResults")) {
                             activity.displaySlaveSearchResults(results);
-                            Log.d("Here","Within getSlaveSearch");
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "COULDN'T GET");
                     }
                 }
         );
@@ -110,7 +101,6 @@ public class HTTPFunctions {
     }
 
     public void getPlaylists(String user) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
-        Log.v("DICKS", user);
         String URL = "https://api.spotify.com/v1/users/"+user+"/playlists";
         final SpotifyPlaylists playlists = new SpotifyPlaylists();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
@@ -133,7 +123,7 @@ public class HTTPFunctions {
                                 String owner = ((JSONObject)((JSONObject)responseList.get(i)).get("owner")).get("id").toString();
                                 playlists.addPlaylists(new SpotifyPlaylist(name, id, owner));
                             } catch (Exception e) {
-                                Log.v("DICKS","DICKS");
+                                Log.d("ERROR", "Child didn't exist");
                             }
                         }
                         ((MainActivity)HTTPFunctions.this.context).setPlaylistsLoaded();
@@ -265,15 +255,12 @@ public class HTTPFunctions {
 
         for (int i=0; i<responseList.length(); i++) {
             try {
-                Log.d("PRINT","HERE");
                 JSONObject entry = responseList.getJSONObject(i);
                 String name = entry.getString("name");
                 String uri = entry.getString("uri");
                 String artist = ((JSONObject)((JSONArray)entry.get("artists")).get(0)).get("name").toString();
-                Log.d(name,uri);
                 SpotifyTrack track = new SpotifyTrack(name,uri, artist);
                 tracks.addTrack(track);
-                Log.v("HO", tracks.tracks.get(0).getName());
 
             } catch (Exception e) {
                 e.printStackTrace();

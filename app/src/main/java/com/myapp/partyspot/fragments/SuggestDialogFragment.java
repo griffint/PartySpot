@@ -75,7 +75,6 @@ public class SuggestDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.v("cancel", "NOW");
                     }
                 });
         // Create the AlertDialog object and return it

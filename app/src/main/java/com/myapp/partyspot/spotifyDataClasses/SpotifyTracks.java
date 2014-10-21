@@ -113,8 +113,6 @@ public class SpotifyTracks {
     }
 
     public void appendNext(SpotifyTrack track, int currentIndex) {
-        Log.v(this.tracks.get(currentIndex).getName(), "NO");
-        Log.v(track.getUri(), "NO");
         this.tracks.add(currentIndex+1, track);
     }
 }

@@ -86,7 +86,6 @@ public class HostFragment extends Fragment {
         queueListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Log.d("POOP","POOP");
         }
         });
 

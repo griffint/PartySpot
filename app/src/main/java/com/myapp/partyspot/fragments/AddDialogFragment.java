@@ -51,8 +51,6 @@ public class AddDialogFragment extends DialogFragment {
         myListView.setText(song_name);
 
         final SpotifyTrack track = new SpotifyTrack(song_name, uri, artist);
-        Log.v(track.getName(), track.getUri());
-        Log.v(track.getArtist(), "NOOOO");
 
         // dialog stuff
         builder.setView(view)
@@ -80,7 +78,6 @@ public class AddDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.v("cancel", "NOW");
                     }
                 });
         // Create the AlertDialog object and return it

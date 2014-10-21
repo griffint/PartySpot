@@ -43,7 +43,6 @@ public class NameDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Log.v("cancel", "NOW");
                         }
                 });
 
