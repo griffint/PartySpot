@@ -246,3 +246,9 @@ a {
 .cf {
   zoom:1;
 }
+#spotifySearch{
+  width:40em;
+}
+#songSearch{
+  width: 80%;
+}
