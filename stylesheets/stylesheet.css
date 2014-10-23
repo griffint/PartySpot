@@ -251,7 +251,8 @@ a {
   margin-left: auto;
   margin-right: auto;
   font-family: Arial;
-  background-color: #b5e853;
+  color: black;
+  background-color: white;
   font-size: 2em;
 }
 #songSearch{

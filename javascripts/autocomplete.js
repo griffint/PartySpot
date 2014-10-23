@@ -7,6 +7,6 @@ $(document).ready(function() {
       
     ];
     $( "#songSearch" ).autocomplete({
-      source: availableTags
+      source: function
     });
   });
