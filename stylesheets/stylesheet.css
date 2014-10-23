@@ -248,6 +248,11 @@ a {
 }
 #spotifySearch{
   width:40em;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Arial;
+  background-color: #b5e853;
+  font-size: 2em;
 }
 #songSearch{
   width: 80%;

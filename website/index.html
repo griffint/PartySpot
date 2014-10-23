@@ -13,20 +13,7 @@
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
-  <script>
-  $(document).ready(function() {
-    var availableTags = [
-      "Livin on a prayer",
-      "The penis song",
-      "java",
-      "latch"
-      
-    ];
-    $( "#songSearch" ).autocomplete({
-      source: availableTags
-    });
-  });
-  </script>
+  <script src="../javascripts/autocomplete.js"></script>
 
     <title>Spotifystreamer by griffint</title>
   </head>
@@ -57,7 +44,7 @@
     <div id="spotifySearch">
       <p>Try out our Spotify search demo! Search for any track in spotify.</p>
       <label for="songSearch">Search Spotify: </label>
-      <input id="songSearch">
+      <input id="songSearch" placeholder="Song Title">
 
     </div>
 
