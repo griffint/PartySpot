@@ -1,7 +1,8 @@
 $(document).ready(function() {
-	console.log("TESTING");
-	getJSONData("WIZ Khalifa","Spotify",15,true)
 	var currentObj = null;
+
+	getJSONData("WIZ Khalifa","Spotify",15,true)
+	
 	function getJSONData(searchText,apiUse,limit,liveResults)  {
 		if (currentObj != null){
 			currentObj.abort() //Kill all previous running queries
