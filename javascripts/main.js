@@ -1,9 +1,5 @@
 $(document).ready(function() {
 
-	function getJSON() {
-
-	}
-
 	function parseJSON(response) {
 		outputArtistList = []
 		outputAlbumList = []
@@ -17,14 +13,15 @@ $(document).ready(function() {
 			tempList = [];
 			tempList.push(albumJSON.items[i].name);
 			tempList.push(albumJSON.items[i].images[1].url);
+			tempList.push(albumJSON.items[i].external_urls.spotify);
 			outputAlbumList.push(tempList);
 		}
 
 		for (i=0;i<artistJSON.length;i++) {
 			tempList = [];
 			tempList.push(artistJSON.items[i].name);
-			tempList.push(artistJSON.items[i].images[2]);
-			tempList.push(artistJSON.items[i].images[2]);
+			tempList.push(albumJSON.items[i].images[1].url);
+			tempList.push(artistJSON.items[i].external_urls.spotify);
 			outputArtistList.push(tempList);
 		}
 
@@ -33,6 +30,7 @@ $(document).ready(function() {
 			tempList.push(trackJSON.items[i].name);
 			tempList.push(trackJSON.items[i].artists.name);
 			tempList.push(trackJSON.items[i].album.images[1].url);
+			tempList.push(albumJSON.items[i].external_urls.spotify);
 			outputTrackList.push(tempList);
 		}
 
@@ -42,4 +40,6 @@ $(document).ready(function() {
 	function display(response) {
 		
 	}
+
+	$("#spotifySearch").html('<iframe src="https://embed.spotify.com/?uri=spotify:track:4th1RQAelzqgY7wL53UGQt" width='+$(window).width()+' height='+$(window).height()+' frameborder="0" allowtransparency="true"></iframe>');
 })
