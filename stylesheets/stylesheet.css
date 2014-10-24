@@ -246,6 +246,9 @@ a {
 .cf {
   zoom:1;
 }
+
+/*-----------------CSS for spotify searching---------------------*/
+
 #spotifySearch{
   width:40em;
   margin-left: auto;
