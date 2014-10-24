@@ -32,7 +32,7 @@ $(document).ready(function() {
 		albumJSON = response.albums;
 		trackJSON = response.tracks;
 
-		for (i=0;i<albumJSON.length;i++) {
+		for (i=0;i<albumJSON.items.length;i++) {
 			tempList = [];
 			tempList.push(albumJSON.items[i].name);
 			tempList.push(albumJSON.items[i].images[1].url);
@@ -40,7 +40,7 @@ $(document).ready(function() {
 			outputAlbumList.push(tempList);
 		}
 
-		for (i=0;i<artistJSON.length;i++) {
+		for (i=0;i<artistJSON.items.length;i++) {
 			tempList = [];
 			tempList.push(artistJSON.items[i].name);
 			tempList.push(albumJSON.items[i].images[1].url);
@@ -48,7 +48,7 @@ $(document).ready(function() {
 			outputArtistList.push(tempList);
 		}
 
-		for (i=0;i<trackJSON.length;i++) {
+		for (i=0;i<trackJSON.items.length;i++) {
 			tempList = [];
 			tempList.push(trackJSON.items[i].name);
 			tempList.push(trackJSON.items[i].artists.name);
@@ -57,7 +57,8 @@ $(document).ready(function() {
 			outputTrackList.push(tempList);
 		}
 
-		return [outputArtistList, outputTrackList, outputAlbumList]
+		console.log([outputArtistList, outputTrackList, outputAlbumList]);
+		return [outputArtistList, outputTrackList, outputAlbumList];
 	}
 
 	function display(response) {
