@@ -250,7 +250,7 @@ a {
 /*-----------------CSS for spotify searching---------------------*/
 
 #spotifySearch{
-  width:40em;
+  width:80vw;
   margin-left: auto;
   margin-right: auto;
   font-family: Arial;
@@ -259,8 +259,15 @@ a {
   font-size: 2em;
 }
 
+#searchLabel {
+  width: 15vw;
+  height:4vh;
+  font-size: 4vh;
+  margin-left: 5vw;
+}
+
 #deezerSearch{
-  width:40em;
+  width:80vw;
   margin-left: auto;
   margin-right: auto;
   font-family: Arial;
@@ -271,7 +278,9 @@ a {
 }
 
 #songSearch{
-  width: 60%;
+  width: 40vw;
+  height:4vh;
+  font-size: 4vh;
 }
 
 #serviceSelectBar {
@@ -299,4 +308,24 @@ a {
 #spotifySelect {
   background-color: #00FF00;
   color: black;
+}
+
+#submit {
+  width: 15vw;
+  height:4vh;
+  font-size: 3vh;
+  padding-top: .5vh;
+  padding-bottom: .5vh;
+  display: inline-block;
+  text-align: center;
+  background-color: #00FF00;
+  border-radius: 10px;
+  border: 1px solid black;
+  margin-right: 5vw;
+  cursor: pointer;
+}
+
+#deezerInfo {
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
