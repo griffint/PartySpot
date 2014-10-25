@@ -95,6 +95,15 @@ $(document).ready(function() {
 		return [outputArtistList, outputTrackList, outputAlbumList];
 	}
 
+	function autocomplete(artistList,trackList,albumList) {
+		//need to make the ul appear when this is called
+		artistList=["Luke Bryan","http://images1.mtv.com/uri/mgid:file:http:shared:/tsv2-production.s3.amazonaws.com/uploads/image/digital_asset/80170/widget_background_1135_3.jpg?width=315&height=210&enlarge=true&crop=true&matte=true&matteColor=black&quality=0.85"]
+		trackList=
+
+	}
+
+
+
 	function display(response) {
 		
 	}
