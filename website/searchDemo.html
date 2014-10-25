@@ -13,18 +13,26 @@
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
-  <script src="../javascripts/autocomplete.js"></script>
   <script src="../javascripts/main.js"></script>
   </head>
 
   <body>
+    <div id="serviceSelectBar">
+      <div id="spotifySelect" class="serviceSelect">Spotify</div>
+      <div id="deezerSelect" class="serviceSelect">Coming soon: Deezer</div>
+    </div>
 
-  	 <!--Example Spotify Search box-->
+     <!--Example Spotify Search box-->
     <div id="spotifySearch">
       <p>Try out our Spotify search demo! Search for any track in spotify.</p>
-      <label for="songSearch">Search Spotify: </label>
-      <input id="songSearch" placeholder="Song Title">
+        <label for="songSearch">Search Spotify: </label>
+        <input type="text" id="songSearch" placeholder="Song Title">
+        <input id="submit" type="submit" value="Submit">
+    </div>
 
+     <!--Example Spotify Search box-->
+    <div id="deezerSearch">
+      <p>Deezer hasn't been released in the U.S. yet. When it is, we'll be updating this so that you can search their databases and hook up to their streaming service. </p>
     </div>
     
   </body>

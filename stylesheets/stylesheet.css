@@ -258,6 +258,45 @@ a {
   background-color: white;
   font-size: 2em;
 }
+
+#deezerSearch{
+  width:40em;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Arial;
+  color: black;
+  background-color: white;
+  font-size: 2em;
+  display: none;
+}
+
 #songSearch{
-  width: 80%;
+  width: 60%;
+}
+
+#serviceSelectBar {
+  width: 100vw;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  height: 6vh;
+  background-color: white;
+}
+
+.serviceSelect {
+  margin: 0;
+  display: inline;
+  height: 4vh;
+  font-size: 4vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 3vw;
+  padding-right: 3vw;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+  cursor: pointer;
+}
+
+#spotifySelect {
+  background-color: #00FF00;
+  color: black;
 }

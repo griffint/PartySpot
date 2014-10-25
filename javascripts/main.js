@@ -1,9 +1,43 @@
 $(document).ready(function() {
+	var searchService="Spotify";
 	var currentObj = null;
 
-	getJSONData("WIZ Khalifa","Spotify",15,true)
-	
+	$("#submit").click(function() {
+		getJSONData(document.getElementById('songSearch').value, searchService, 15, true);
+		document.getElementById("songSearch").value = "";
+	});
+
+	$("#deezerSelect").click(function() {
+		$("#deezerSelect").css({
+			"background-color": "#E6E6E6",
+			"color": "black"
+		});
+		$("#spotifySelect").css({
+			"background-color": "white",
+			"color": "#EAEAEA"
+		});
+		console.log("deezer shown");
+		$("#deezerSearch").show();
+		$("#spotifySearch").hide();
+	})
+
+	$("#spotifySelect").click(function() {
+		$("#deezerSelect").css({
+			"background-color": "white",
+			"color": "#EAEAEA"
+		});
+		$("#spotifySelect").css({
+			"background-color": "#00FF00",
+			"color": "black"
+		});
+		console.log("spotify shown");
+		$("#spotifySearch").show();
+		$("#deezerSearch").hide();
+		
+	})
+
 	function getJSONData(searchText,apiUse,limit,liveResults)  {
+		console.log("searchText");
 		if (currentObj != null){
 			currentObj.abort() //Kill all previous running queries
 		}
@@ -21,7 +55,6 @@ $(document).ready(function() {
 			parseJSON(data, liveResults)
 		});
 		
-
 	}
 
 	function parseJSON(response, liveResults) {
