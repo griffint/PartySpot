@@ -239,7 +239,7 @@ a {
   margin-right: auto;
   font-family: Arial;
   color: black;
-  background-color: white;
+  background:url(http://bgfons.com/upload/aluminum_texture1642.jpg);
   font-size: 2em;
 }
 
@@ -280,17 +280,20 @@ display: block;
 
 }
 
+/*each item in autocomplete list*/
 .ac-result-item-artist{
   border-bottom: 1px;
   list-style: none;
+  background-color: white;
 }
 
 .ac-result-item-track{
   list-style: none;
+  background-color: white;
 }
 
 .ac-result-item-album{
-  background-color: red;
+  background-color: white;
   list-style: none;
 }
 
