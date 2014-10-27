@@ -329,3 +329,10 @@ a {
   margin-left: 5vw;
   margin-right: 5vw;
 }
+
+#searchResults{
+  margin-left: 20vw;
+  margin-right: auto;
+  color: salmon;
+
+}
