@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: #151515 url("../images/bkg.png") 0 0;
+  background: url(http://bgfons.com/upload/wood%20_texture1584.jpg);
   color: #eaeaea;
   font: 16px;
   line-height: 1.5;
@@ -25,9 +25,6 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 20px;
 }
 
-li {
-  line-height: 1.4 ;
-}
 
 /* Header, <header>
    header   - container
@@ -129,19 +126,6 @@ dt {
   font-weight: bold;
 }
 
-ul li {
-  list-style: none;
-}
-
-ul li:before {
-  content: ">>";
-  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
-  font-size: 13px;
-  color: #b5e853;
-  margin-left: -37px;
-  margin-right: 21px;
-  line-height: 16px;
-}
 
 blockquote {
   color: #aaa;
@@ -255,7 +239,7 @@ a {
   margin-right: auto;
   font-family: Arial;
   color: black;
-  background-color: white;
+  background:url(http://bgfons.com/upload/aluminum_texture1642.jpg);
   font-size: 2em;
 }
 
@@ -277,11 +261,47 @@ a {
   display: none;
 }
 
+/*this holds the search bar and autcomplete results*/
+#autcompleteHolder{
+width:50vw;
+}
+
+/*the actual input field*/
 #songSearch{
-  width: 40vw;
+  width:30vw;
   height:4vh;
   font-size: 4vh;
 }
+
+/*search autocomplete list */
+#seach-ac{
+margin-left: none;
+display: block;
+
+}
+
+/*each item in autocomplete list*/
+.ac-result-item-artist{
+  border-bottom: 1px;
+  list-style: none;
+  background-color: white;
+}
+
+.ac-result-item-track{
+  list-style: none;
+  background-color: white;
+}
+
+.ac-result-item-album{
+  background-color: white;
+  list-style: none;
+}
+
+ul li a{
+  text-decoration: none;
+
+}
+
 
 #serviceSelectBar {
   width: 100vw;
@@ -310,6 +330,7 @@ a {
   color: black;
 }
 
+/*the horrible ugly submit button*/
 #submit {
   width: 15vw;
   height:4vh;
@@ -330,9 +351,12 @@ a {
   margin-right: 5vw;
 }
 
+<<<<<<< HEAD
 #searchResults{
   margin-left: 20vw;
   margin-right: auto;
   color: salmon;
 
 }
+=======
+>>>>>>> 354421b99738efd30bd0c7f9868bf639a2330862

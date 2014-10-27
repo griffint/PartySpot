@@ -26,7 +26,16 @@
     <div id="spotifySearch">
       <p style="text-align:center">Try out our Spotify search demo! Search for any track in Spotify.</p>
       <label id="searchLabel" for="songSearch">Search Spotify: </label>
-      <input type="text" id="songSearch" placeholder="Artist, Album, or Song Title">
+      <div id="autcompleteHolder">
+        <input type="text" id="songSearch" placeholder="Artist, Album, or Song Title">
+          <ul class="search-ac">
+            <li class="ac-result-item-artist"><a href="index.html">Search Result #1   -   <span>Description...</span></a></li>
+            <li class="ac-result-item-track"><a href="index.html">Search Result #2<br><span>Description...</span></a></li>
+            <li class="ac-result-item-track"><a href="index.html">Search Result #3<br><span>Description...</span></a></li>
+            <li class="ac-result-item-album"><a href="index.html">Search Result #4</a></li>
+          </ul>
+        </div>
+      
       <div id="submit">Submit</div>
     </div>
 
