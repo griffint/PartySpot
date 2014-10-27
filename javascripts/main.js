@@ -117,19 +117,32 @@ $(document).ready(function() {
 	function displayArtist(artist_list) {
         for (var i=0; i<artist_list.length; i++){
             var picture = '<img src="' + artist_list[i][1] + '">';
-            console.log(picture);
             $('#artistResults').append(picture);
             var artist = '<p>' + artist_list[i][0] + '</p>';
             $('#artistResults').append(artist);
         }
 
     }
-
+ 
     function displayTrack(track_list) {
+        for (var i=0; i<track_list.length; i++){
+            var picture = '<img src="' + track_list[i][2] + '">';
+            $('#trackResults').append(picture);
+            var track = '<p>' + track_list[i][0] + '</p>';
+            $('#trackResults').append(track);
+            var artist = '<h6>' + track_list[i][1] + '</h6>';
+            $('#trackResults').append(artist);
+        }
 
     }
 
     function displayAlbum(album_list) {
+        for (var i=0; i<album_list.length; i++){
+            var picture = '<img src="' + album_list[i][1] + '">';
+            $('#albumResults').append(picture);
+            var name = '<p>' + album_list[i][0] + '</p>';
+            $('#albumResults').append(name);
+        }
 
     }
 })
