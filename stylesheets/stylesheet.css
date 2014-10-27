@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: url(http://bgfons.com/upload/wood%20_texture1584.jpg);
+  background: url(https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xap1/t31.0-8/10658873_10205110561470377_6008264796721814082_o.jpg);
   color: #eaeaea;
   font: 16px;
   line-height: 1.5;
@@ -90,6 +90,11 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
                0 0 5px rgba(181, 232, 83, 0.1),
                0 0 10px rgba(181, 232, 83, 0.1);
+  display:inline;
+}
+
+img{
+display:inline;
 }
 
 #main_content h1 {
@@ -169,6 +174,9 @@ hr {
   color: #b5e853;
 }
 
+p {
+display:inline;
+}
 /* Buttons
 */
 
@@ -351,12 +359,20 @@ ul li a{
   margin-right: 5vw;
 }
 
-<<<<<<< HEAD
 #searchResults{
   margin-left: 20vw;
   margin-right: auto;
-  color: salmon;
+  color: black;
+  display: block;
 
 }
-=======
->>>>>>> 354421b99738efd30bd0c7f9868bf639a2330862
+#artistResults{
+display:block;
+}
+#trackResults{
+display:block;
+}
+#albumResults{
+display:block;
+}
+
