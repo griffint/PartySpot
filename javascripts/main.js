@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	var searchService="Spotify";
 	var currentObj = null;
+	displaySearch();
 
 	$("#submit").click(function() {
 		getJSONData(document.getElementById('songSearch').value, searchService, 15, true);
@@ -104,7 +105,31 @@ $(document).ready(function() {
 
 
 
-	function display(response) {
-		
+	function displaySearch() {
+		artistList=[["Luke Bryan","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnx9O1WF332PIKp8smgP5XiKQNAnZdpFOK_e4XdedeB1GWYQt5"]];
+        displayArtist(artistList);
+        trackList=[["Rain is good","Luke Bryan","http://images1.mtv.com/uri/mgid:file:http:shared:/tsv2-production.s3.amazonaws.com/uploads/image/digital_asset/80170/widget_background_1135_3.jpg?width=315&height=210&enlarge=true&crop=true&matte=true&matteColor=black&quality=0.85"],["generic Song","generic artist","http://static.refinedhype.com/uploads/insearchoflarge.gif"]];
+   		displayTrack(trackList);
+   		albumList=[["Aaron Rodgers Sings","http://blogs.westword.com/latestword/aaron.rodgers.jpg"]];
+   		displayAlbum(albumList);
 	}
+
+	function displayArtist(artist_list) {
+        for (var i=0; i<artist_list.length; i++){
+            var picture = '<img src="' + artist_list[i][1] + '">';
+            console.log(picture);
+            $('#artistResults').append(picture);
+            var artist = '<p>' + artist_list[i][0] + '</p>';
+            $('#artistResults').append(artist);
+        }
+
+    }
+
+    function displayTrack(track_list) {
+
+    }
+
+    function displayAlbum(album_list) {
+
+    }
 })
