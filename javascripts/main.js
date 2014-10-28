@@ -41,12 +41,12 @@ $(document).ready(function() {
 
 	$("#deezerSelect").click(function() {
 		$("#deezerSelect").css({
-			"background-color": "#E6E6E6",
-			"color": "black"
+			"background-color": "#282828",
+			"color": "#A0A0A0"
 		});
 		$("#spotifySelect").css({
-			"background-color": "white",
-			"color": "#EAEAEA"
+			"background-color": "#101010",
+			"color": "#A0A0A0"
 		});
 		console.log("deezer shown");
 		$("#deezerSearch").show();
@@ -55,12 +55,12 @@ $(document).ready(function() {
 
 	$("#spotifySelect").click(function() {
 		$("#deezerSelect").css({
-			"background-color": "white",
-			"color": "#EAEAEA"
+			"background-color": "#101010",
+			"color": "#A0A0A0"
 		});
 		$("#spotifySelect").css({
-			"background-color": "#00FF00",
-			"color": "black"
+			"background-color": "#282828",
+			"color": "#A0A0A0"
 		});
 		console.log("spotify shown");
 		$("#spotifySearch").show();

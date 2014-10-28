@@ -390,8 +390,8 @@ ul li a{
 }
 
 #spotifySelect {
-  background-color: #00FF00;
-  color: black;
+  background-color: #282828;
+  color: #A0A0A0;
 }
 
 #deezerInfo {
@@ -512,7 +512,7 @@ a {
 
 #artistText {
   text-align: center;
-  color:white;
+  color:#A0A0A0;
 }
 
 
