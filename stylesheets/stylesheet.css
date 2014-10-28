@@ -419,6 +419,31 @@ ul li a{
 }
 
 .artist-result {
+  position: relative;
+}
 
+.album-result {
+  position: relative;
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.album-title {
+  overflow: hidden;
+  position: absolute;
+  text-align: center;
+}
+
+.album-pic {
+  position: absolute;
+  top: 5px;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  color: black;
+  text-decoration: none;
 }
 

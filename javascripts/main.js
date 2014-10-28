@@ -92,7 +92,7 @@ $(document).ready(function() {
 			tempList.push(trackJSON.items[i].name);
 			tempList.push(trackJSON.items[i].artists[0].name);
 			tempList.push(trackJSON.items[i].album.images[1].url);
-			tempList.push(albumJSON.items[i].external_urls.spotify);
+			tempList.push(trackJSON.items[i].external_urls.spotify);
 			outputTrackList.push(tempList);
 		}
 
@@ -115,7 +115,7 @@ $(document).ready(function() {
         displayArtist(artistList);
         trackList=[["Rain is good","Luke Bryan","http://images1.mtv.com/uri/mgid:file:http:shared:/tsv2-production.s3.amazonaws.com/uploads/image/digital_asset/80170/widget_background_1135_3.jpg?width=315&height=210&enlarge=true&crop=true&matte=true&matteColor=black&quality=0.85"],["generic Song","generic artist","http://static.refinedhype.com/uploads/insearchoflarge.gif"]];
    		displayTrack(trackList);
-   		albumList=[["Aaron Rodgers Sings","http://blogs.westword.com/latestword/aaron.rodgers.jpg"]];
+   		albumList=[["Aaron Rodgers Sings","http://blogs.westword.com/latestword/aaron.rodgers.jpg"], ["Aaron Rodgers Sings","http://blogs.westword.com/latestword/aaron.rodgers.jpg"]];
    		displayAlbum(albumList);
 	}
 
@@ -136,11 +136,11 @@ $(document).ready(function() {
 
 	function displayArtist(artist_list,width,height) {
 		$('#artistResults').empty();
-        for (var i=0; i<(width/height); i++){
+        for (var i=0; i<(artist_list.length); i++){
             var picture = '<img class="artist-pic" src="' + artist_list[i][1] + '">';
             var artist = '<div class="artist-name">' + artist_list[i][0] + '</div>';
             $("#artistResults").width(width).height(height);
-            $('#artistResults').append('<div class="artist-result">'+picture+artist+'</div>');
+            $('#artistResults').append('<a href="'+artist_list[i][2]+'"><div class="artist-result">'+picture+artist+'</div></a>');
         	$(".artist-result").width(height).height(height);
         }
 
@@ -152,18 +152,36 @@ $(document).ready(function() {
             var picture = '<img class="track-pic" src="' + track_list[i][2] + '">';
             var track = '<div class="track-title">' + track_list[i][0] + '</div>';
             var artist = '<div class="track-artist">' + track_list[i][1] + '</div>';
-            $('#trackResults').append('<div class="track-result">'+picture+track+artist+'</div>');
+            $('#trackResults').append('<a href="'+track_list[i][3]+'"><div class="track-result">'+picture+track+artist+'</div></a>');
         }
 
     }
 
     function displayAlbum(album_list) {
+    	console.log(album_list);
+		var height = $(window).height()*.17;
+		num = Math.floor($(window).width()*.7/height*.17/.18);
 	    $('#albumResults').empty();
-        for (var i=0; i<album_list.length; i++){
+	    if (album_list.length<num) {
+	    	num = album_list.length;
+	    }
+        for (var i=0; i<num; i++){
             var picture = '<img class="album-pic" src="' + album_list[i][1] + '">';
             var name = '<div class="album-title">' + album_list[i][0] + '</div>';
-            $('#albumResults').append('<div class="album-result">'+picture+name+'</div>');
+            $('#albumResults').append('<a href="'+album_list[i][2]+'"><div class="album-result">'+picture+name+'</div></a>');
         }
-
+        $(".album-result").width(height).height(height);
+        $(".album-pic").width(10/17*height).height(10/17*height);
+        $(".album-title").width(height).height(6/17*height);
+		$(".album-pic").css({
+			"left": 3.5/17*height
+		});
+		$(".album-title").css({
+			"font-size": 2/17*height,
+			"top": 11/17*height
+		});
+		$(".album-result").css({
+			"margin-right": 1/17*height
+		});
     }
 })
