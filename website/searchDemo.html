@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/pygment_trac.css" media="screen">
+    <!--jquery css library hosted by google-->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+  
+    <!--web jquery libraries-->
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+  <script src="../javascripts/main.js"></script>
+  </head>
+
+  <body>
+    <div id="serviceSelectBar">
+      <div id="spotifySelect" class="serviceSelect">Spotify</div>
+      <div id="deezerSelect" class="serviceSelect">Coming soon: Deezer</div>
+    </div>
+
+     <!--Example Spotify Search box-->
+    <div id="spotifySearch">
+      <div id="spotify-header">Try out our Spotify search demo! Search for any track in Spotify.</div>
+      <div id="search-holder">
+        <div id="searchLabel">Search Spotify: </div>
+        <div id="autocompleteHolder">
+          <input type="text" id="songSearch" placeholder="Artist, Album, or Song Title">
+          <div id="search-ac">
+            <div class="ac-result-item-artist"><a href="index.html">Search Result #1   -   <span>Description...</span></a></div>
+            <div class="ac-result-item-track"><a href="index.html">Search Result #2<br><span>Description...</span></a></div>
+            <div class="ac-result-item-track"><a href="index.html">Search Result #3<br><span>Description...</span></a></div>
+            <div class="ac-result-item-album"><a href="index.html">Search Result #4</a></div>
+          </div>
+        </div>
+        <div id="submit">Search</div>
+      </div>
+
+      <!--Search Results-->
+      <div id="searchResults">
+        <h3>Artists</h3>
+          <div id="artistResults">
+
+          </div>
+        <h3>Tracks</h3>
+          <div id="trackResults">
+
+          </div>
+        <h3>Albums</h3>
+          <div id="albumResults">
+
+
+          </div>
+      </div>
+    </div>
+
+    <!--Example Deezer Search box-->
+    <div id="deezerSearch">
+      <p id="deezerInfo">Deezer hasn't been released in the U.S. yet. When it is, we'll be updating this so that you can search their databases and hook up to their streaming service. </p>
+    </div>
+  </body>
+
+  </html>
