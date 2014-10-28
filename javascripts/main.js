@@ -78,7 +78,11 @@ $(document).ready(function() {
 		for (i=0;i<artistJSON.items.length;i++) {
 			tempList = [];
 			tempList.push(artistJSON.items[i].name);
-			tempList.push(albumJSON.items[i].images[1].url);
+			try {
+				tempList.push(artistJSON.items[i].images[1].url);
+			} catch(e) {
+				tempList.push("");				
+			}
 			tempList.push(artistJSON.items[i].external_urls.spotify);
 			outputArtistList.push(tempList);
 		}
@@ -94,7 +98,7 @@ $(document).ready(function() {
 
 		if (!liveResults) {
 			console.log('arrived');
-			console.log(outputTrackList);
+			console.log(outputArtistList);
 			displaySearch([outputArtistList, outputTrackList, outputAlbumList])
 		}
 	}

@@ -325,8 +325,13 @@ a {
 
 /*search autocomplete list */
 #search-ac{
-  margin-left: none;
-  display: none;
+  position: absolute;
+  left: 0;
+  top:5vh;
+  display: block;
+  z-index: 100;
+  margin: 0;
+  width: 100%;
 }
 
 /*each item in autocomplete list*/
@@ -355,8 +360,8 @@ ul li a{
   text-align: center;
   font-size: 4vh;
   height: 5vh;
-  margin-top: .5vh;
-  margin-bottom: .5vh;
+  padding-top: .5vh;
+  padding-bottom: .5vh;
 }
 
 /* these are for the bar to select which service to stream from */
