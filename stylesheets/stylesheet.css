@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #3d352a;
+  background-color: #282828;
   color: #3d352a;
   font: 16px;
   line-height: 1.5;
@@ -258,10 +258,14 @@ a {
   margin-left: auto;
   margin-right: auto;
   font-family: Arial;
-  color: black;
+  color: #A8A8A8;
   background-color: white;
   font-size: 2em;
   display: none;
+}
+
+#deezerSelect{
+  color:#A8A8A8;
 }
 
 /*this holds the search bar and autcomplete results*/
@@ -303,6 +307,7 @@ a {
   height:4vh;
   font-size: 4vh;
   display: inline-block;
+  color:#A0A0A0 ;
 }
 
 #autocompleteHolder{
@@ -357,6 +362,7 @@ ul li a{
   height: 5vh;
   margin-top: .5vh;
   margin-bottom: .5vh;
+  color:#A0A0A0 ;
 }
 
 /* these are for the bar to select which service to stream from */
@@ -365,7 +371,7 @@ ul li a{
   padding-left: 10vw;
   padding-right: 10vw;
   height: 6vh;
-  background-color: white;
+  background-color: #101010 ;
 }
 
 .serviceSelect {
@@ -415,7 +421,7 @@ ul li a{
   text-align:center;
   height:4vh;
   overflow:hidden;
-  color:white;
+  color:#A8A8A8 ;
 }
 #trackResults{
   display:block;

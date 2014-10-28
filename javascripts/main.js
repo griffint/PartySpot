@@ -3,7 +3,22 @@ $(document).ready(function() {
 	var currentObj = null;
 	displaySearchTest();
 
+	 $(".artist-name").on('mouseenter',function(){
+	    	console.log("MOUSE ENTER")
+    
+        $(this).css('color',"white");
+    });
+    
+    $('.artist-name').on('mouseleave',function(){
+    
+        $(this).css('color','#A8A8A8');
+    });
+
+	   
+
 	$("#submit").click(function() {
+
+		
 		getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
 		document.getElementById("songSearch").value = "";
 	});
