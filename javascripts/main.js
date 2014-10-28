@@ -189,10 +189,10 @@ $(document).ready(function() {
 			var bound = (Math.floor(height/(width*1.06)));
 		}
         for (var i=0; i<bound; i++){
-            var picture = '<img class="artist-pic" src="' + artist_list[i][1] + '">';
-            var artist = '<div class="artist-name">' + artist_list[i][0] + '</div>';
+            var picture = '<a target="_blank" href="'+artist_list[i][2]+'"><img class="artist-pic" src="' + artist_list[i][1] + '"></a>';
+            var artist = '<a target="_blank" href="'+artist_list[i][2]+'"><div class="artist-name">' + artist_list[i][0] + '</div>';
             
-            $('#artistResults').append('<a target="_blank" href="'+artist_list[i][2]+'"><div class="artist-result">'+picture+artist+'</div></a>');
+            $('#artistResults').append('<div class="artist-result">'+picture+artist+'</div></a>');
         	
         }
         var margin = height*.03
@@ -217,29 +217,35 @@ $(document).ready(function() {
 
     function displayAlbum(album_list) {
     	console.log(album_list);
-		var height = $(window).height()*.17;
-		num = Math.floor($(window).width()*.7/height*.17/.18);
-	    $('#albumResults').empty();
-	    if (album_list.length<num) {
-	    	num = album_list.length;
-	    }
-        for (var i=0; i<num; i++){
-            var picture = '<img class="album-pic" src="' + album_list[i][1] + '">';
-            var name = '<div class="album-title">' + album_list[i][0] + '</div>';
-            $('#albumResults').append('<a target="_blank" href="'+album_list[i][2]+'"><div class="album-result">'+picture+name+'</div></a>');
+		var width = $(window).width()*.1;
+		var height = $(window).height()*.70; 
+
+		$('#albumResults').empty();		
+		$("#albumResults").width(width).height(height);
+		$('#albumContains').width(width);
+
+		width = $("#albumResults").width();
+		var parHeight = $(".artist-pic").parent().height();
+
+		if (album_list.length < (Math.floor(height/(width*1.1)))){
+			var bound = album_list.length;
+		}
+		else{
+			var bound = (Math.floor(height/(width*1.1)));
+		}
+
+		console.log(bound);
+
+        for (var i=0; i<bound; i++){
+            var picture = '<a target="_blank" href="'+album_list[i][2]+'"><img class="album-pic" src="' + album_list[i][1] + '"></a>';
+            var name = '<a target="_blank" href="'+album_list[i][2]+'"><div class="album-title">' + album_list[i][0] + '</div></a>';
+            $('#albumResults').append('<div class="album-result">'+picture+name+'</div>');
         }
-        $(".album-result").width(height).height(height);
-        $(".album-pic").width(10/17*height).height(10/17*height);
-        $(".album-title").width(height).height(6/17*height);
-		$(".album-pic").css({
-			"left": 3.5/17*height
-		});
-		$(".album-title").css({
-			"font-size": 2/17*height,
-			"top": 11/17*height
-		});
-		$(".album-result").css({
-			"margin-right": 1/17*height
-		});
+
+        var margin = height*.03
+        $(".album-result").css({"margin":margin});
+        $(".album-result").css({"margin-bottom":0});
+        $(".album-result").css({"margin-top":"2%"});
+        $(".album-result").width(width).height(width);
     }
 })
