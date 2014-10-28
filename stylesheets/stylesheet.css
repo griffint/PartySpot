@@ -242,7 +242,7 @@ a {
 /*-----------------CSS for spotify searching---------------------*/
 
 #spotifySearch{
-  margin-top: 2vh;
+  margin-top: 0;
   width:80vw;
   margin-left: auto;
   margin-right: auto;
@@ -273,7 +273,7 @@ a {
 #search-holder {
   margin-top: 2vh;
   position: relative;
-  height: 8vh;
+  height: 7vh;
   border-bottom: 1px solid black;
   margin-left: 0;
   width: 80vw;
@@ -284,7 +284,7 @@ a {
   position: absolute;
   top:0;
   left: 75%;
-  width: 18%;
+  width: 20%;
   height:4vh;
   font-size: 3vh;
   color:#808080 ;
@@ -302,7 +302,7 @@ a {
   position: absolute;
   left: 5%;
   top: 0;
-  width: 18%;
+  width: 20%;
   padding-top: .5vh;
   padding-bottom: .5vh;
   height:4vh;
@@ -314,9 +314,9 @@ a {
 #autocompleteHolder{
   position: absolute;
   top: .5vh;
-  left: 25%;
+  left: 30%;
   z-index: 1;
-  width: 50%;
+  width: 40%;
   display: inline-block;
 }
 
@@ -414,14 +414,18 @@ ul li a{
 }
 
 #albumContains{
-  display:block;
+  position: absolute;
+  display:inline-block;
+  width: 10vw;
+  top: 20vh;
+  left: 80vw;
 }
 
 #artistContains{
   position: absolute;
   display:inline-block;
   width: 10vw;
-  top: 25vh;
+  top: 20vh;
   left: 10vw;
 }
 
@@ -433,16 +437,27 @@ ul li a{
 
 }
 
+.album-title{
+  text-align:center;
+  height:4vh;
+  overflow:hidden;
+  color:#A8A8A8 ;
+}
+
 .artist-name:hover{
   color:white;
 }
 
-#trackContains {
-  position: relative;
-  display: inline-block;
-  width: 50vw;
-  margin-left: 5vw;
+.album-name:hover{
+  color:white;
+}
 
+#trackContains {
+  position: absolute;
+  display:inline-block;
+  width: 50vw;
+  top: 20vh;
+  left: 25vw;
 }
 
 #trackResults{
@@ -450,20 +465,15 @@ ul li a{
 }
 
 #albumResults{
-  display:block;
+  display:inline-block;
   float: right;
   position: relative;
-  display:block;
   width: 10vw;
 }
 
-.artist-result {
-  width:25%;
-  
+.artist-result {  
   position:relative;
   display:inline-block;
-
-
 }
 
 
@@ -480,6 +490,7 @@ ul li a{
   position: :absolute;
   display:block;
   position: relative;
+  border-radius: 10px;
 }
 
 .album-pic {
@@ -487,20 +498,17 @@ ul li a{
   height:85%;
   position: :absolute;
   display:block;
-  margin:2%;
   position: relative;
+  border-radius: 10px;
+}
+
+.track-pic {
+  border-radius: 10px;
 }
 
 .album-result {
-  width:25%;
   position: relative;
   display: inline-block;
-}
-
-.album-title {
-  overflow: hidden;
-  position: absolute;
-  text-align: center;
 }
 
 a {
@@ -514,5 +522,21 @@ a {
   text-align: center;
   color:#A0A0A0;
 }
+
+
+#albumText {
+  text-align: center;
+  color:#A0A0A0;
+}
+
+#trackText {
+  text-align: center;
+  color:#A0A0A0;
+}
+
+body {
+  overflow: hidden;
+}
+
 
 

@@ -172,22 +172,20 @@ $(document).ready(function() {
 	function displayArtist(artist_list) {
 		var width = $(window).width()*.1;
 		var height = $(window).height()*.70; 
-		console.log(width);
-		console.log(height);
+
 		$('#artistResults').empty();		
 		$("#artistResults").width(width).height(height);
 		$('#artistContains').width(width);
 
-		width = $("#artistResults").width();
 		var parHeight = $(".artist-pic").parent().height();
-		console.log(height);
-		console.log(width/(height*1.1));
-		if (artist_list.length < (Math.floor(height/(width*1.1)))){
+
+		if (artist_list.length < (Math.floor(height/(width*1.06)))){
 			var bound = artist_list.length;
 		}
 		else{
 			var bound = (Math.floor(height/(width*1.06)));
 		}
+
         for (var i=0; i<bound; i++){
             var picture = '<a target="_blank" href="'+artist_list[i][2]+'"><img class="artist-pic" src="' + artist_list[i][1] + '"></a>';
             var artist = '<a target="_blank" href="'+artist_list[i][2]+'"><div class="artist-name">' + artist_list[i][0] + '</div>';
@@ -195,10 +193,18 @@ $(document).ready(function() {
             $('#artistResults').append('<div class="artist-result">'+picture+artist+'</div></a>');
         	
         }
-        var margin = height*.03
+
+        $(".artist-pic").css({
+        	"width":.75*width,
+        	"height":.75*width,
+        	"margin-left":.125*width        	
+        });
+        $(".artist-name").css({
+        	"font-size":.1*width,
+        	"height":.3*width,
+        	"text-align":"center"        	
+        });
         
-        $(".artist-result").css({"margin-bottom":0});
-        $(".artist-result").css({"margin-top":"2%"});
         $(".artist-result").width(width).height(width);
 
     }
@@ -216,7 +222,6 @@ $(document).ready(function() {
     }
 
     function displayAlbum(album_list) {
-    	console.log(album_list);
 		var width = $(window).width()*.1;
 		var height = $(window).height()*.70; 
 
@@ -224,17 +229,14 @@ $(document).ready(function() {
 		$("#albumResults").width(width).height(height);
 		$('#albumContains').width(width);
 
-		width = $("#albumResults").width();
 		var parHeight = $(".artist-pic").parent().height();
 
-		if (album_list.length < (Math.floor(height/(width*1.1)))){
+		if (album_list.length < (Math.floor(height/(width*1.06)))){
 			var bound = album_list.length;
 		}
 		else{
-			var bound = (Math.floor(height/(width*1.1)));
+			var bound = (Math.floor(height/(width*1.06)));
 		}
-
-		console.log(bound);
 
         for (var i=0; i<bound; i++){
             var picture = '<a target="_blank" href="'+album_list[i][2]+'"><img class="album-pic" src="' + album_list[i][1] + '"></a>';
@@ -242,10 +244,17 @@ $(document).ready(function() {
             $('#albumResults').append('<div class="album-result">'+picture+name+'</div>');
         }
 
-        var margin = height*.03
-        $(".album-result").css({"margin":margin});
-        $(".album-result").css({"margin-bottom":0});
-        $(".album-result").css({"margin-top":"2%"});
+        $(".album-pic").css({
+        	"width":.75*width,
+        	"height":.75*width,
+        	"margin-left":.125*width        	
+        });
+        $(".album-title").css({
+        	"font-size":.1*width,
+        	"height":.3*width,
+        	"text-align":"center"        	
+        });
+        
         $(".album-result").width(width).height(width);
     }
 })
