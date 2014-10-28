@@ -78,7 +78,11 @@ $(document).ready(function() {
 		for (i=0;i<artistJSON.items.length;i++) {
 			tempList = [];
 			tempList.push(artistJSON.items[i].name);
-			tempList.push(albumJSON.items[i].images[1].url);
+			try {
+				tempList.push(artistJSON.items[i].images[1].url);
+			} catch(e) {
+				tempList.push("");				
+			}
 			tempList.push(artistJSON.items[i].external_urls.spotify);
 			outputArtistList.push(tempList);
 		}
@@ -94,7 +98,7 @@ $(document).ready(function() {
 
 		if (!liveResults) {
 			console.log('arrived');
-			console.log(outputTrackList);
+			console.log(outputArtistList);
 			displaySearch([outputArtistList, outputTrackList, outputAlbumList])
 		}
 	}
@@ -129,8 +133,9 @@ $(document).ready(function() {
    		displayAlbum(albumList);
 	}
 
-	function displayArtist(artist_list,width,height) {
 
+	function displayArtist(artist_list,width,height) {
+		$('#artistResults').empty();
         for (var i=0; i<(width/height); i++){
             var picture = '<img class="artist-pic" src="' + artist_list[i][1] + '">';
             var artist = '<div class="artist-name">' + artist_list[i][0] + '</div>';
@@ -142,6 +147,7 @@ $(document).ready(function() {
     }
  
     function displayTrack(track_list) {
+	    $('#trackResults').empty();
         for (var i=0; i<track_list.length; i++){
             var picture = '<img class="track-pic" src="' + track_list[i][2] + '">';
             var track = '<div class="track-title">' + track_list[i][0] + '</div>';
@@ -152,6 +158,7 @@ $(document).ready(function() {
     }
 
     function displayAlbum(album_list) {
+	    $('#albumResults').empty();
         for (var i=0; i<album_list.length; i++){
             var picture = '<img class="album-pic" src="' + album_list[i][1] + '">';
             var name = '<div class="album-title">' + album_list[i][0] + '</div>';
