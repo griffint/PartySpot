@@ -413,7 +413,9 @@ ul li a{
 
 .artist-name{
   text-align:center;
+  height:4vh;
   overflow:hidden;
+  color:white;
 }
 #trackResults{
   display:block;
