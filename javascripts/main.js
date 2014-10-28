@@ -132,6 +132,7 @@ $(document).ready(function() {
 	}
 
 	function displayArtist(artist_list) {
+	    $('#artistResults').empty();
         for (var i=0; i<artist_list.length; i++){
             var picture = '<img class="artist-pic" src="' + artist_list[i][1] + '">';
             var artist = '<div class="artist-name">' + artist_list[i][0] + '</div>';
@@ -141,6 +142,7 @@ $(document).ready(function() {
     }
  
     function displayTrack(track_list) {
+	    $('#trackResults').empty();
         for (var i=0; i<track_list.length; i++){
             var picture = '<img class="track-pic" src="' + track_list[i][2] + '">';
             var track = '<div class="track-title">' + track_list[i][0] + '</div>';
@@ -151,6 +153,7 @@ $(document).ready(function() {
     }
 
     function displayAlbum(album_list) {
+	    $('#albumResults').empty();
         for (var i=0; i<album_list.length; i++){
             var picture = '<img class="album-pic" src="' + album_list[i][1] + '">';
             var name = '<div class="album-title">' + album_list[i][0] + '</div>';
