@@ -325,7 +325,7 @@ a {
 
 /*search autocomplete list */
 #search-ac{
-  margin-left: none;
+  margin-left: 3px;
   display: none;
 }
 
