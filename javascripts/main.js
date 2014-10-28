@@ -4,8 +4,19 @@ $(document).ready(function() {
 	displaySearchTest();
 
 	$("#submit").click(function() {
-		getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
-		document.getElementById("songSearch").value = "";
+		if (document.getElementById('songSearch').value!="") {
+			getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
+			document.getElementById("songSearch").value = "";
+		}
+	});
+
+	$('#songSearch').bind('keypress', function(e) {
+		if(e.which==13){
+			if (document.getElementById('songSearch').value!="") {
+				getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
+				document.getElementById("songSearch").value = "";
+			}
+		}
 	});
 
 	$("#deezerSelect").click(function() {
