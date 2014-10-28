@@ -7,6 +7,21 @@ $(document).ready(function() {
 		console.log("submit button working");
 		getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
 		document.getElementById("songSearch").value = "";
+
+		if (document.getElementById('songSearch').value!="") {
+			getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
+			document.getElementById("songSearch").value = "";
+		}
+	});
+
+	$('#songSearch').bind('keypress', function(e) {
+		if(e.which==13){
+			if (document.getElementById('songSearch').value!="") {
+				getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
+				document.getElementById("songSearch").value = "";
+			}
+		}
+
 	});
 
 	//now to make a function to call getJSON when text is updated
