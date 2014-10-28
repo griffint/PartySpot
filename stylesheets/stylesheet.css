@@ -248,7 +248,7 @@ a {
   margin-right: auto;
   font-family: Arial;
   color: black;
-  background:url(http://bgfons.com/upload/aluminum_texture1642.jpg);
+  
   font-size: 2em;
 }
 
@@ -411,6 +411,9 @@ ul li a{
   height:85%;
 }
 
+.artist-name{
+  text-align:center;
+}
 #trackResults{
   display:block;
 }
