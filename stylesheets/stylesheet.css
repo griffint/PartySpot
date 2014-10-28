@@ -406,6 +406,11 @@ ul li a{
   
 }
 
+.artist-pic{
+  width:100%;
+  height:85%;
+}
+
 #trackResults{
   display:block;
 }
@@ -423,11 +428,11 @@ ul li a{
 
 }
 
-<<<<<<< HEAD
+
 .track-result {
   display:inline-block;
 }
-=======
+
 .artist-pic {
   width:100%;
   height:85%;
@@ -453,6 +458,7 @@ ul li a{
 .album-pic {
   position: absolute;
   top: 5px;
+  
 }
 
 a {
@@ -462,4 +468,4 @@ a {
   text-decoration: none;
 }
 
->>>>>>> 46b789bcc666b290b0e2dcbf6a0247423daa0bb4
+
