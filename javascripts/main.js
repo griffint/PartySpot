@@ -29,7 +29,7 @@ $(document).ready(function() {
 	//now to make a function to call getJSON when text is updated
 	$(document).on('input',"#songSearch",function() {
   		console.log("Autocomplete working");
-  		getJSONData(document.getElementById('songSearch').value, searchService, 5, false)
+  		getJSONData(document.getElementById('songSearch').value, searchService, 5, true)
 	});
 
 
@@ -127,12 +127,16 @@ $(document).ready(function() {
 			displaySearch([outputArtistList, outputTrackList, outputAlbumList])
 		} else {
 			// display live results update here
+			autocomplete([outputArtistList, outputTrackList, outputAlbumList])
 		}
 	}
 
-	function autocomplete() {
-		//need to make the ul appear when this is called
-		
+	function autocomplete(artistList,trackList,albumList) {
+		//need to make the ul appear when this is called\
+		console.log("autocomplete shower is being called");
+		console.log(artistList[0][0]);
+
+		$( "search-ac" ).show( "slow" );	
 	}
 
 
