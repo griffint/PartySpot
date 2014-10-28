@@ -38,7 +38,6 @@ $(document).ready(function() {
 	})
 
 	function getJSONData(searchText,apiUse,limit,liveResults)  {
-		console.log("searchText");
 		if (currentObj != null){
 			currentObj.abort() //Kill all previous running queries
 		}
