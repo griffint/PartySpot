@@ -412,14 +412,13 @@ ul li a{
   display:block;
   
 }
-#artistContains{
+
+#albumContains{
   display:block;
-  
 }
 
-.artist-pic{
-  width:100%;
-  height:85%;
+#artistContains{
+  display:block;
 }
 
 .artist-name{
@@ -440,6 +439,7 @@ ul li a{
 
 #albumResults{
   display:block;
+  float: right;
 }
 
 .artist-result {
@@ -464,27 +464,28 @@ ul li a{
   height:85%;
   position: :absolute;
   display:block;
+  position: relative;
+}
+
+.album-pic {
+  width:100%;
+  height:85%;
+  position: :absolute;
+  display:block;
   margin:2%;
   position: relative;
 }
 
 .album-result {
+  width:25%;
   position: relative;
   display: inline-block;
-  border: 1px solid black;
-  border-radius: 5px;
 }
 
 .album-title {
   overflow: hidden;
   position: absolute;
   text-align: center;
-}
-
-.album-pic {
-  position: absolute;
-  top: 5px;
-  
 }
 
 a {
