@@ -170,22 +170,23 @@ $(document).ready(function() {
 
 
 	function displayArtist(artist_list) {
-		var height = $(window).height()*.25;
-		var width = $("#searchResults").width() 
+		var width = $(window).width()*.1;
+		var height = $(window).height()*.70; 
 		console.log(width);
 		console.log(height);
 		$('#artistResults').empty();		
 		$("#artistResults").width(width).height(height);
+		$('#artistContains').width(width);
 
 		width = $("#artistResults").width();
 		var parHeight = $(".artist-pic").parent().height();
 		console.log(height);
 		console.log(width/(height*1.1));
-		if (artist_list.length < (Math.floor(width/(height*1.1)))){
+		if (artist_list.length < (Math.floor(height/(width*1.1)))){
 			var bound = artist_list.length;
 		}
 		else{
-			var bound = (Math.floor(width/(height*1.1)));
+			var bound = (Math.floor(height/(width*1.06)));
 		}
         for (var i=0; i<bound; i++){
             var picture = '<img class="artist-pic" src="' + artist_list[i][1] + '">';
@@ -194,9 +195,11 @@ $(document).ready(function() {
             $('#artistResults').append('<a target="_blank" href="'+artist_list[i][2]+'"><div class="artist-result">'+picture+artist+'</div></a>');
         	
         }
-        var margin = height*.05
+        var margin = height*.03
         $(".artist-result").css({"margin":margin});
-        $(".artist-result").width(height).height(height);
+        $(".artist-result").css({"margin-bottom":0});
+        $(".artist-result").css({"margin-top":"2%"});
+        $(".artist-result").width(width).height(width);
 
     }
  

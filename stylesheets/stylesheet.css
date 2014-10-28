@@ -411,6 +411,10 @@ ul li a{
   display:block;
   
 }
+#artistContains{
+  display:block;
+  
+}
 
 .artist-pic{
   width:100%;
@@ -422,7 +426,13 @@ ul li a{
   height:4vh;
   overflow:hidden;
   color:#A8A8A8 ;
+
 }
+
+.artist-name:hover{
+  color:white;
+}
+
 #trackResults{
   display:block;
 }
