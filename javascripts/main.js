@@ -196,7 +196,7 @@ $(document).ready(function() {
         	
         }
         var margin = height*.03
-        $(".artist-result").css({"margin":margin});
+        
         $(".artist-result").css({"margin-bottom":0});
         $(".artist-result").css({"margin-top":"2%"});
         $(".artist-result").width(width).height(width);

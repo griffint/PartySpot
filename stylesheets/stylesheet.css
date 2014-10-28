@@ -287,11 +287,12 @@ a {
   width: 20%;
   height:4vh;
   font-size: 3vh;
+  color:#808080 ;
   padding-top: .5vh;
   padding-bottom: .5vh;
   display: inline-block;
   text-align: center;
-  background-color: #00FF00;
+  background-color: #101010;
   border-radius: 10px;
   border: 1px solid black;
   cursor: pointer;
@@ -493,6 +494,11 @@ a {
   padding: 0;
   color: black;
   text-decoration: none;
+}
+
+#artistText {
+  text-align: center;
+  color:white;
 }
 
 
