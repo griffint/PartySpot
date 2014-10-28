@@ -3,6 +3,7 @@ $(document).ready(function() {
 	var currentObj = null;
 	displaySearchTest();
 
+	//function to go when submit button pressed
 	$("#submit").click(function() {
 		console.log("submit button working");
 		getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
@@ -24,10 +25,9 @@ $(document).ready(function() {
 
 	});
 
+
 	//now to make a function to call getJSON when text is updated
-
-
-	$( "#songSearch" ).change(function() {
+	$(document).on('input',"#songSearch",function() {
   		console.log("Autocomplete working");
 	});
 
