@@ -202,7 +202,7 @@ $(document).ready(function() {
             var picture = '<img class="track-pic" src="' + track_list[i][2] + '">';
             var track = '<div class="track-title">' + track_list[i][0] + '</div>';
             var artist = '<div class="track-artist">' + track_list[i][1] + '</div>';
-            $('#trackResults').append('<a target="_blank" href="'+track_list[i][3]+'"><div class="track-result">'+picture+track+artist+'</div></a>');
+            $('#trackResults').append('<a target="_blank" href="'+track_list[i][3]+'"><div class="track-result">'+picture+"   "+track+"    -    "+artist+'</div></a>');
         }
 
     }
