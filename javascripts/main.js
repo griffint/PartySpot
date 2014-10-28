@@ -171,13 +171,7 @@ $(document).ready(function() {
             var picture = '<img class="track-pic" src="' + track_list[i][2] + '">';
             var track = '<div class="track-title">' + track_list[i][0] + '</div>';
             var artist = '<div class="track-artist">' + track_list[i][1] + '</div>';
-<<<<<<< HEAD
-            $('#trackResults').append('<div class="track-result">'+track+artist+'</div>');
-            //var text = '<div class="track-text">' + track_list[i][0] + '    -    ' + track_list[i][1] + '</div>';
-            //$('#trackResults').append('<div class="track-result">'+picture+track+artist+'</div>');
-=======
             $('#trackResults').append('<a href="'+track_list[i][3]+'"><div class="track-result">'+picture+track+artist+'</div></a>');
->>>>>>> 46b789bcc666b290b0e2dcbf6a0247423daa0bb4
         }
 
     }
