@@ -24,40 +24,41 @@
 
      <!--Example Spotify Search box-->
     <div id="spotifySearch">
-      <p style="text-align:center">Try out our Spotify search demo! Search for any track in Spotify.</p>
-      <label id="searchLabel" for="songSearch">Search Spotify: </label>
-      <div id="autcompleteHolder">
-        <input type="text" id="songSearch" placeholder="Artist, Album, or Song Title">
-          <ul class="search-ac">
+      <div id="spotify-header">Try out our Spotify search demo! Search for any track in Spotify.</div>
+      <div id="search-holder">
+        <div id="searchLabel">Search Spotify: </div>
+        <div id="autocompleteHolder">
+          <input type="text" id="songSearch" placeholder="Artist, Album, or Song Title">
+          <ul id="search-ac">
             <li class="ac-result-item-artist"><a href="index.html">Search Result #1   -   <span>Description...</span></a></li>
             <li class="ac-result-item-track"><a href="index.html">Search Result #2<br><span>Description...</span></a></li>
             <li class="ac-result-item-track"><a href="index.html">Search Result #3<br><span>Description...</span></a></li>
             <li class="ac-result-item-album"><a href="index.html">Search Result #4</a></li>
           </ul>
         </div>
-      
-      <div id="submit">Submit</div>
+        <div id="submit">Submit</div>
+      </div>
+
+      <!--Search Results-->
+      <div id="searchResults">
+        <div id="artistResults">
+          <h3>Artists</h3>
+
+        </div>
+        <div id="trackResults">
+          <h3>Tracks</h3>
+
+        </div>
+        <div id="albumResults">
+          <h3>Albums</h3>
+
+        </div>
+      </div>
     </div>
 
-     <!--Example Deezer Search box-->
+    <!--Example Deezer Search box-->
     <div id="deezerSearch">
       <p id="deezerInfo">Deezer hasn't been released in the U.S. yet. When it is, we'll be updating this so that you can search their databases and hook up to their streaming service. </p>
-    </div>
-
-    <!--Search Results-->
-    <div id="searchResults">
-      <div id="artistResults">
-        <h3>Artists</h3>
-
-      </div>
-      <div id="trackResults">
-        <h3>Tracks</h3>
-
-      </div>
-      <div id="albumResults">
-        <h3>Albums</h3>
-
-      </div>
     </div>
   </body>
 

@@ -242,6 +242,7 @@ a {
 /*-----------------CSS for spotify searching---------------------*/
 
 #spotifySearch{
+  margin-top: 2vh;
   width:80vw;
   margin-left: auto;
   margin-right: auto;
@@ -251,14 +252,8 @@ a {
   font-size: 2em;
 }
 
-#searchLabel {
-  width: 15vw;
-  height:4vh;
-  font-size: 4vh;
-  margin-left: 5vw;
-}
-
 #deezerSearch{
+  margin-top: 2vh;
   width:80vw;
   margin-left: auto;
   margin-right: auto;
@@ -270,22 +265,68 @@ a {
 }
 
 /*this holds the search bar and autcomplete results*/
-#autcompleteHolder{
-width:50vw;
+
+#search-holder {
+  margin-top: 2vh;
+  position: relative;
+  height: 8vh;
+  border-bottom: 1px solid black;
+  margin-left: 5vw;
+  width: 70vw;
+}
+
+/*the horrible ugly submit button*/
+#submit {
+  position: absolute;
+  top:0;
+  left: 80%;
+  width: 20%;
+  height:4vh;
+  font-size: 3vh;
+  padding-top: .5vh;
+  padding-bottom: .5vh;
+  display: inline-block;
+  text-align: center;
+  background-color: #00FF00;
+  border-radius: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+#searchLabel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20%;
+  padding-top: .5vh;
+  padding-bottom: .5vh;
+  height:4vh;
+  font-size: 4vh;
+  display: inline-block;
+}
+
+#autocompleteHolder{
+  position: absolute;
+  top: .5vh;
+  left: 25%;
+  z-index: 1;
+  width: 50%;
+  display: inline-block;
 }
 
 /*the actual input field*/
 #songSearch{
-  width:30vw;
+  position: absolute;
+  left: 0;
+  width:100%;
   height:4vh;
   font-size: 4vh;
 }
 
 /*search autocomplete list */
-#seach-ac{
-margin-left: none;
-display: block;
-
+#search-ac{
+  margin-left: none;
+  display: none;
 }
 
 /*each item in autocomplete list*/
@@ -310,7 +351,15 @@ ul li a{
 
 }
 
+#spotify-header {
+  text-align: center;
+  font-size: 4vh;
+  height: 5vh;
+  margin-top: .5vh;
+  margin-bottom: .5vh;
+}
 
+/* these are for the bar to select which service to stream from */
 #serviceSelectBar {
   width: 100vw;
   padding-left: 10vw;
@@ -338,41 +387,33 @@ ul li a{
   color: black;
 }
 
-/*the horrible ugly submit button*/
-#submit {
-  width: 15vw;
-  height:4vh;
-  font-size: 3vh;
-  padding-top: .5vh;
-  padding-bottom: .5vh;
-  display: inline-block;
-  text-align: center;
-  background-color: #00FF00;
-  border-radius: 10px;
-  border: 1px solid black;
-  margin-right: 5vw;
-  cursor: pointer;
-}
-
 #deezerInfo {
   margin-left: 5vw;
   margin-right: 5vw;
 }
 
 #searchResults{
-  margin-left: 20vw;
+  width: 70vw;
   margin-right: auto;
   color: black;
   display: block;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
 
-}
 #artistResults{
-display:block;
+  display:block;
 }
+
 #trackResults{
-display:block;
+  display:block;
 }
+
 #albumResults{
-display:block;
+  display:block;
+}
+
+.artist-result {
+
 }
 
