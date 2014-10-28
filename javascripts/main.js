@@ -3,20 +3,15 @@ $(document).ready(function() {
 	var currentObj = null;
 	displaySearchTest();
 
-
-
-		
-
 	//function to go when submit button pressed
 	$("#submit").click(function() {
 		console.log("submit button working");
 
-		getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
-		document.getElementById("songSearch").value = "";
-
 		if (document.getElementById('songSearch').value!="") {
 			getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
 			document.getElementById("songSearch").value = "";
+			$( "#search-ac" ).hide();
+			console.log('dick');
 		}
 	});
 
@@ -25,6 +20,7 @@ $(document).ready(function() {
 			if (document.getElementById('songSearch').value!="") {
 				getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
 				document.getElementById("songSearch").value = "";
+				$( "#search-ac" ).hide();	
 			}
 		}
 
@@ -34,7 +30,11 @@ $(document).ready(function() {
 	//now to make a function to call getJSON when text is updated
 	$(document).on('input',"#songSearch",function() {
   		console.log("Autocomplete working");
-  		getJSONData(document.getElementById('songSearch').value, searchService, 5, true)
+		if (document.getElementById('songSearch').value!="") {
+  			getJSONData(document.getElementById('songSearch').value, searchService, 5, true);
+  		} else {
+			$( "#search-ac" ).hide( "slow" );	
+		}
 	});
 
 
@@ -141,7 +141,7 @@ $(document).ready(function() {
 		console.log("autocomplete shower is being called");
 		console.log(artistList[0][0]);
 
-		$( "search-ac" ).show( "slow" );	
+		$( "#search-ac" ).show( "slow" );	
 	}
 
 
@@ -177,8 +177,6 @@ $(document).ready(function() {
 		$("#artistResults").width(width).height(height);
 		$('#artistContains').width(width);
 
-		var parHeight = $(".artist-pic").parent().height();
-
 		if (artist_list.length < (Math.floor(height/(width*1.06)))){
 			var bound = artist_list.length;
 		}
@@ -191,7 +189,6 @@ $(document).ready(function() {
             var artist = '<a target="_blank" href="'+artist_list[i][2]+'"><div class="artist-name">' + artist_list[i][0] + '</div>';
             
             $('#artistResults').append('<div class="artist-result">'+picture+artist+'</div></a>');
-        	
         }
 
         $(".artist-pic").css({
@@ -206,18 +203,57 @@ $(document).ready(function() {
         });
         
         $(".artist-result").width(width).height(width);
+        $(".artist-result").css("margin-bottom", width*.05);
 
     }
  
     function displayTrack(track_list) {
 	    $('#trackResults').empty();
+		var width = $(window).width()*.5;
+		var height = $(window).height()*.7; 
+		var track_height = height/10*.94;
 
-        for (var i=0; i<track_list.length; i++){
+		$("#trackResults").width(width).height(height);
+
+		if (track_list.length < 10) {
+			var bound = track_list.length;
+		} else {
+			var bound = 10;
+		}
+
+        for (var i=0; i<bound; i++){
             var picture = '<img class="track-pic" src="' + track_list[i][2] + '">';
             var track = '<div class="track-title">' + track_list[i][0] + '</div>';
             var artist = '<div class="track-artist">' + track_list[i][1] + '</div>';
-            $('#trackResults').append('<a target="_blank" href="'+track_list[i][3]+'"><div class="track-result">'+picture+"   "+track+"    -    "+artist+'</div></a>');
+            $('#trackResults').append('<a target="_blank" class="track-result" href="'+track_list[i][3]+'"><div class="track-result">'+picture+"   "+track+artist+'</div></a>');
         }
+
+        $(".track-pic").css({
+        	"width":.9*track_height,
+        	"height":.9*track_height,
+        	"margin-left":.1*track_height, 
+        	"margin-top":.05*track_height        	       	
+        });
+        $(".track-title").css({
+        	"font-size":.5*track_height,
+        	"height":.5*track_height, 
+        	"top": .2*track_height,
+        	"padding-bottom": .25*track_height,
+        	"left": 1.2*track_height,
+        	"width": .5*width
+        });
+        $(".track-artist").css({
+        	"font-size":.5*track_height,
+        	"height":.5*track_height, 
+        	"top": .2*track_height,
+        	"right": .2*track_height,
+        	"width": .3*width,
+        	"padding-bottom": .25*track_height
+        });
+        
+        $(".track-result").width(width).height(track_height);
+        $(".track-result").css("margin-bottom", track_height/20);
+
 
     }
 
@@ -228,8 +264,6 @@ $(document).ready(function() {
 		$('#albumResults').empty();		
 		$("#albumResults").width(width).height(height);
 		$('#albumContains').width(width);
-
-		var parHeight = $(".artist-pic").parent().height();
 
 		if (album_list.length < (Math.floor(height/(width*1.06)))){
 			var bound = album_list.length;
@@ -256,5 +290,6 @@ $(document).ready(function() {
         });
         
         $(".album-result").width(width).height(width);
+        $(".album-result").css("margin-bottom", width*.05);
     }
 })
