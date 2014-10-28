@@ -29,6 +29,7 @@ $(document).ready(function() {
 	//now to make a function to call getJSON when text is updated
 	$(document).on('input',"#songSearch",function() {
   		console.log("Autocomplete working");
+  		getJSONData(document.getElementById('songSearch').value, searchService, 5, false)
 	});
 
 
