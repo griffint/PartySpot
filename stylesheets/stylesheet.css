@@ -1,8 +1,8 @@
 body {
   margin: 0;
   padding: 0;
-  background: url(https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xap1/t31.0-8/10658873_10205110561470377_6008264796721814082_o.jpg);
-  color: #eaeaea;
+  background-color: #3d352a;
+  color: #3d352a;
   font: 16px;
   line-height: 1.5;
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
@@ -413,6 +413,7 @@ ul li a{
 
 .artist-name{
   text-align:center;
+  overflow:hidden;
 }
 #trackResults{
   display:block;
