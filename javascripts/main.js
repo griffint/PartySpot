@@ -100,6 +100,8 @@ $(document).ready(function() {
 			console.log('arrived');
 			console.log(outputArtistList);
 			displaySearch([outputArtistList, outputTrackList, outputAlbumList])
+		} else {
+			// display live results update here
 		}
 	}
 
@@ -155,7 +157,7 @@ $(document).ready(function() {
             var picture = '<img class="artist-pic" src="' + artist_list[i][1] + '">';
             var artist = '<div class="artist-name">' + artist_list[i][0] + '</div>';
             
-            $('#artistResults').append('<div class="artist-result">'+picture+artist+'</div>');
+            $('#artistResults').append('<a target="_blank" href="'+artist_list[i][2]+'"><div class="artist-result">'+picture+artist+'</div></a>');
         	
         }
         var margin = height*.05
@@ -171,7 +173,7 @@ $(document).ready(function() {
             var picture = '<img class="track-pic" src="' + track_list[i][2] + '">';
             var track = '<div class="track-title">' + track_list[i][0] + '</div>';
             var artist = '<div class="track-artist">' + track_list[i][1] + '</div>';
-            $('#trackResults').append('<a href="'+track_list[i][3]+'"><div class="track-result">'+picture+track+artist+'</div></a>');
+            $('#trackResults').append('<a target="_blank" href="'+track_list[i][3]+'"><div class="track-result">'+picture+track+artist+'</div></a>');
         }
 
     }
@@ -187,7 +189,7 @@ $(document).ready(function() {
         for (var i=0; i<num; i++){
             var picture = '<img class="album-pic" src="' + album_list[i][1] + '">';
             var name = '<div class="album-title">' + album_list[i][0] + '</div>';
-            $('#albumResults').append('<a href="'+album_list[i][2]+'"><div class="album-result">'+picture+name+'</div></a>');
+            $('#albumResults').append('<a target="_blank" href="'+album_list[i][2]+'"><div class="album-result">'+picture+name+'</div></a>');
         }
         $(".album-result").width(height).height(height);
         $(".album-pic").width(10/17*height).height(10/17*height);
