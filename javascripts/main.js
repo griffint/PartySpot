@@ -16,6 +16,8 @@ $(document).ready(function() {
 		if(e.which==13){
 			if (selected>=0) {
 				$($("#search-ac").find(".ac-result-item")[selected]).click();
+				getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
+				$( "#search-ac" ).hide();	
 			} else if (document.getElementById('songSearch').value!="") {
 				getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
 				document.getElementById("songSearch").value = "";
