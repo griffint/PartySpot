@@ -259,9 +259,9 @@ a {
   margin-right: auto;
   font-family: Arial;
   color: #A8A8A8;
-  background-color: white;
   font-size: 2em;
   display: none;
+  text-align: center;
 }
 
 #deezerSelect{
@@ -431,11 +431,6 @@ ul li a{
   color: #A0A0A0;
 }
 
-#deezerInfo {
-  margin-left: 5vw;
-  margin-right: 5vw;
-}
-
 #searchResults{
   width: 70vw;
   margin-right: auto;
@@ -470,7 +465,6 @@ ul li a{
   text-align:center;
   height:4vh;
   overflow:hidden;
-  color:#A8A8A8 ;
 
 }
 
@@ -478,15 +472,6 @@ ul li a{
   text-align:center;
   height:4vh;
   overflow:hidden;
-  color:#A8A8A8 ;
-}
-
-.artist-name:hover{
-  color:white;
-}
-
-.album-name:hover{
-  color:white;
 }
 
 #trackContains {
@@ -515,17 +500,22 @@ ul li a{
   border-radius: 10px;
   padding:3px;
   float: left;
+  background-color: #555;
+  box-shadow: 5px 5px 3px -3px #000;
+  color: #000;
 }
 
 
 .track-result {
   position: relative;
   display:inline-block;
-  background-color: white;
+  background-color: #555;
+  box-shadow: 5px 5px 3px -3px #000;
   width:100%;
   border-radius: 8px;
   vertical-align: top;
   float:left;
+  color: #000;
 }
 
 .track-pic {
@@ -575,6 +565,9 @@ ul li a{
   border-radius: 10px;
   padding:3px;
   float: right;
+  background-color: #555;
+  box-shadow: 5px 5px 3px -3px #000;
+  color: #000;
 }
 
 a {
@@ -582,6 +575,22 @@ a {
   padding: 0;
   color: black;
   text-decoration: none;
+}
+
+.album-result:hover .album-title {
+  color: white;
+}
+
+.artist-result:hover .artist-name {
+  color: white;
+}
+
+.track-result:hover .track-title {
+  color: white;
+}
+
+.track-result:hover .track-artist {
+  color: white;
 }
 
 #artistText {

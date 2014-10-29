@@ -1,17 +1,14 @@
 $(document).ready(function() {
 	var searchService="Spotify";
 	var currentObj = null;
-	displaySearchTest();
+	var selected = -1;
 
 	//function to go when submit button pressed
 	$("#submit").click(function() {
-		console.log("submit button working");
-
 		if (document.getElementById('songSearch').value!="") {
 			getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
 			document.getElementById("songSearch").value = "";
 			$( "#search-ac" ).hide();
-			console.log('dick');
 		}
 	});
 
@@ -23,18 +20,25 @@ $(document).ready(function() {
 				$( "#search-ac" ).hide();	
 			}
 		}
-
 	});
 
 
 	//now to make a function to call getJSON when text is updated
 	$(document).on('input',"#songSearch",function() {
+		resetSelected();
 		if (document.getElementById('songSearch').value!="") {
   			getJSONData(document.getElementById('songSearch').value, searchService, 4, true);
   		} else {
 			$( "#search-ac" ).hide( "slow" );	
 		}
 	});
+
+	$(document).bind('keypress', function(e) {
+		if ($('#myDiv').is(':visible')) {
+
+		}
+	});
+
 
 
 
@@ -166,6 +170,11 @@ $(document).ready(function() {
         //<div class="ac-result-item-album"><a href="index.html">Search Result #4</a></div>
 	}
 
+	function resetSelected() {
+        console.log("is unbinding");
+		selected = -1;
+	}
+
 	function autocompleteTracks(trackList) {
 		console.log(trackList);
 	}
@@ -211,10 +220,10 @@ $(document).ready(function() {
 		}
 
         for (var i=0; i<bound; i++){
-            var picture = '<a target="_blank" href="'+artist_list[i][2]+'"><img class="artist-pic" src="' + artist_list[i][1] + '"></a>';
-            var artist = '<a target="_blank" href="'+artist_list[i][2]+'"><div class="artist-name">' + artist_list[i][0] + '</div>';
+            var picture = '<img class="artist-pic" src="' + artist_list[i][1] + '">';
+            var artist = '<div class="artist-name">' + artist_list[i][0] + '</div>';
             
-            $('#artistResults').append('<div class="artist-result">'+picture+artist+'</div></a>');
+            $('#artistResults').append('<a target="_blank" href="'+artist_list[i][2]+'"><div class="artist-result">'+picture+artist+'</div></a>');
         }
 
         $(".artist-pic").css({
@@ -299,9 +308,9 @@ $(document).ready(function() {
 		}
 
         for (var i=0; i<bound; i++){
-            var picture = '<a target="_blank" href="'+album_list[i][2]+'"><img class="album-pic" src="' + album_list[i][1] + '"></a>';
-            var name = '<a target="_blank" href="'+album_list[i][2]+'"><div class="album-title">' + album_list[i][0] + '</div></a>';
-            $('#albumResults').append('<div class="album-result">'+picture+name+'</div>');
+            var picture = '<img class="album-pic" src="' + album_list[i][1] + '">';
+            var name = '<div class="album-title">' + album_list[i][0] + '</div>';
+            $('#albumResults').append('<a target="_blank" href="'+album_list[i][2]+'"><div class="album-result">'+picture+name+'</div></a>');
         }
 
         $(".album-pic").css({
