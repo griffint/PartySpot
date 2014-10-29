@@ -152,16 +152,16 @@ $(document).ready(function() {
          //now to insert the content
         $("#search-ac").empty();
         $("#search-ac").append('<div class="ac-result-label">Artists</div>');	//artists here
-        $("#search-ac").append('<a  href='.concat(artistList[0][2].concat('><span class="ac-result-item-artist" id="ac-artist-1">'.concat(artistList[0][0].concat('</span></a>')))));
-        $("#search-ac").append('<a  href='.concat(artistList[1][2].concat('><span class="ac-result-item-artist" id="ac-artist-1">'.concat(artistList[1][0].concat('</span></a>')))));
+        $("#search-ac").append('<a target="_blank" href='.concat(artistList[0][2].concat('><span class="ac-result-item-artist" id="ac-artist-1">'.concat(artistList[0][0].concat('</span></a>')))));
+        $("#search-ac").append('<a target="_blank" href='.concat(artistList[1][2].concat('><span class="ac-result-item-artist" id="ac-artist-1">'.concat(artistList[1][0].concat('</span></a>')))));
         $("#search-ac").append('<div class="ac-result-label">Tracks</div>');	//tracks go here
-        $("#search-ac").append('<a href='.concat(trackList[0][3].concat('><span class="ac-result-item-track" >'.concat(trackList[0][0].concat(' - '.concat(trackList[0][1].concat('</span></a>')))))));
-        $("#search-ac").append('<a href='.concat(trackList[1][3].concat('><span class="ac-result-item-track" >'.concat(trackList[1][0].concat(' - '.concat(trackList[1][1].concat('</span></a>')))))));
-        $("#search-ac").append('<a href='.concat(trackList[2][3].concat('><span class="ac-result-item-track" >'.concat(trackList[2][0].concat(' - '.concat(trackList[2][1].concat('</span></a>')))))));
-        $("#search-ac").append('<a href='.concat(trackList[3][3].concat('><span class="ac-result-item-track" >'.concat(trackList[3][0].concat(' - '.concat(trackList[3][1].concat('</span></a>')))))));
+        $("#search-ac").append('<a target="_blank" href='.concat(trackList[0][3].concat('><span class="ac-result-item-track" >'.concat(trackList[0][0].concat(' - '.concat(trackList[0][1].concat('</span></a>')))))));
+        $("#search-ac").append('<a target="_blank" href='.concat(trackList[1][3].concat('><span class="ac-result-item-track" >'.concat(trackList[1][0].concat(' - '.concat(trackList[1][1].concat('</span></a>')))))));
+        $("#search-ac").append('<a target="_blank" href='.concat(trackList[2][3].concat('><span class="ac-result-item-track" >'.concat(trackList[2][0].concat(' - '.concat(trackList[2][1].concat('</span></a>')))))));
+        $("#search-ac").append('<a target="_blank" href='.concat(trackList[3][3].concat('><span class="ac-result-item-track" >'.concat(trackList[3][0].concat(' - '.concat(trackList[3][1].concat('</span></a>')))))));
         $("#search-ac").append('<div class="ac-result-label">Albums</div>');	//now albums
-         $("#search-ac").append('<a  href='.concat(albumList[0][2].concat('><span class="ac-result-item-album" id="ac-artist-1">'.concat(albumList[0][0].concat('</span></a>')))));
-         $("#search-ac").append('<a  href='.concat(albumList[1][2].concat('><span class="ac-result-item-album" id="ac-artist-1">'.concat(albumList[1][0].concat('</span></a>')))));
+         $("#search-ac").append('<a target="_blank" href='.concat(albumList[0][2].concat('><span class="ac-result-item-album" id="ac-artist-1">'.concat(albumList[0][0].concat('</span></a>')))));
+         $("#search-ac").append('<a target="_blank" href='.concat(albumList[1][2].concat('><span class="ac-result-item-album" id="ac-artist-1">'.concat(albumList[1][0].concat('</span></a>')))));
         //<div class="ac-result-item-track"><a href="index.html">Search Result #2</a></div>
         //<div class="ac-result-item-album"><a href="index.html">Search Result #4</a></div>
 	}
