@@ -132,22 +132,34 @@ $(document).ready(function() {
 			displaySearch([outputArtistList, outputTrackList, outputAlbumList])
 		} else {
 			// display live results update here
-			autocomplete([outputArtistList, outputTrackList, outputAlbumList])
+			console.log(outputTrackList);
+			autocomplete([outputArtistList, outputTrackList, outputAlbumList]);
 		}
 	}
 
 	function autocomplete(artistList,trackList,albumList) {
 		//need to make the ul appear when this is called\
 		console.log("autocomplete shower is being called");
-		console.log(artistList[0][0]);
+		console.log(trackList);
+		console.log(albumList);
+		console.log(artistList);
+		//artist list -[name,image,link]
+		//track list - 
+
 
 		if($( '#search-ac' ).is(":visible")){
-              console.log("already visible")
+              console.log("already visible");
          } else{
-              $( '#searc-ac' ).show();
+              $( '#search-ac' ).toggle();
               console.log("should be showing it now")
          }
 
+         //now to insert the content
+        $("#search-ac").append('<div class="ac-result-item-artist" id="ac-artist-1"><a href="index.html">artist1</a></div>');
+        $("#search-ac").append('<div class="ac-result-label">Tracks</div>');
+        $("#search-ac").append('<div class="ac-result-label">Albums</div>');
+        //<div class="ac-result-item-track"><a href="index.html">Search Result #2</a></div>
+        //<div class="ac-result-item-album"><a href="index.html">Search Result #4</a></div>
 	}
 
 

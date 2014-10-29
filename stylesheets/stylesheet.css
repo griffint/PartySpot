@@ -337,6 +337,14 @@ a {
 }
 
 /*each item in autocomplete list*/
+.ac-result-label{
+  list-style: none;
+  background-color: grey;
+  font-size: .5em;
+  text-align: center;
+  line-height: 20px;
+}
+
 .ac-result-item-artist{
   border-bottom: 1px;
   list-style: none;
@@ -355,7 +363,6 @@ a {
 
 ul li a{
   text-decoration: none;
-
 }
 
 #spotify-header {
