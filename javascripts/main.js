@@ -14,7 +14,9 @@ $(document).ready(function() {
 
 	$('#songSearch').bind('keypress', function(e) {
 		if(e.which==13){
-			if (document.getElementById('songSearch').value!="") {
+			if (selected>=0) {
+				$($("#search-ac").find(".ac-result-item")[selected]).click();
+			} else if (document.getElementById('songSearch').value!="") {
 				getJSONData(document.getElementById('songSearch').value, searchService, 15, false);
 				document.getElementById("songSearch").value = "";
 				$( "#search-ac" ).hide();	
@@ -33,14 +35,39 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).bind('keypress', function(e) {
-		if ($('#myDiv').is(':visible')) {
+	$(document).bind('keydown.scroll', function(e) {
+		if ($('#search-ac').is(':visible')) {
+	        if (e.which == 38) { //up
+	        	e.preventDefault();
+	            if (selected>-1) {
+	            	selected-=1; //go up
+	            	$("#search-ac").find(".ac-result-item").removeClass("selected-ac");
+	            	if (selected>=0) {
+	            		$($("#search-ac").find(".ac-result-item")[selected]).addClass( "selected-ac");
+	            	} 
+	            }
+	        }
+	        if (e.which == 40) { //up
+	            if (selected>=-1) {
+	        		e.preventDefault();
+	            	$("#search-ac").find(".ac-result-item").removeClass("selected-ac");
 
+	            	if (selected<($("#search-ac").find(".ac-result-item").length-1)) {
+	            		selected+=1; //go up
+	            	}
+
+            		if (selected>=0) {
+            			$($("#search-ac").find(".ac-result-item")[selected]).addClass( "selected-ac");
+            		}
+	            }
+	        }
 		}
 	});
 
-
-
+	$("#search-ac").mouseenter(function() {
+		selected = -1;
+    	$("#search-ac").find(".ac-result-item").removeClass("selected-ac");
+	});
 
 	$("#deezerSelect").click(function() {
 		$("#deezerSelect").css({
@@ -51,7 +78,6 @@ $(document).ready(function() {
 			"background-color": "#101010",
 			"color": "#A0A0A0"
 		});
-		console.log("deezer shown");
 		$("#deezerSearch").show();
 		$("#spotifySearch").hide();
 	})
@@ -65,7 +91,6 @@ $(document).ready(function() {
 			"background-color": "#282828",
 			"color": "#A0A0A0"
 		});
-		console.log("spotify shown");
 		$("#spotifySearch").show();
 		$("#deezerSearch").hide();
 		
@@ -130,8 +155,6 @@ $(document).ready(function() {
 		}
 
 		if (!liveResults) {
-			console.log('arrived');
-			console.log(outputTrackList);
 			displaySearch([outputArtistList, outputTrackList, outputAlbumList])
 		} else {
 			// display live results update here
@@ -150,33 +173,60 @@ $(document).ready(function() {
               console.log("already visible");
          } else{
               $( '#search-ac' ).toggle();
-              console.log("should be showing it now")
          }
-         console.log(artistList[0][1]);
          //now to insert the content
         $("#search-ac").empty();
-        $("#search-ac").append('<div class="ac-result-label">Artists</div>');	//artists here
-        $("#search-ac").append('<a target="_blank" href='.concat(artistList[0][2].concat('><span class="ac-result-item-artist" id="ac-artist-1">'.concat(artistList[0][0].concat('</span></a>')))));
-        $("#search-ac").append('<a target="_blank" href='.concat(artistList[1][2].concat('><span class="ac-result-item-artist" id="ac-artist-1">'.concat(artistList[1][0].concat('</span></a>')))));
-        $("#search-ac").append('<div class="ac-result-label">Tracks</div>');	//tracks go here
-        $("#search-ac").append('<a target="_blank" href='.concat(trackList[0][3].concat('><span class="ac-result-item-track" >'.concat(trackList[0][0].concat(' - '.concat(trackList[0][1].concat('</span></a>')))))));
-        $("#search-ac").append('<a target="_blank" href='.concat(trackList[1][3].concat('><span class="ac-result-item-track" >'.concat(trackList[1][0].concat(' - '.concat(trackList[1][1].concat('</span></a>')))))));
-        $("#search-ac").append('<a target="_blank" href='.concat(trackList[2][3].concat('><span class="ac-result-item-track" >'.concat(trackList[2][0].concat(' - '.concat(trackList[2][1].concat('</span></a>')))))));
-        $("#search-ac").append('<a target="_blank" href='.concat(trackList[3][3].concat('><span class="ac-result-item-track" >'.concat(trackList[3][0].concat(' - '.concat(trackList[3][1].concat('</span></a>')))))));
-        $("#search-ac").append('<div class="ac-result-label">Albums</div>');	//now albums
-         $("#search-ac").append('<a target="_blank" href='.concat(albumList[0][2].concat('><span class="ac-result-item-album" id="ac-artist-1">'.concat(albumList[0][0].concat('</span></a>')))));
-         $("#search-ac").append('<a target="_blank" href='.concat(albumList[1][2].concat('><span class="ac-result-item-album" id="ac-artist-1">'.concat(albumList[1][0].concat('</span></a>')))));
-        //<div class="ac-result-item-track"><a href="index.html">Search Result #2</a></div>
-        //<div class="ac-result-item-album"><a href="index.html">Search Result #4</a></div>
+        	//artists here
+
+        // display artists
+        bound=2;
+        if (artistList.length<bound) {
+        	bound=artistList.length;
+        }
+        if (bound>0) {
+        	$("#search-ac").append('<div class="ac-result-label">Artists</div>'); // only display header if there are items to display
+        }
+        for (i=0;i<bound;i++) {
+        	$("#search-ac").append('<a target="_blank" href='.concat(artistList[i][2].concat('><span class="ac-result-item ac-result-item-artist" id="ac-artist-1">'.concat(artistList[i][0].concat('</span></a>')))));
+        }
+
+        // display tracks
+        bound=4;
+        if (trackList.length<bound) {
+        	bound=trackList.length;
+        }
+
+        if (bound>0) {
+        	$("#search-ac").append('<div class="ac-result-label">Tracks</div>'); // only display header if there are items to display
+        }
+
+        for (i=0;i<bound;i++) {
+        	$("#search-ac").append('<a target="_blank" href='.concat(trackList[i][3].concat('><span class="ac-result-item ac-result-item-track" >'.concat(trackList[i][0].concat(' - '.concat(trackList[i][1].concat('</span></a>')))))));
+ 		}
+
+        // display albums
+        bound=2;
+        if (albumList.length<bound) {
+        	bound=albumList.length;
+        }
+        if (bound>0) {
+        	$("#search-ac").append('<div class="ac-result-label">Albums</div>'); // only display header if there are items to display
+        }
+        for (i=0;i<bound;i++) {
+			$("#search-ac").append('<a target="_blank" href='.concat(albumList[i][2].concat('><span class="ac-result-item ac-result-item-album" id="ac-artist-1">'.concat(albumList[i][0].concat('</span></a>')))));
+		}
+
+		$(".ac-result-item").hover(
+			function() {
+				$(this).addClass( "selected-ac" );
+			}, function() {
+				$(this).removeClass( "selected-ac" );
+			}
+		);
 	}
 
 	function resetSelected() {
-        console.log("is unbinding");
 		selected = -1;
-	}
-
-	function autocompleteTracks(trackList) {
-		console.log(trackList);
 	}
 
 

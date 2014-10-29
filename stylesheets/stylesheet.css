@@ -333,7 +333,7 @@ a {
 #search-ac{
   margin-left: 3px;
   display: none;
-  margin-top: 5vh;
+  margin-top: 5.5vh;
 }
 
 /*each item in autocomplete list*/
@@ -360,10 +360,6 @@ a {
   border-left: 1px solid black;
 }
 
-.ac-result-item-artist:hover{
-  background-color: #D1FFFF;
-}
-
 .ac-result-item-track{
   list-style: none;
   background-color: white;
@@ -371,10 +367,6 @@ a {
   border-bottom: 1px solid black;
    border-right:1px solid black;
   border-left: 1px solid black;
-}
-
-.ac-result-item-track:hover{
-  background-color: #D1FFFF;
 }
 
 .ac-result-item-album{
@@ -386,7 +378,7 @@ a {
   border-left: 1px solid black;
 }
 
-.ac-result-item-album:hover{
+.selected-ac {
   background-color: #D1FFFF;
 }
 
