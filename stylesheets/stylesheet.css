@@ -16,6 +16,14 @@ body {
   margin: 0 auto;
 }
 
+.container a {
+  color:white;
+}
+
+section a {
+  color:white;
+}
+
 section {
   display: block;
   margin: 0 0 20px 0;
