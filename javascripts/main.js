@@ -136,7 +136,12 @@ $(document).ready(function() {
 		console.log("autocomplete shower is being called");
 		console.log(artistList[0][0]);
 
-		$( "search-ac" ).show( "slow" );	
+		if($( '#search-ac' ).is(":visible")){
+              console.log("already visible")
+         } else{
+              $( '#searc-ac' ).show();
+              console.log("should be showing it now")
+         }
 	}
 
 
