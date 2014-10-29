@@ -356,6 +356,8 @@ a {
   background-color: white;
   display: block;
   border-bottom: 1px solid black;
+  border-right:1px solid black;
+  border-left: 1px solid black;
 }
 
 .ac-result-item-artist:hover{
@@ -367,6 +369,8 @@ a {
   background-color: white;
   display: block;
   border-bottom: 1px solid black;
+   border-right:1px solid black;
+  border-left: 1px solid black;
 }
 
 .ac-result-item-track:hover{
@@ -378,6 +382,8 @@ a {
   list-style: none;
   display: block;
   border-bottom: 1px solid black;
+   border-right:1px solid black;
+  border-left: 1px solid black;
 }
 
 .ac-result-item-album:hover{
