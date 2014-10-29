@@ -339,26 +339,49 @@ a {
 /*each item in autocomplete list*/
 .ac-result-label{
   list-style: none;
-  background-color: grey;
+  background-color: #ddd8df;
   font-size: .5em;
   text-align: center;
   line-height: 20px;
+  border-bottom: 1px solid black;
+}
+
+.ac-result-image{
+  height: 3em;
+  width:3em;
 }
 
 .ac-result-item-artist{
-  border-bottom: 1px;
   list-style: none;
   background-color: white;
+  display: block;
+  border-bottom: 1px solid black;
+}
+
+.ac-result-item-artist:hover{
+  background-color: #D1FFFF;
 }
 
 .ac-result-item-track{
   list-style: none;
   background-color: white;
+  display: block;
+  border-bottom: 1px solid black;
+}
+
+.ac-result-item-track:hover{
+  background-color: #D1FFFF;
 }
 
 .ac-result-item-album{
   background-color: white;
   list-style: none;
+  display: block;
+  border-bottom: 1px solid black;
+}
+
+.ac-result-item-album:hover{
+  background-color: #D1FFFF;
 }
 
 ul li a{

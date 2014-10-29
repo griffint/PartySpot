@@ -29,9 +29,8 @@ $(document).ready(function() {
 
 	//now to make a function to call getJSON when text is updated
 	$(document).on('input',"#songSearch",function() {
-  		console.log("Autocomplete working");
 		if (document.getElementById('songSearch').value!="") {
-  			getJSONData(document.getElementById('songSearch').value, searchService, 5, true);
+  			getJSONData(document.getElementById('songSearch').value, searchService, 4, true);
   		} else {
 			$( "#search-ac" ).hide( "slow" );	
 		}
@@ -128,23 +127,19 @@ $(document).ready(function() {
 
 		if (!liveResults) {
 			console.log('arrived');
-			console.log(outputArtistList);
+			console.log(outputTrackList);
 			displaySearch([outputArtistList, outputTrackList, outputAlbumList])
 		} else {
 			// display live results update here
-			console.log(outputTrackList);
-			autocomplete([outputArtistList, outputTrackList, outputAlbumList]);
+			
+			autocomplete(outputArtistList, outputTrackList, outputAlbumList);
 		}
 	}
 
 	function autocomplete(artistList,trackList,albumList) {
-		//need to make the ul appear when this is called\
-		console.log("autocomplete shower is being called");
-		console.log(trackList);
-		console.log(albumList);
-		console.log(artistList);
 		//artist list -[name,image,link]
-		//track list - 
+		//track list - [song,artist,album image,link]
+		//album list - [album,image,link]
 
 
 		if($( '#search-ac' ).is(":visible")){
@@ -153,13 +148,26 @@ $(document).ready(function() {
               $( '#search-ac' ).toggle();
               console.log("should be showing it now")
          }
-
+         console.log(artistList[0][1]);
          //now to insert the content
-        $("#search-ac").append('<div class="ac-result-item-artist" id="ac-artist-1"><a href="index.html">artist1</a></div>');
-        $("#search-ac").append('<div class="ac-result-label">Tracks</div>');
-        $("#search-ac").append('<div class="ac-result-label">Albums</div>');
+        $("#search-ac").empty();
+        $("#search-ac").append('<div class="ac-result-label">Artists</div>');	//artists here
+        $("#search-ac").append('<a  href='.concat(artistList[0][2].concat('><span class="ac-result-item-artist" id="ac-artist-1">'.concat(artistList[0][0].concat('</span></a>')))));
+        $("#search-ac").append('<a  href='.concat(artistList[1][2].concat('><span class="ac-result-item-artist" id="ac-artist-1">'.concat(artistList[1][0].concat('</span></a>')))));
+        $("#search-ac").append('<div class="ac-result-label">Tracks</div>');	//tracks go here
+        $("#search-ac").append('<a href='.concat(trackList[0][3].concat('><span class="ac-result-item-track" >'.concat(trackList[0][0].concat(' - '.concat(trackList[0][1].concat('</span></a>')))))));
+        $("#search-ac").append('<a href='.concat(trackList[1][3].concat('><span class="ac-result-item-track" >'.concat(trackList[1][0].concat(' - '.concat(trackList[1][1].concat('</span></a>')))))));
+        $("#search-ac").append('<a href='.concat(trackList[2][3].concat('><span class="ac-result-item-track" >'.concat(trackList[2][0].concat(' - '.concat(trackList[2][1].concat('</span></a>')))))));
+        $("#search-ac").append('<a href='.concat(trackList[3][3].concat('><span class="ac-result-item-track" >'.concat(trackList[3][0].concat(' - '.concat(trackList[3][1].concat('</span></a>')))))));
+        $("#search-ac").append('<div class="ac-result-label">Albums</div>');	//now albums
+         $("#search-ac").append('<a  href='.concat(albumList[0][2].concat('><span class="ac-result-item-album" id="ac-artist-1">'.concat(albumList[0][0].concat('</span></a>')))));
+         $("#search-ac").append('<a  href='.concat(albumList[1][2].concat('><span class="ac-result-item-album" id="ac-artist-1">'.concat(albumList[1][0].concat('</span></a>')))));
         //<div class="ac-result-item-track"><a href="index.html">Search Result #2</a></div>
         //<div class="ac-result-item-album"><a href="index.html">Search Result #4</a></div>
+	}
+
+	function autocompleteTracks(trackList) {
+		console.log(trackList);
 	}
 
 
