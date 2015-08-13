@@ -124,7 +124,7 @@ public class MainActivity extends Activity implements
     public void attemptSpotifyLogin() {
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming"});
+        builder.setScopes(new String[]{"user-read-private", "user-read-collaborative", "user-library-read", "streaming"});
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
@@ -312,6 +312,7 @@ public class MainActivity extends Activity implements
         this.findViewById(R.id.suggest_text).setVisibility(View.VISIBLE);
     }
 
+    //TODO: change fragments better. see addToBackStack
     public void changeToMainFragment() {
         // reset all the variables related to current playlist
         this.fragment = "Main";
