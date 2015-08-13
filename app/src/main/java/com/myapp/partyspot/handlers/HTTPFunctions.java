@@ -12,6 +12,7 @@ import com.myapp.partyspot.spotifyDataClasses.SpotifyPlaylist;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyPlaylists;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
+import com.myapp.partyspot.spotifyDataClasses.SpotifyUser;
 
 import android.content.Context;
 import android.util.Log;
@@ -28,15 +29,28 @@ import java.util.ArrayList;
  * Created by cwallace on 10/3/14.
  */
 public class HTTPFunctions {
+    private static HTTPFunctions mInstance = null;
 
     public Context context;
     public RequestQueue queue;
     public ArrayList<SpotifyTrack> queriedTracks;
 
-    public HTTPFunctions(Context context) {
+    public HTTPFunctions() {
+    }
+
+    public static HTTPFunctions getInstance() {
+        if(mInstance == null)
+        {
+            mInstance = new HTTPFunctions();
+
+        }
+        return mInstance;
+    }
+
+    public void setContext(Context context) {
         this.context = context;
         this.queue = Volley.newRequestQueue(context);
-    }//ALWAYS PASS IN getActivity
+    }
 
     public void getHostSearch(String URL) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
         URL = URL.replaceAll(" ","+"); // for proper url functionality
@@ -64,7 +78,7 @@ public class HTTPFunctions {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
+                params.put("Authorization", "Bearer "+UserHandler.getHandler().accessToken);
                 params.put("Accept", "application/json");
 
                 return params;
@@ -140,7 +154,7 @@ public class HTTPFunctions {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
+                params.put("Authorization", "Bearer "+UserHandler.getHandler().accessToken);
                 params.put("Accept", "application/json");
 
                 return params;
@@ -149,7 +163,7 @@ public class HTTPFunctions {
         queue.add(getRequest);
     }
 
-    public void getUser() { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
+    static void getUser() { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
         String URL = "https://api.spotify.com/v1/me";
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
                 new Response.Listener<JSONObject>()
@@ -158,11 +172,14 @@ public class HTTPFunctions {
                     public void onResponse(JSONObject response) {
                         // display response
                         try {
+                            // gets and creates spotify user, then tells main fragment to proceed
+                            UserHandler handler = UserHandler.getHandler();
                             String name = (String)response.get("id");
                             String userType = (String)response.get("product");
-                            if (userType.equals("premium")) {((MainActivity)HTTPFunctions.this.context).setPremiumUser();}
-                            ((MainActivity)HTTPFunctions.this.context).setUser(name);
-                            ((MainActivity)HTTPFunctions.this.context).setMainFragmentLoaded();
+                            boolean premium = userType.equals("premium");
+                            SpotifyUser user = new SpotifyUser(name, userType, premium);
+                            handler.setUser(user);
+                            ((MainActivity)mInstance.context).setMainFragmentLoaded();
                         }
                         catch (Exception e) {
                             e.printStackTrace();
@@ -179,13 +196,13 @@ public class HTTPFunctions {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
+                params.put("Authorization", "Bearer "+UserHandler.getHandler().accessToken);
                 params.put("Accept", "application/json");
 
                 return params;
             }
         };
-        queue.add(getRequest);
+        mInstance.queue.add(getRequest);
     }
 
     public void getPlaylistTracks(String user, String playlistId) { //WONT ALWAYS BE VOID, RETURN INFO FROM DATA
@@ -229,7 +246,7 @@ public class HTTPFunctions {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer "+((MainActivity)context).accessToken);
+                params.put("Authorization", "Bearer "+UserHandler.getHandler().accessToken);
                 params.put("Accept", "application/json");
 
                 return params;

@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
-import com.myapp.partyspot.handlers.SpotifyHandler;
+import com.myapp.partyspot.handlers.PlaybackHandler;
+import com.myapp.partyspot.handlers.PlaylistHandler;
+import com.myapp.partyspot.handlers.UserHandler;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 import com.myapp.partyspot.handlers.FirebaseHandler;
@@ -63,10 +65,10 @@ public class SuggestDialogFragment extends DialogFragment {
                         if (activity.fragment.equals("SlaveSearchResults") || activity.fragment.equals("SuggesterSearchResults")) { // if is suggesting from search, also dismiss search
                             ((DialogFragment) getActivity().getFragmentManager().findFragmentByTag("slave_search")).dismiss();
                         }
-                        ((MainActivity) getActivity()).firebaseHandler.pushSuggestion(((MainActivity) getActivity()).playlistName, track);
-                        if (activity.notSpotifyUser) {
+                        FirebaseHandler.getHandler().pushSuggestion(PlaylistHandler.getHandler().playlistName, track);
+                        if (!UserHandler.getHandler().isSpotifyUser) {
                             activity.fragment = "Suggester";
-                        } else if (activity.spotifyHandler.isSlave) {
+                        } else if (PlaybackHandler.getHandler().isSlave) {
                             activity.fragment = "Slave";
                         } else {
                             activity.fragment = "Suggester";

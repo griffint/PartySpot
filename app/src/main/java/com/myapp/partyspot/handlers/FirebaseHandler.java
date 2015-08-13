@@ -2,6 +2,7 @@ package com.myapp.partyspot.handlers;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,16 +27,27 @@ import java.util.Date;
 public class FirebaseHandler {
     // This fragment handles the firebase. It can update currently playing song, or pull currently playing song
     //it'll  have methods for both pushing and pulling data.
+    private static FirebaseHandler mInstance;
 
     // class fields
     public Firebase firebaseDatabase;
     public String URL;
-    public MainActivity activity;
+    public Context context;
 
-    public FirebaseHandler(MainActivity activity) {
-        this.activity = activity;
+    public FirebaseHandler() {
         this.URL = "https://partyspot.firebaseIO.com";
         this.firebaseDatabase = new Firebase(this.URL);
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public static FirebaseHandler getHandler() {
+        if (mInstance == null) {
+            mInstance = new FirebaseHandler();
+        }
+        return mInstance;
     }
 
     public void pushToFirebase(String playlistName, String currentlyPlayingURI, String songName, int songTime, boolean playerState) {
@@ -67,9 +79,11 @@ public class FirebaseHandler {
                 Boolean playerState = (Boolean) snapshot.child("playerState").getValue();
                 Long timestamp = (Long) snapshot.child("timestamp").getValue();
                 String name = (String) snapshot.child("title").getValue();
-                ((TextView)FirebaseHandler.this.activity.findViewById(R.id.currently_playing)).setText(name);
-                if (!activity.notSpotifyUser) {
-                    FirebaseHandler.this.activity.spotifyHandler.synchronize(uri, timestamp, songTime, playerState);
+                // TODO: don't update ui here
+                View rootView = ((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+                ((TextView)rootView.findViewById(R.id.currently_playing)).setText(name);
+                if (UserHandler.getHandler().isSpotifyUser) {
+                    PlaybackHandler.getHandler().synchronize(uri, timestamp, songTime, playerState);
                 }
             }
 
@@ -96,24 +110,22 @@ public class FirebaseHandler {
                 }
 
                 if (!valid) {
-                    activity.spotifyHandler.setNotHostOrSlave();
-                    Context context = FirebaseHandler.this.activity;
+                    PlaybackHandler.getHandler().setNotHostOrSlave();
                     CharSequence text = "Playlist can't contain '.', '#', '$', '[', or ']'";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 } else if (snapshot.hasChild(playlist)) {
-                    activity.spotifyHandler.setNotHostOrSlave();
-                    Context context = FirebaseHandler.this.activity;
+                    PlaybackHandler.getHandler().setNotHostOrSlave();
                     CharSequence text = "Playlist already exists";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 } else {
-                    activity.playlistName = playlist;
-                    activity.changeToChoosePlaylistToHostFragment();
+                    PlaylistHandler.getHandler().playlistName = playlist;
+                    ((MainActivity)context).changeToChoosePlaylistToHostFragment();
                     FirebaseHandler.this.pullSuggestion(playlist);
                 }
             }
@@ -131,25 +143,24 @@ public class FirebaseHandler {
             public void onDataChange(DataSnapshot snapshot) {
                 // do some stuff once
                 if (snapshot.hasChild(playlist)) {
-                    activity.playlistName = playlist;
-                    if (activity.notSpotifyUser) {
-                        activity.changeToSuggesterFragment();
+                    PlaylistHandler.getHandler().playlistName = playlist;
+                    if (!UserHandler.getHandler().isSpotifyUser) {
+                        ((MainActivity)context).changeToSuggesterFragment();
                         FirebaseHandler.this.pullSuggestion(playlist);
                         FirebaseHandler.this.pullFromFirebase(playlist);
-                    } else if (activity.spotifyHandler.isSlave) {
-                        activity.changeToSlaveFragment();
+                    } else if (PlaybackHandler.getHandler().isSlave) {
+                        ((MainActivity)context).changeToSlaveFragment();
                         FirebaseHandler.this.pullFromFirebase(playlist);
                         FirebaseHandler.this.pullSuggestion(playlist);
                     } else {
-                        activity.changeToSuggesterFragment();
+                        ((MainActivity)context).changeToSuggesterFragment();
                         FirebaseHandler.this.pullSuggestion(playlist);
                         FirebaseHandler.this.pullFromFirebase(playlist);
                     }
                 } else {
-                    if (activity.spotifyHandler != null) {
-                        activity.spotifyHandler.setNotHostOrSlave();
+                    if (PlaybackHandler.getHandler() != null) {
+                        PlaybackHandler.getHandler().setNotHostOrSlave();
                     }
-                    Context context = FirebaseHandler.this.activity;
                     CharSequence text = "Playlist doesn't exist";
                     int duration = Toast.LENGTH_SHORT;
 
@@ -205,17 +216,17 @@ public class FirebaseHandler {
                 SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
 
                 if (artist != null) {
-                    activity.suggestedSongs.addTrackIfNotDuplicate(outputTrack);
+                    PlaylistHandler.getHandler().suggestedSongs.addTrackIfNotDuplicate(outputTrack);
                 }
-                if (activity.fragment.equals("Suggester")) {
-                    SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
-                    frag.displaySuggested(activity.suggestedSongs);
-                } else if (activity.fragment.equals("Slave")) {
-                    SlaveFragment frag = (SlaveFragment) activity.getFragmentManager().findFragmentByTag("Slave");
-                    frag.displaySuggested(activity.suggestedSongs);
-                } else if (activity.fragment.equals("Host")) {
-                    HostFragment frag = (HostFragment) activity.getFragmentManager().findFragmentByTag("Host");
-                    frag.displaySuggested(activity.suggestedSongs);
+                if (((MainActivity)context).fragment.equals("Suggester")) {
+                    SuggesterFragment frag = (SuggesterFragment) ((MainActivity)context).getFragmentManager().findFragmentByTag("Suggester");
+                    frag.displaySuggested(PlaylistHandler.getHandler().suggestedSongs);
+                } else if (((MainActivity)context).fragment.equals("Slave")) {
+                    SlaveFragment frag = (SlaveFragment) ((MainActivity)context).getFragmentManager().findFragmentByTag("Slave");
+                    frag.displaySuggested(PlaylistHandler.getHandler().suggestedSongs);
+                } else if (((MainActivity)context).fragment.equals("Host")) {
+                    HostFragment frag = (HostFragment) ((MainActivity)context).getFragmentManager().findFragmentByTag("Host");
+                    frag.displaySuggested(PlaylistHandler.getHandler().suggestedSongs);
                 }
 
                 //-----------IMPORTANT-----------------
@@ -236,17 +247,17 @@ public class FirebaseHandler {
                 SpotifyTrack outputTrack = new SpotifyTrack(trackname, uri, artist);
 
                 if (artist != null) {
-                    activity.suggestedSongs.addTrackIfNotDuplicate(outputTrack);
+                    PlaylistHandler.getHandler().suggestedSongs.addTrackIfNotDuplicate(outputTrack);
                 }
-                if (activity.fragment.equals("Suggester")) {
-                    SuggesterFragment frag = (SuggesterFragment) activity.getFragmentManager().findFragmentByTag("Suggester");
-                    frag.displaySuggested(activity.suggestedSongs);
-                } else if (activity.fragment.equals("Slave")) {
-                    SlaveFragment frag = (SlaveFragment) activity.getFragmentManager().findFragmentByTag("Slave");
-                    frag.displaySuggested(activity.suggestedSongs);
-                } else if (activity.fragment.equals("Host")) {
-                    HostFragment frag = (HostFragment) activity.getFragmentManager().findFragmentByTag("Host");
-                    frag.displaySuggested(activity.suggestedSongs);
+                if (((MainActivity)context).fragment.equals("Suggester")) {
+                    SuggesterFragment frag = (SuggesterFragment) ((MainActivity)context).getFragmentManager().findFragmentByTag("Suggester");
+                    frag.displaySuggested(PlaylistHandler.getHandler().suggestedSongs);
+                } else if (((MainActivity)context).fragment.equals("Slave")) {
+                    SlaveFragment frag = (SlaveFragment) ((MainActivity)context).getFragmentManager().findFragmentByTag("Slave");
+                    frag.displaySuggested(PlaylistHandler.getHandler().suggestedSongs);
+                } else if (((MainActivity)context).fragment.equals("Host")) {
+                    HostFragment frag = (HostFragment) ((MainActivity)context).getFragmentManager().findFragmentByTag("Host");
+                    frag.displaySuggested(PlaylistHandler.getHandler().suggestedSongs);
                 }
             }
 

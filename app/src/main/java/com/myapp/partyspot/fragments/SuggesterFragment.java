@@ -20,6 +20,7 @@ import android.widget.SearchView;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
 import com.myapp.partyspot.handlers.HTTPFunctions;
+import com.myapp.partyspot.handlers.PlaylistHandler;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class SuggesterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 EditText editText = (EditText) rootView.findViewById(R.id.suggestSongSuggester);
-                HTTPFunctions http = new HTTPFunctions(getActivity());
+                HTTPFunctions http = HTTPFunctions.getInstance();
                 String song = editText.getText().toString();
                 editText.setText("");
                 String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";
@@ -79,7 +80,7 @@ public class SuggesterFragment extends Fragment {
             }
         });
 
-        displaySuggested(((MainActivity)getActivity()).suggestedSongs);
+        displaySuggested(PlaylistHandler.getHandler().suggestedSongs);
 
         return rootView;
     }

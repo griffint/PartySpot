@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
+import com.myapp.partyspot.handlers.PlaybackHandler;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTrack;
 
 /**
@@ -57,8 +58,8 @@ public class AddDialogFragment extends DialogFragment {
                 // sets button functionality to queue
                 .setPositiveButton(R.string.add_now, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity)getActivity()).spotifyHandler.queueNext(track);
-                        ((MainActivity)getActivity()).displayCurrentQueue(((MainActivity) getActivity()).spotifyHandler.songIndex);
+                        PlaybackHandler.getHandler().queueNext(track);
+                        ((MainActivity)getActivity()).displayCurrentQueue(PlaybackHandler.getHandler().songIndex);
                         if (((MainActivity)getActivity()).fragment.equals("HostSearchResults")) { // needed in case user is adding from main view instead of from search
                             ((DialogFragment) getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
                         }
@@ -68,8 +69,8 @@ public class AddDialogFragment extends DialogFragment {
                         // sets button functionality to queue last
                 .setNeutralButton(R.string.add_last, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity) getActivity()).spotifyHandler.queueLast(track);
-                        ((MainActivity)getActivity()).displayCurrentQueue(((MainActivity) getActivity()).spotifyHandler.songIndex);
+                        PlaybackHandler.getHandler().queueLast(track);
+                        ((MainActivity)getActivity()).displayCurrentQueue(PlaybackHandler.getHandler().songIndex);
                         if (((MainActivity)getActivity()).fragment.equals("HostSearchResults")) {  // needed in case user is adding from main view instead of from search
                             ((DialogFragment) getActivity().getFragmentManager().findFragmentByTag("host_search")).dismiss();
                         }

@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
+import com.myapp.partyspot.handlers.PlaybackHandler;
+import com.myapp.partyspot.handlers.UserHandler;
 
 /**
  * Created by svaughan on 10/2/14.
@@ -39,7 +41,7 @@ public class MainFragment extends Fragment {
 
         View bar = rootView.findViewById(R.id.loadingBar); // for if user isn't loaded
 
-        if (((MainActivity)getActivity()).user == null) { // if user is not logged in, don't let them break anything
+        if (UserHandler.getHandler().user == null) { // if user is not logged in, don't let them break anything
             suggest.setVisibility(View.GONE);
             host.setVisibility(View.GONE);
             listen.setVisibility(View.GONE);
@@ -48,7 +50,7 @@ public class MainFragment extends Fragment {
             suggestText.setVisibility(View.GONE);
         } else {
             bar.setVisibility(View.GONE);
-            if (!((MainActivity)getActivity()).premiumUser) { // if user isn't premium, don't let them stream
+            if (!UserHandler.getHandler().user.premiumUser) { // if user isn't premium, don't let them stream
                 host.setVisibility(View.GONE);
                 listen.setVisibility(View.GONE);
                 hostText.setVisibility(View.GONE);
@@ -60,7 +62,7 @@ public class MainFragment extends Fragment {
         host.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).spotifyHandler.setHost();
+                PlaybackHandler.getHandler().setHost();
                 ((MainActivity)getActivity()).namePlaylist();
             }
         });
@@ -69,7 +71,7 @@ public class MainFragment extends Fragment {
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).spotifyHandler.setSlave();
+                PlaybackHandler.getHandler().setSlave();
                 ((MainActivity)getActivity()).choosePlaylistSlave();
             }
         });
@@ -82,7 +84,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        if (((MainActivity)getActivity()).notSpotifyUser) {
+        if (!UserHandler.getHandler().isSpotifyUser) {
             rootView.findViewById(R.id.loadingBar).setVisibility(View.GONE);
             rootView.findViewById(R.id.suggest_playlist).setVisibility(View.VISIBLE);
             rootView.findViewById(R.id.suggest_text).setVisibility(View.VISIBLE);

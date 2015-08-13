@@ -20,7 +20,8 @@ import android.widget.SearchView;
 import com.myapp.partyspot.handlers.HTTPFunctions;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
-import com.myapp.partyspot.handlers.SpotifyHandler;
+import com.myapp.partyspot.handlers.PlaybackHandler;
+import com.myapp.partyspot.handlers.PlaylistHandler;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class HostFragment extends Fragment {
         setHasOptionsMenu(true);// need to replace this line
 
         this.suggestedListView = (ListView) rootView.findViewById(R.id.suggested);
-        final SpotifyTracks suggested = ((MainActivity)getActivity()).suggestedSongs;
+        final SpotifyTracks suggested = PlaylistHandler.getHandler().suggestedSongs;
 
         displaySuggested(suggested);
 
@@ -72,7 +73,7 @@ public class HostFragment extends Fragment {
         final Button suggest_song = (Button) rootView.findViewById(R.id.suggest_song);
         final Button volume = (Button) rootView.findViewById(R.id.volume);
 
-        final SpotifyTracks queue = ((MainActivity)getActivity()).spotifyHandler.playingTracks;
+        final SpotifyTracks queue = PlaybackHandler.getHandler().playingTracks;
 
 
         ArrayList<String> queuelist = queue.makeNameWithArtistArray();
@@ -89,7 +90,7 @@ public class HostFragment extends Fragment {
         }
         });
 
-        if (((MainActivity)getActivity()).muted) {
+        if (PlaybackHandler.getHandler().muted) {
             volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
         } else {
             volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
@@ -99,17 +100,17 @@ public class HostFragment extends Fragment {
         volume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if (((MainActivity)getActivity()).muted) {
-                ((MainActivity)getActivity()).setNotMuted();
+            if (PlaybackHandler.getHandler().muted) {
+                PlaybackHandler.getHandler().setNotMuted();
                 volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
             } else {
-                ((MainActivity)getActivity()).setMuted();
+                PlaybackHandler.getHandler().setMuted();
                 volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
             }
             }
         });
 
-        if (((MainActivity)getActivity()).playing) {
+        if (PlaybackHandler.getHandler().playing) {
             play.setBackground(getResources().getDrawable(R.drawable.pause));
         } else {
             play.setBackground(getResources().getDrawable(R.drawable.play));
@@ -120,7 +121,7 @@ public class HostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 EditText editText = (EditText) rootView.findViewById(R.id.suggestSong);
-                HTTPFunctions http = new HTTPFunctions(getActivity());
+                HTTPFunctions http = HTTPFunctions.getInstance();
                 String song = editText.getText().toString();
                 editText.setText("");
                 String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";
@@ -132,14 +133,14 @@ public class HostFragment extends Fragment {
 
         play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                boolean isPlaying = ((MainActivity)getActivity()).playing;
+                boolean isPlaying = PlaybackHandler.getHandler().playing;
                 if (isPlaying) {
-                    ((MainActivity) getActivity()).spotifyHandler.pause();
-                    ((MainActivity)getActivity()).playing = false;
+                    PlaybackHandler.getHandler().pause();
+                    PlaybackHandler.getHandler().playing = false;
                     play.setBackground(getResources().getDrawable(R.drawable.play));
                 } else {
-                    ((MainActivity) getActivity()).spotifyHandler.play();
-                    ((MainActivity)getActivity()).playing = true;
+                    PlaybackHandler.getHandler().play();
+                    PlaybackHandler.getHandler().playing = true;
                     play.setBackground(getResources().getDrawable(R.drawable.pause));
                 }
             }
@@ -149,8 +150,7 @@ public class HostFragment extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 MainActivity activity = ((MainActivity)getActivity());
-                SpotifyHandler handler = activity.spotifyHandler;
-                handler.next();
+                PlaybackHandler.getHandler().next();
             }
         });
 

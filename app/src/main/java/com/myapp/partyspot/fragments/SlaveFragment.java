@@ -19,6 +19,8 @@ import android.widget.SearchView;
 import com.myapp.partyspot.activities.MainActivity;
 import com.myapp.partyspot.R;
 import com.myapp.partyspot.handlers.HTTPFunctions;
+import com.myapp.partyspot.handlers.PlaybackHandler;
+import com.myapp.partyspot.handlers.PlaylistHandler;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.ArrayList;
@@ -70,10 +72,10 @@ public class SlaveFragment extends Fragment {
 
         // set muted icon
         this.suggestedListView = (ListView) rootView.findViewById(R.id.suggested_slave);
-        final SpotifyTracks suggested = ((MainActivity)getActivity()).suggestedSongs;
+        final SpotifyTracks suggested = PlaylistHandler.getHandler().suggestedSongs;
         displaySuggested(suggested);
         
-        if (((MainActivity)getActivity()).muted) {
+        if (PlaybackHandler.getHandler().muted) {
             volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
         } else {
             volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
@@ -83,11 +85,11 @@ public class SlaveFragment extends Fragment {
         volume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((MainActivity)getActivity()).muted) {
-                    ((MainActivity)getActivity()).setNotMuted();
+                if (PlaybackHandler.getHandler().muted) {
+                    PlaybackHandler.getHandler().setNotMuted();
                     volume.setBackground(getResources().getDrawable(R.drawable.volumeon));
                 } else {
-                    ((MainActivity)getActivity()).setMuted();
+                    PlaybackHandler.getHandler().setMuted();
                     volume.setBackground(getResources().getDrawable(R.drawable.volumeoff));
                 }
             }
@@ -98,7 +100,7 @@ public class SlaveFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 EditText editText = (EditText) rootView.findViewById(R.id.suggestedSongListener);
-                HTTPFunctions http = new HTTPFunctions(getActivity());
+                HTTPFunctions http = HTTPFunctions.getInstance();
                 String song = editText.getText().toString();
                 editText.setText("");
                 String URL = "https://api.spotify.com/v1/search?q=" + song + "&type=track";

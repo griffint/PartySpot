@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 import com.myapp.partyspot.R;
 import com.myapp.partyspot.activities.MainActivity;
+import com.myapp.partyspot.handlers.PlaybackHandler;
+import com.myapp.partyspot.handlers.UserHandler;
 import com.myapp.partyspot.spotifyDataClasses.SpotifyTracks;
 
 import java.util.ArrayList;
@@ -39,9 +41,9 @@ public class SlaveSearchResultsFragment extends DialogFragment {
         builder.setView(view)
                 .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (activity.notSpotifyUser) {
+                        if (!UserHandler.getHandler().isSpotifyUser) {
                             activity.fragment = "Suggester";
-                        } else if (activity.spotifyHandler.isSlave) {
+                        } else if (PlaybackHandler.getHandler().isSlave) {
                             activity.fragment = "Slave";
                         } else {
                             activity.fragment = "Suggester";

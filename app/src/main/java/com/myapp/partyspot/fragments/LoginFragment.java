@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.myapp.partyspot.R;
 import com.myapp.partyspot.activities.MainActivity;
-import com.spotify.sdk.android.authentication.SpotifyAuthentication;
+import com.myapp.partyspot.handlers.UserHandler;
 
 /**
  * Created by svaughan on 9/30/14.
@@ -34,8 +34,8 @@ public class LoginFragment extends Fragment {
         // sends user to browser to login, then redirects to main fragment
         myButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                    SpotifyAuthentication.openAuthWindow(CLIENT_ID, "token", REDIRECT_URI,
-                        new String[]{"user-read-private", "playlist-read-private", "streaming"}, null, getActivity());
+                MainActivity activity = (MainActivity)getActivity();
+                activity.attemptSpotifyLogin();
             }
         }); // redirects the user to a login page
 
@@ -44,8 +44,8 @@ public class LoginFragment extends Fragment {
         // if user doesn't have a spotify login
         skipButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((MainActivity)getActivity()).loggedIn = true;
-                ((MainActivity)getActivity()).notSpotifyUser = true;
+                UserHandler.getHandler().loggedIn = true;
+                UserHandler.getHandler().isSpotifyUser = false;
                 ((MainActivity)getActivity()).changeToMainFragmentNoLogin();
             }
         }); // redirects the user to a login page
